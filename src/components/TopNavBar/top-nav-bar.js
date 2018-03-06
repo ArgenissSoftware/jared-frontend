@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import store from "../../DataStore";
 import logo from "../../images/logo1.png";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 let loginErrorMessage = false;
 
@@ -12,6 +13,7 @@ const TopNavBar = observer(
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
+      store.navigate = false;
     }
 
     handleChange(e) {
@@ -28,7 +30,7 @@ const TopNavBar = observer(
           password: store.password
         })
         .then(function(response) {
-          //mover a homepage
+          store.navigate = true;
         })
         .catch(function(error) {
           console.log(error);
@@ -40,6 +42,10 @@ const TopNavBar = observer(
     }
 
     render() {
+      if (store.navigate) {
+        return <Redirect to="/home" push={true} />;
+      }
+
       return (
         <div>
           <div className="ui large menu">

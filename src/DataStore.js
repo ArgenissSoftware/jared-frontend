@@ -8,7 +8,8 @@ class DataStore {
       password: "",
       emailRegister: "",
       passwordRegister: "",
-      repeatPassword: ""
+      repeatPassword: "",
+      navigate: false
     });
   }
 }
