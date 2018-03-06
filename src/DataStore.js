@@ -13,6 +13,12 @@ class DataStore {
       navigate: false
     });
   }
+
+  getUrl() {
+    return process.env.NODE_ENV === "development"
+      ? "http://localhost:3000" //local endpoint
+      : "https://jared-backend.herokuapp.com";
+  }
 }
 
 let store = new DataStore();
