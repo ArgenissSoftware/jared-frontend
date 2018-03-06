@@ -4,7 +4,6 @@ import { observer } from "mobx-react";
 import store from "./DataStore";
 import LoginPage from "./pages/login-page/login-page";
 
-@observer
 class App extends Component {
   render() {
     return (

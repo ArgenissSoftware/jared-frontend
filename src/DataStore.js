@@ -1,15 +1,18 @@
-import {observable} from "mobx"
+import { extendObservable } from "mobx";
 
-
-class DataStore{
-    @observable email = ""
-    @observable password = ""
-    @observable emailRegister = ""
-    @observable passwordRegister= ""
-    @observable repeatPassword = ""
-    
+class DataStore {
+  constructor() {
+    extendObservable(this, {
+      URL: "https://jared-backend.herokuapp.com",
+      email: "",
+      password: "",
+      emailRegister: "",
+      passwordRegister: "",
+      repeatPassword: ""
+    });
+  }
 }
 
 let store = new DataStore();
 
-export default store
+export default store;

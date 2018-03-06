@@ -7,82 +7,83 @@ import axios from "axios";
 
 let loginErrorMessage = false;
 
-@observer
-class TopNavBar extends Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-  }
+const TopNavBar = observer(
+  class TopNavBar extends Component {
+    constructor(props) {
+      super(props);
+      this.handleChange = this.handleChange.bind(this);
+    }
 
-  handleChange(e) {
-    store[e.target.name] = e.target.value;
-    loginErrorMessage = false;
-  }
+    handleChange(e) {
+      store[e.target.name] = e.target.value;
+      loginErrorMessage = false;
+    }
 
-  async logIn() {
-    loginErrorMessage = false;
+    async logIn() {
+      loginErrorMessage = false;
 
-    await axios
-      .post("https://jared-backend.herokuapp.com/api/login", {
-        email: store.email,
-        password: store.password
-      })
-      .then(function(response) {
-        //mover a homepage
-      })
-      .catch(function(error) {
-        console.log(error);
-        loginErrorMessage = true;
-      });
+      await axios
+        .post(store.URL + "/api/login", {
+          email: store.email,
+          password: store.password
+        })
+        .then(function(response) {
+          //mover a homepage
+        })
+        .catch(function(error) {
+          console.log(error);
+          loginErrorMessage = true;
+        });
 
-    store.email = "";
-    store.password = "";
-  }
+      store.email = "";
+      store.password = "";
+    }
 
-  render() {
-    return (
-      <div>
-        <div className="ui large menu">
-          <div className="header item">
-            <img src={logo} alt="" />
-            Jared
-          </div>
+    render() {
+      return (
+        <div>
+          <div className="ui large menu">
+            <div className="header item">
+              <img src={logo} alt="" />
+              Jared
+            </div>
 
-          <div className="right menu">
-            <div className="item">
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Group>
-                  <Form.Input
-                    className={loginErrorMessage ? "error" : ""}
-                    type="text"
-                    placeholder="Email"
-                    name="email"
-                    value={store.email}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Input
-                    className={loginErrorMessage ? "error" : ""}
-                    type="password"
-                    placeholder="password"
-                    name="password"
-                    value={store.password}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Button content="Login" onClick={this.logIn} />
-                </Form.Group>
-              </Form>
+            <div className="right menu">
+              <div className="item">
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Group>
+                    <Form.Input
+                      className={loginErrorMessage ? "error" : ""}
+                      type="text"
+                      placeholder="Email"
+                      name="email"
+                      value={store.email}
+                      onChange={this.handleChange}
+                    />
+                    <Form.Input
+                      className={loginErrorMessage ? "error" : ""}
+                      type="password"
+                      placeholder="password"
+                      name="password"
+                      value={store.password}
+                      onChange={this.handleChange}
+                    />
+                    <Form.Button content="Login" onClick={this.logIn} />
+                  </Form.Group>
+                </Form>
+              </div>
             </div>
           </div>
+          {loginErrorMessage ? (
+            <div className="ui error message">
+              <div className="header">Login failed!</div>
+              <p>Invalid email or password</p>
+            </div>
+          ) : null}
         </div>
-        {loginErrorMessage ? (
-          <div className="ui error message">
-            <div className="header">Login failed!</div>
-            <p>Invalid email or password</p>
-          </div>
-        ) : null}
-      </div>
-    );
+      );
+    }
   }
-}
+);
 
 export default TopNavBar;
