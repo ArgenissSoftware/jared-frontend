@@ -1,11 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
-Below you will find some information on how to perform common tasks.<br>
-You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+IN PROGRESS
 
 ## Table of Contents
 
-- [Updating to New Releases](#updating-to-new-releases)
+- [Installation Steps](#installation-steps)
 - [Sending Feedback](#sending-feedback)
 - [Folder Structure](#folder-structure)
 - [Available Scripts](#available-scripts)
@@ -103,12 +100,13 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [Alternatives to Ejecting](#alternatives-to-ejecting)
 - [Something Missing?](#something-missing)
 
-## Updating to New Releases
+## Installation Steps
 
-Create React App is divided into two packages:
-
-* `create-react-app` is a global command-line utility that you use to create new projects.
-* `react-scripts` is a development dependency in the generated projects (including this one).
+* Install NodeJS
+* Clone the Jared Front-End git repository
+* Install React `npm install -g create-react-app`
+* Move to jared-frontend folder
+* Run `npm install`
 
 You almost never need to update `create-react-app` itself: it delegates all the setup to `react-scripts`.
 
