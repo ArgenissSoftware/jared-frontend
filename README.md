@@ -34,7 +34,7 @@ Run `npm build` on jared-frontend folder
 * Run `heroku open`
 
 # Select Endpoints URL
-* Run `heroku config:set REACT_APP_API_HOST=https://jared-backend.herokuapp.com` on jared-frontend folder (replace https://jared-backend.herokuapp.com for your URL )
+* Run `heroku config:set REACT_APP_API_HOST=https://jared-backend.herokuapp.com` on jared-frontend folder (replace https://jared-backend.herokuapp.com with your URL )
 * Run `heroku open`
 
 
