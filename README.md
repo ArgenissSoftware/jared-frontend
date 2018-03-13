@@ -1,3 +1,5 @@
+# JARED FRONTEND README
+
 ## Table of Contents
 
 - [Installation Steps](#installation-steps)
@@ -12,7 +14,7 @@
 
 ## Installation Steps
 
-* Install NodeJS
+* [Install NodeJS](https://nodejs.org/es/)
 * Clone the Jared Front-End git repository
 * Move to jared-frontend folder
 * Run `npm install create-react-app`
@@ -20,7 +22,9 @@
 
 
 # Development Mode
-Run `npm start` on jared-frontend folder
+* On Windows: In **package.json**, modify scripts start with `"start": "set PORT=3001 && react-scripts start"`
+* On Linux: In **package.json**, modify scripts start with `"start": "PORT=3001 react-scripts start"`
+* Run `npm start` on jared-frontend folder
 
 
 # Build
