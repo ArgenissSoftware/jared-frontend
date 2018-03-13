@@ -7,6 +7,9 @@
 - [Deploy](#deploy)
 
 
+
+
+
 ## Installation Steps
 
 * Install NodeJS
@@ -14,6 +17,7 @@
 * Install React `npm install -g create-react-app`
 * Move to jared-frontend folder
 * Run `npm install`
+
 
 ## Dependencies
 * "axios": "^0.18.0",
@@ -28,10 +32,14 @@
 * "babel-plugin-transform-class-properties": "^6.24.1",
 * "babel-plugin-transform-decorators-legacy": "^1.3.4"
 
+
 # Development Mode
 Run `npm start` on jared-frontend folder
 
+
 # Build
+
+
 
 # Deploy
 * Run `heroku config:set REACT_APP_API_HOST=https://jared-backend.herokuapp.com` on jared-frontend folder
