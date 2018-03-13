@@ -15,6 +15,7 @@
 * Install NodeJS
 * Clone the Jared Front-End git repository
 * Move to jared-frontend folder
+* Run `npm install create-react-app`
 * Run `npm install`
 
 
