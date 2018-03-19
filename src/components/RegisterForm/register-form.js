@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import store from "../../DataStore";
 import "./register-form.css";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 let registerErrorMessage = false;
 let errorText;
@@ -12,6 +13,7 @@ const RegisterForm = observer(
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
+      store.navigate = false;
     }
 
     handleChange(e) {
@@ -29,6 +31,7 @@ const RegisterForm = observer(
           })
           .then(function(response) {
             console.log(response);
+            store.navigate = true;
           })
           .catch(function(error) {
             console.log(error);
@@ -46,6 +49,9 @@ const RegisterForm = observer(
     }
 
     render() {
+      if (store.navigate) {
+        return <Redirect to="/home" push={true} />;
+      }
       return (
         <div className="form-div">
           <div className="ui middle aligned center aligned grid">
