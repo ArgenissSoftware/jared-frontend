@@ -3,8 +3,7 @@ import { extendObservable } from "mobx";
 class DataStore {
   constructor() {
     extendObservable(this, {
-      //  URL: "https://jared-backend.herokuapp.com",
-      URL: process.env.REACT_APP_API_HOST,
+      URL: process.env.REACT_APP_API_HOST || "http://localhost:3000",
       email: "",
       password: "",
       emailRegister: "",
