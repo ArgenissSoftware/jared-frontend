@@ -12,8 +12,8 @@ const LoginPage = observer(
         <div>
           <div className="App">
             <TopNavBar store={store} />
+            <RegisterForm store={store} />
           </div>
-          <RegisterForm store={store} />
         </div>
       );
     }

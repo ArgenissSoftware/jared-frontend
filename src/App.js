@@ -7,10 +7,8 @@ import HomePage from "./pages/home-page/home-page";
 
 
 class App extends Component {
-  //<LoginPage store={store} />
 
   render() {
-    // return( <LoginPage store={store} />);
     return (
       <Router>
         <div>
