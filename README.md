@@ -42,4 +42,10 @@ Run `npm build` on jared-frontend folder
 * Run `heroku config:set REACT_APP_API_HOST=https://jared-backend.herokuapp.com` on jared-frontend folder (replace https://jared-backend.herokuapp.com with your URL )
 * Run `heroku open`
 
-
+# Git workflow
+1. Update to the latest version of master - `$ git checkout master && git pull`
+2. Create a new branch for working on the issue - `$ git checkout -b <branch-name>`
+3. Commit locally as you need - `$ git commit -m 'bla bla'`
+4. Update your branch against master - `$ git fetch origin && git rebase origin master`
+5. Push your branch to github - `$ git push origin <branch-name>`
+6. Create a Pull request and assign a reviewer
