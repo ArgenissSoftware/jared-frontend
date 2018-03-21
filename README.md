@@ -45,8 +45,8 @@ Run `npm build` on jared-frontend folder
 # Git workflow
 1. Update to the latest version of master - `$ git checkout master && git pull`
 2. Create a new branch for working on the issue
-  2.1 `$ git checkout -b features/<branch-name>` (If it's a new feature)
-  2.2 `$ git checkout -b bug_fixing/<branch-name>` (If it's a bug)
+  2.1 `$ git checkout -b features/<#issue_number>-<name>` (If it's a new feature)
+  2.2 `$ git checkout -b bug_fixing/<#issue_number>-<name>` (If it's a bug)
 3. Commit locally as you need - `$ git commit -m 'bla bla'`
 4. Update your branch against master - `$ git fetch origin && git rebase origin master`
 5. Push your branch to github - `$ git push origin <branch-name>`
