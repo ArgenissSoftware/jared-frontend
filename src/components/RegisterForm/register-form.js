@@ -24,7 +24,7 @@ const RegisterForm = observer(
     async register() {
       if (store.passwordRegister === store.repeatPassword) {
         await axios
-          .post(store.getUrl() + "/api/user/", {
+          .post(store.URL + "/api/user/", {
             username: store.emailRegister, //quitar requerimiento de username del backends
             email: store.emailRegister,
             password: store.passwordRegister
