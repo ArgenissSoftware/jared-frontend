@@ -25,7 +25,7 @@ const TopNavBar = observer(
       loginErrorMessage = false;
 
       await axios
-        .post(store.getUrl() + "/api/login", {
+        .post(store.URL + "/api/login", {
           email: store.email,
           password: store.password
         })
