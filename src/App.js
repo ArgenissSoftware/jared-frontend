@@ -4,6 +4,7 @@ import store from "./DataStore";
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import LoginPage from "./pages/login-page/login-page";
 import HomePage from "./pages/home-page/home-page";
+import ProfilePage from "./pages/profile-page/profile-page";
 
 
 class App extends Component {
@@ -13,7 +14,11 @@ class App extends Component {
       <Router>
         <div>
           <Route exact path="/" component={LoginPage} store={store} />
+          
+          {/* <Route exact render={() => <LoginPage store={store} />} path="/" /> */}
+
           <Route path="/home" component={HomePage} store={store} />
+          <Route path="/profile" component={ProfilePage} store={store} />
         </div>
       </Router>
     );

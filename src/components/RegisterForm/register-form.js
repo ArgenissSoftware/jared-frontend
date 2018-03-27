@@ -4,6 +4,7 @@ import store from "../../DataStore";
 import "./register-form.css";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import { Button } from "semantic-ui-react";
 
 let registerErrorMessage = false;
 let errorText;

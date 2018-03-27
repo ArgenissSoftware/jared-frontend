@@ -9,7 +9,25 @@ class DataStore {
       emailRegister: "",
       passwordRegister: "",
       repeatPassword: "",
-      navigate: false
+      navigate: false,
+      firstName: "",
+      lastName: "",
+      dateOfBirth: "",
+      CUIL: "",
+      passport: "",
+      USVisa: "",
+      startDate: "",
+      status: "",
+      career: "",
+      careerStatus: "",
+      chidren: "",
+      alarmCode: "",
+      address: "",
+      phoneNumber: "",
+      cellPhone: "",
+      emailAddress: "",
+      skype: "",
+      githubID: ""
     });
   }
 
