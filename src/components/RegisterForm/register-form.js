@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import store from "../../DataStore";
+import signUpStore from "../../stores/SignUpStore";
+import AppStore from "../../stores/AppStore";
 import "./register-form.css";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
@@ -14,25 +15,25 @@ const RegisterForm = observer(
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
-      store.navigate = false;
+      signUpStore.navigate = false;
     }
 
     handleChange(e) {
-      store[e.target.name] = e.target.value;
+      signUpStore[e.target.name] = e.target.value;
       registerErrorMessage = false;
     }
 
     async register() {
-      if (store.passwordRegister === store.repeatPassword) {
+      if (signUpStore.password === signUpStore.repeatPassword) {
         await axios
-          .post(store.URL + "/api/user/", {
-            username: store.emailRegister, //quitar requerimiento de username del backends
-            email: store.emailRegister,
-            password: store.passwordRegister
+          .post(AppStore.URL + "/api/user/", {
+            username: signUpStore.username,
+            email: signUpStore.email,
+            password: signUpStore.password
           })
           .then(function(response) {
             console.log(response);
-            store.navigate = true;
+            signUpStore.navigate = true;
           })
           .catch(function(error) {
             console.log(error);
@@ -44,13 +45,13 @@ const RegisterForm = observer(
         registerErrorMessage = true;
       }
 
-      store.emailRegister = "";
-      store.passwordRegister = "";
-      store.repeatPassword = "";
+      signUpStore.email = "";
+      signUpStore.password = "";
+      signUpStore.repeatPassword = "";
     }
 
     render() {
-      if (store.navigate) {
+      if (signUpStore.navigate) {
         return <Redirect to="/home" push={true} />;
       }
       return (
@@ -69,9 +70,23 @@ const RegisterForm = observer(
                       <i className="user icon" />
                       <input
                         type="email"
-                        name="emailRegister"
-                        value={store.emailRegister}
-                        placeholder="E-mail address"
+                        name="email"
+                        value={signUpStore.email}
+                        placeholder="Email address"
+                        onChange={this.handleChange}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className={registerErrorMessage ? "field error" : "field"}
+                  >
+                    <div className="ui left icon input">
+                      <i className="user icon" />
+                      <input
+                        type="text"
+                        name="username"
+                        value={signUpStore.username}
+                        placeholder="Username"
                         onChange={this.handleChange}
                       />
                     </div>
@@ -83,8 +98,8 @@ const RegisterForm = observer(
                       <i className="lock icon" />
                       <input
                         type="password"
-                        name="passwordRegister"
-                        value={store.passwordRegister}
+                        name="password"
+                        value={signUpStore.password}
                         placeholder="Password"
                         onChange={this.handleChange}
                       />
@@ -98,7 +113,7 @@ const RegisterForm = observer(
                       <input
                         type="password"
                         name="repeatPassword"
-                        value={store.repeatPassword}
+                        value={signUpStore.repeatPassword}
                         placeholder="Repeat Password"
                         onChange={this.handleChange}
                       />

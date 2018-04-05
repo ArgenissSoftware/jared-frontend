@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Form } from "semantic-ui-react";
 import { observer } from "mobx-react";
-import store from "../../DataStore";
+import signInStore from "../../stores/SignInStore";
+import AppStore from "../../stores/AppStore";
 import logo from "../../images/logo1.png";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
@@ -13,11 +14,11 @@ const TopNavBar = observer(
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
-      store.navigate = false;
+      signInStore.navigate = false;
     }
 
     handleChange(e) {
-      store[e.target.name] = e.target.value;
+      signInStore[e.target.name] = e.target.value;
       loginErrorMessage = false;
     }
 
@@ -25,24 +26,24 @@ const TopNavBar = observer(
       loginErrorMessage = false;
 
       await axios
-        .post(store.URL + "/api/login", {
-          email: store.email,
-          password: store.password
+        .post(AppStore.URL + "/api/login", {
+          email: signInStore.email,
+          password: signInStore.password
         })
         .then(function(response) {
-          store.navigate = true;
+          signInStore.navigate = true;
         })
         .catch(function(error) {
           console.log(error);
           loginErrorMessage = true;
         });
 
-      store.email = "";
-      store.password = "";
+      signInStore.email = "";
+      signInStore.password = "";
     }
 
     render() {
-      if (store.navigate) {
+      if (signInStore.navigate) {
         return <Redirect to="/home" push={true} />;
       }
 
@@ -61,9 +62,9 @@ const TopNavBar = observer(
                     <Form.Input
                       className={loginErrorMessage ? "error" : ""}
                       type="text"
-                      placeholder="Email"
+                      placeholder="Email or username"
                       name="email"
-                      value={store.email}
+                      value={signInStore.email}
                       onChange={this.handleChange}
                     />
                     <Form.Input
@@ -71,7 +72,7 @@ const TopNavBar = observer(
                       type="password"
                       placeholder="password"
                       name="password"
-                      value={store.password}
+                      value={signInStore.password}
                       onChange={this.handleChange}
                     />
                     <Form.Button content="Login" onClick={this.logIn} />
@@ -83,7 +84,7 @@ const TopNavBar = observer(
           {loginErrorMessage ? (
             <div className="ui error message">
               <div className="header">Login failed!</div>
-              <p>Invalid email or password</p>
+              <p>Invalid email/username or password</p>
             </div>
           ) : null}
         </div>

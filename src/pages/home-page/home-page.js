@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import store from "../../DataStore";
 import "./home-page.css";
 
 const HomePage = observer(

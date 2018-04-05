@@ -2,16 +2,12 @@ import React, { Component } from "react";
 import { Form } from "semantic-ui-react";
 import "./personal-data-tab.css";
 import { observer } from "mobx-react";
-import store from "../../DataStore";
+import ProfileStore from "../../stores/ProfileStore";
 
 const PersonalDataTab = observer(
   class PersonalDataTab extends Component {
-    constructor(props) {
-      super(props);
-    }
-
     handleChange(e) {
-      store[e.target.name] = e.target.value;
+      ProfileStore[e.target.name] = e.target.value;
     }
 
     render() {
@@ -24,7 +20,7 @@ const PersonalDataTab = observer(
                 label="First name"
                 placeholder="First name"
                 width={8}
-                value={store.firstName}
+                value={ProfileStore.firstName}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -32,7 +28,7 @@ const PersonalDataTab = observer(
                 label="Last name"
                 placeholder="Last name"
                 width={8}
-                value={store.lastName}
+                value={ProfileStore.lastName}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -42,7 +38,7 @@ const PersonalDataTab = observer(
                 label="Date of birth"
                 placeholder="Date of birth"
                 width={8}
-                value={store.dateOfBirth}
+                value={ProfileStore.dateOfBirth}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -50,7 +46,7 @@ const PersonalDataTab = observer(
                 label="CUIL"
                 placeholder="CUIL"
                 width={8}
-                value={store.CUIL}
+                value={ProfileStore.CUIL}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -60,7 +56,7 @@ const PersonalDataTab = observer(
                 label="Passport"
                 placeholder="Passport"
                 width={8}
-                value={store.passport}
+                value={ProfileStore.passport}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -68,7 +64,7 @@ const PersonalDataTab = observer(
                 label="US VISA"
                 placeholder="US VISA"
                 width={8}
-                value={store.USVisa}
+                value={ProfileStore.USVisa}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -78,7 +74,7 @@ const PersonalDataTab = observer(
                 label="Start date"
                 placeholder="Start date"
                 width={8}
-                value={store.startDate}
+                value={ProfileStore.startDate}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -86,7 +82,7 @@ const PersonalDataTab = observer(
                 label="Status"
                 placeholder="Status"
                 width={8}
-                value={store.status}
+                value={ProfileStore.status}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -96,7 +92,7 @@ const PersonalDataTab = observer(
                 label="Career"
                 placeholder="Career"
                 width={8}
-                value={store.career}
+                value={ProfileStore.career}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -104,7 +100,7 @@ const PersonalDataTab = observer(
                 label="Career status"
                 placeholder="Career status"
                 width={8}
-                value={store.careerStatus}
+                value={ProfileStore.careerStatus}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -114,7 +110,7 @@ const PersonalDataTab = observer(
                 label="Children"
                 placeholder="Children"
                 width={8}
-                value={store.children}
+                value={ProfileStore.children}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -122,7 +118,7 @@ const PersonalDataTab = observer(
                 label="Alarm Code"
                 placeholder="Alarm Code"
                 width={8}
-                value={store.alarmCode}
+                value={ProfileStore.alarmCode}
                 onChange={this.handleChange}
               />
             </Form.Group>

@@ -5,7 +5,8 @@ import ContactTab from "../ContactTab/contact-tab";
 import { Button } from "semantic-ui-react";
 import axios from "axios";
 import { observer } from "mobx-react";
-import store from "../../DataStore";
+import ProfileStore from "../../stores/ProfileStore";
+import AppStore from "../../stores/AppStore";
 
 const panes = [
   {
@@ -29,35 +30,31 @@ const panes = [
 
 const ProfileTabs = observer(
   class ProfileTabs extends Component {
-    constructor(props) {
-      super(props);
-    }
-
     async save() {
       await axios
-        .put(store.getUrl + "/api/user/"+store.username, { 
+        .put(AppStore.getUrl + "/api/user/"+ProfileStore.username, {
       //.put( store.getUrl + "/api/user", {
           username: "cuti@mail.com", //quitar requerimiento de username del backends
           id: "5aafebbe1e8d500010c038aa",
-          name: store.firstName,
-          surname: store.lastName,
-          birthday: store.dateOfBirth,
-          cuil: store.CUIL,
-          passport: store.passport,
-          visa: store.USVisa,
-          startWorkDate: store.startDate,
-          status: store.careerStatus,
-          relation: store.status ,
-          career: store.career,
-          careerStatus: store.status,
-          chidrenCount: store.children,
-          alarmCode: store.alarmCode,
-          address: store.address,
-          phone: store.phoneNumber,
-          cellphone: store.cellPhone,
-          email: store.emailAddress,
-          skype: store.skype,
-          githubID: store.githubID
+          name: ProfileStore.firstName,
+          surname: ProfileStore.lastName,
+          birthday: ProfileStore.dateOfBirth,
+          cuil: ProfileStore.CUIL,
+          passport: ProfileStore.passport,
+          visa: ProfileStore.USVisa,
+          startWorkDate: ProfileStore.startDate,
+          status: ProfileStore.careerStatus,
+          relation: ProfileStore.status ,
+          career: ProfileStore.career,
+          careerStatus: ProfileStore.status,
+          chidrenCount: ProfileStore.children,
+          alarmCode: ProfileStore.alarmCode,
+          address: ProfileStore.address,
+          phone: ProfileStore.phoneNumber,
+          cellphone: ProfileStore.cellPhone,
+          email: ProfileStore.email,
+          skype: ProfileStore.skype,
+          githubID: ProfileStore.githubID
         })
         .then(function(response) {
           console.log(response);
