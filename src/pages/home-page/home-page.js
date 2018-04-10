@@ -4,6 +4,10 @@ import "./home-page.css";
 
 const HomePage = observer(
   class HomePage extends Component {
+    nextPath(path) {
+      this.props.history.push(path);
+    }
+
     render() {
       return (
         <div>
@@ -49,11 +53,12 @@ const HomePage = observer(
               <div className="card">
                 <div className="content">
                   <div className="header">My Profile</div>
-                  <div className="description">
-                    Edit your profile.
-                  </div>
+                  <div className="description">Edit your profile.</div>
                 </div>
-                <div className="ui bottom attached button">
+                <div
+                  className="ui bottom attached button"
+                  onClick={() => this.nextPath("profile")}
+                >
                   <i className="add icon" />
                   Go to my profile
                 </div>

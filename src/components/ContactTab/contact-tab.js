@@ -15,13 +15,20 @@ const ContactTab = observer(
         <div className="ui container">
           <Form>
             <Form.Group>
-              <Form.Input label="Address" placeholder="Address" width={8} />
+              <Form.Input
+                name="address"
+                label="Address"
+                placeholder="Address"
+                width={8}
+                defaultValue={ProfileStore.address}
+                onChange={this.handleChange}
+              />
               <Form.Input
                 name="phoneNumber"
                 label="Phone number"
                 placeholder="Phone number"
                 width={8}
-                value={ProfileStore.phoneNumber}
+                defaultValue={ProfileStore.phoneNumber}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -31,15 +38,15 @@ const ContactTab = observer(
                 label="Cell phone"
                 placeholder="Cell phone"
                 width={8}
-                value={ProfileStore.cellPhone}
+                defaultValue={ProfileStore.cellPhone}
                 onChange={this.handleChange}
               />
               <Form.Input
-                name="emailAddress"
+                name="email"
                 label="Email address"
                 placeholder="Email address"
                 width={8}
-                value={ProfileStore.emailAddress}
+                defaultValue={ProfileStore.email}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -49,7 +56,7 @@ const ContactTab = observer(
                 label="Skype"
                 placeholder="Skype"
                 width={8}
-                value={ProfileStore.skype}
+                defaultValue={ProfileStore.skype}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -57,7 +64,7 @@ const ContactTab = observer(
                 label="Github ID"
                 placeholder="Github ID"
                 width={8}
-                value={ProfileStore.githubID}
+                defaultValue={ProfileStore.githubID}
                 onChange={this.handleChange}
               />
             </Form.Group>

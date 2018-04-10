@@ -20,7 +20,7 @@ const PersonalDataTab = observer(
                 label="First name"
                 placeholder="First name"
                 width={8}
-                value={ProfileStore.firstName}
+                defaultValue={ProfileStore.firstName}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -28,7 +28,7 @@ const PersonalDataTab = observer(
                 label="Last name"
                 placeholder="Last name"
                 width={8}
-                value={ProfileStore.lastName}
+                defaultValue={ProfileStore.lastName}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -38,15 +38,16 @@ const PersonalDataTab = observer(
                 label="Date of birth"
                 placeholder="Date of birth"
                 width={8}
-                value={ProfileStore.dateOfBirth}
+                defaultValue={ProfileStore.dateOfBirth}
                 onChange={this.handleChange}
+                type="date"
               />
               <Form.Input
                 name="CUIL"
                 label="CUIL"
                 placeholder="CUIL"
                 width={8}
-                value={ProfileStore.CUIL}
+                defaultValue={ProfileStore.CUIL}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -56,7 +57,7 @@ const PersonalDataTab = observer(
                 label="Passport"
                 placeholder="Passport"
                 width={8}
-                value={ProfileStore.passport}
+                defaultValue={ProfileStore.passport}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -64,8 +65,9 @@ const PersonalDataTab = observer(
                 label="US VISA"
                 placeholder="US VISA"
                 width={8}
-                value={ProfileStore.USVisa}
+                defaultValue={ProfileStore.USVisa}
                 onChange={this.handleChange}
+                type="date"
               />
             </Form.Group>
             <Form.Group>
@@ -74,15 +76,16 @@ const PersonalDataTab = observer(
                 label="Start date"
                 placeholder="Start date"
                 width={8}
-                value={ProfileStore.startDate}
+                defaultValue={ProfileStore.startDate}
                 onChange={this.handleChange}
+                type="date"
               />
               <Form.Input
                 name="status"
                 label="Status"
                 placeholder="Status"
                 width={8}
-                value={ProfileStore.status}
+                defaultValue={ProfileStore.status}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -92,7 +95,7 @@ const PersonalDataTab = observer(
                 label="Career"
                 placeholder="Career"
                 width={8}
-                value={ProfileStore.career}
+                defaultValue={ProfileStore.career}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -100,7 +103,7 @@ const PersonalDataTab = observer(
                 label="Career status"
                 placeholder="Career status"
                 width={8}
-                value={ProfileStore.careerStatus}
+                defaultValue={ProfileStore.careerStatus}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -110,7 +113,7 @@ const PersonalDataTab = observer(
                 label="Children"
                 placeholder="Children"
                 width={8}
-                value={ProfileStore.children}
+                defaultValue={ProfileStore.children}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -118,7 +121,7 @@ const PersonalDataTab = observer(
                 label="Alarm Code"
                 placeholder="Alarm Code"
                 width={8}
-                value={ProfileStore.alarmCode}
+                defaultValue={ProfileStore.alarmCode}
                 onChange={this.handleChange}
               />
             </Form.Group>

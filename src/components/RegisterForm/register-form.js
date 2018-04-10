@@ -5,7 +5,6 @@ import AppStore from "../../stores/AppStore";
 import "./register-form.css";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import { Button } from "semantic-ui-react";
 
 let registerErrorMessage = false;
 let errorText;
@@ -32,7 +31,6 @@ const RegisterForm = observer(
             password: signUpStore.password
           })
           .then(function(response) {
-            console.log(response);
             signUpStore.navigate = true;
           })
           .catch(function(error) {
@@ -67,7 +65,7 @@ const RegisterForm = observer(
                     className={registerErrorMessage ? "field error" : "field"}
                   >
                     <div className="ui left icon input">
-                      <i className="user icon" />
+                      <i className="mail icon" />
                       <input
                         type="email"
                         name="email"

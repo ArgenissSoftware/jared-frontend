@@ -6,6 +6,7 @@ import AppStore from "../../stores/AppStore";
 import logo from "../../images/logo1.png";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import profileStore from "../../stores/ProfileStore";
 
 let loginErrorMessage = false;
 
@@ -31,6 +32,7 @@ const TopNavBar = observer(
           password: signInStore.password
         })
         .then(function(response) {
+          profileStore.getUserData(response);
           signInStore.navigate = true;
         })
         .catch(function(error) {
