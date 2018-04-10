@@ -6,6 +6,7 @@ import { Button } from "semantic-ui-react";
 import axios from "axios";
 import AppStore from "../../stores/AppStore";
 import ProfileStore from "../../stores/ProfileStore";
+import TopNavBar from "../../components/TopNavBar/top-nav-bar";
 
 const ProfilePage = observer(
   class ProfilePage extends Component {
@@ -51,8 +52,11 @@ const ProfilePage = observer(
 
     render() {
       return (
-        <div className="ui container center aligned">
-          <ProfileTabs /> <Button onClick={this.save}>Save</Button>
+        <div>
+          <TopNavBar history={this.props.history} />
+          <div className="ui container center aligned">
+            <ProfileTabs /> <Button onClick={this.save}>Save</Button>
+          </div>
         </div>
       );
     }
