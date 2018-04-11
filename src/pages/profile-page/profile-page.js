@@ -17,7 +17,7 @@ const ProfilePage = observer(
 
     async save() {
       await axios
-        .put(AppStore.getUrl() + "/api/user/", {
+        .put(AppStore.URL + "/api/user/", {
           username: ProfileStore.username,
           id: ProfileStore.id,
           name: ProfileStore.firstName,
