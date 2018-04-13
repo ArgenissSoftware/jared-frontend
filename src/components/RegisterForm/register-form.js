@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import signUpStore from "../../stores/SignUpStore";
+import ProfileStore from "../../stores/ProfileStore";
 import AppStore from "../../stores/AppStore";
 import "./register-form.css";
 import axios from "axios";
@@ -31,6 +32,8 @@ const RegisterForm = observer(
             password: signUpStore.password
           })
           .then(function(response) {
+            ProfileStore.username = signUpStore.username;
+            ProfileStore.email = signUpStore.email;
             signUpStore.navigate = true;
           })
           .catch(function(error) {
