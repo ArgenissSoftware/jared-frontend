@@ -18,7 +18,7 @@ const HomePage = observer(
     render() {
       return (
         <div>
-          <TopNavBar history={this.props.history}/>
+          <TopNavBar history={this.props.history} />
           <div className="ui container center aligned">
             <div className="ui four cards ">
               <div className="card">
@@ -81,7 +81,10 @@ const HomePage = observer(
                   <div className="header">Clients</div>
                   <div className="description">Add new clients</div>
                 </div>
-                <div className="ui bottom attached button">
+                <div
+                  className="ui bottom attached button"
+                  onClick={() => this.nextPath("clients")}
+                >
                   <i className="add icon" />
                   Go to clients list
                 </div>
