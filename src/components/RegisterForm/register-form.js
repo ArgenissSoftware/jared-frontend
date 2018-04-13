@@ -7,6 +7,7 @@ import "./register-form.css";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 
+
 let registerErrorMessage = false;
 let errorText;
 
@@ -34,6 +35,8 @@ const RegisterForm = observer(
           .then(function(response) {
             ProfileStore.username = signUpStore.username;
             ProfileStore.email = signUpStore.email;
+            
+            ProfileStore.getUserData(ProfileStore.email);
             signUpStore.navigate = true;
           })
           .catch(function(error) {

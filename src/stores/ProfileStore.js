@@ -30,9 +30,9 @@ class ProfileStore {
     });
   }
 
-  async getUserData() {
+  async getUserData(mail) {
     await axios
-      .get(AppStore.URL + "/api/user?email=" + signInStore.email)
+      .get(AppStore.URL + "/api/user?email=" + mail)
       .then(
         function(response) {
           this.id = response.data.data[0]._id;

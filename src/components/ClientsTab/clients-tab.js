@@ -8,7 +8,7 @@ const ClientsTab = observer(
   class ClientsTab extends Component {
     constructor(props) {
       super(props);
-      ClientsStore.getUserData();
+      ClientsStore.getClientsData();
     }
 
     handleChange = (e, { value }) => console.log(value);

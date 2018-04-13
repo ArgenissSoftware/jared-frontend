@@ -11,7 +11,7 @@ const ClientsPage = observer(
   class ClientsPage extends Component {
     constructor(props) {
       super(props);
-      ClientsStore.getUserData();
+      ClientsStore.getClientsData();
       this.addClient = this.addClient.bind(this);
     }
 
@@ -42,7 +42,7 @@ const ClientsPage = observer(
             }
           )
           .then(function(response) {
-            ClientsStore.getUserData();
+            ClientsStore.getClientsData();
           })
           .catch(function(error) {
             console.log(error);

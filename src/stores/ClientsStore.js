@@ -10,7 +10,7 @@ class ClientsStore {
     });
   }
 
-  async getUserData() {
+  async getClientsData() {
     await axios
       .get(AppStore.URL + "/api/clients")
       .then(response => {

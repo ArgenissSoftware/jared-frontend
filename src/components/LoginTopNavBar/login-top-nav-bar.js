@@ -32,7 +32,7 @@ const LoginTopNavBar = observer(
           password: signInStore.password
         })
         .then(function(response) {
-          profileStore.getUserData(response);
+          profileStore.getUserData(signInStore.email);
           signInStore.navigate = true;
         })
         .catch(function(error) {
