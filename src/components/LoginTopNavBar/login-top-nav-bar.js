@@ -51,8 +51,8 @@ const LoginTopNavBar = observer(
 
       return (
         <div>
-          <div className="ui large menu">
-            <div className="header item">
+          <div className="ui menu">
+            <div className="header small item">
               <img src={logo} alt="" />
               Jared
             </div>
