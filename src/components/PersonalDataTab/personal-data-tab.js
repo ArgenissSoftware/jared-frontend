@@ -3,11 +3,32 @@ import { Form } from "semantic-ui-react";
 import "./personal-data-tab.css";
 import { observer } from "mobx-react";
 import ProfileStore from "../../stores/ProfileStore";
+import { Dropdown } from "semantic-ui-react";
 
 const PersonalDataTab = observer(
   class PersonalDataTab extends Component {
     handleChange(e) {
       ProfileStore[e.target.name] = e.target.value;
+      console.log(ProfileStore);
+    }
+
+    setStatus(e, { value }) {
+      ProfileStore.status = value;
+      console.log(ProfileStore);
+    }
+
+    getStatusTypes() {
+      let typesOptions = [
+        {
+          text: "hired",
+          value: "hired"
+        },
+        {
+          text: "freelancer",
+          value: "freelancer"
+        }
+      ];
+      return typesOptions;
     }
 
     render() {
@@ -80,13 +101,16 @@ const PersonalDataTab = observer(
                 onChange={this.handleChange}
                 type="date"
               />
-              <Form.Input
+              <Form.Dropdown
                 name="status"
                 label="Status"
                 placeholder="Status"
                 width={8}
+                onChange={this.setStatus}
+                fluid
+                selection
+                options={this.getStatusTypes()}
                 defaultValue={ProfileStore.status}
-                onChange={this.handleChange}
               />
             </Form.Group>
             <Form.Group>
