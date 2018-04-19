@@ -3,7 +3,6 @@ import { Form } from "semantic-ui-react";
 import "./personal-data-tab.css";
 import { observer } from "mobx-react";
 import ProfileStore from "../../stores/ProfileStore";
-import { Dropdown } from "semantic-ui-react";
 
 const PersonalDataTab = observer(
   class PersonalDataTab extends Component {
