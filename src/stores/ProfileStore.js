@@ -1,7 +1,6 @@
 import { extendObservable } from "mobx";
 import axios from "axios";
 import AppStore from "./AppStore";
-import signInStore from "./SignInStore";
 import moment from "moment";
 
 class ProfileStore {
@@ -26,13 +25,22 @@ class ProfileStore {
       cellPhone: "",
       email: "",
       skype: "",
-      githubID: ""
+      githubID: "",
+      clients: []
     });
   }
 
   async getUserData(mail) {
+    let url = "";
+
+    if (mail.includes("@")) {
+      url = AppStore.URL + "/api/user?email=" + mail;
+    } else {
+      url = AppStore.URL + "/api/user/" + mail;
+    }
+
     await axios
-      .get(AppStore.URL + "/api/user?email=" + mail)
+      .get(url)
       .then(
         function(response) {
           this.id = response.data.data[0]._id;
@@ -59,6 +67,7 @@ class ProfileStore {
           this.email = response.data.data[0].email || "";
           this.skype = response.data.data[0].skype || "";
           this.githubID = response.data.data[0].githubID || "";
+          this.clients = response.data.data[0].clients || [];
         }.bind(this)
       )
       .catch(function(error) {
