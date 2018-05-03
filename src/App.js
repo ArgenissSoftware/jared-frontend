@@ -8,6 +8,7 @@ import LoginPage from "./pages/login-page/login-page";
 import HomePage from "./pages/home-page/home-page";
 import ProfilePage from "./pages/profile-page/profile-page";
 import ClientsPage from "./pages/clients-page/clients-page";
+import PasswordPage from "./pages/password-page/password-page";
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
           <Route path="/home" component={HomePage} store={SignInStore} />
           <Route path="/profile" component={ProfilePage} store={ProfileStore} />
           <Route path="/clients" component={ClientsPage} store={ClientsStore} />
+          <Route path="/password" component={PasswordPage} store={ClientsStore} />
           </div>
       </Router>
     );

@@ -26,7 +26,10 @@ class ProfileStore {
       cellPhone: "",
       email: "",
       skype: "",
-      githubID: ""
+      githubID: "",
+      oldPassword: "",
+      newPassword: "",
+      newPassword2: ""
     });
   }
 
