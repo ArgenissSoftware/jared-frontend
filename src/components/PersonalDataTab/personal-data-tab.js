@@ -3,7 +3,6 @@ import { Form } from "semantic-ui-react";
 import "./personal-data-tab.css";
 import { observer } from "mobx-react";
 import ProfileStore from "../../stores/ProfileStore";
-import { Dropdown } from "semantic-ui-react";
 
 const PersonalDataTab = observer(
   class PersonalDataTab extends Component {
@@ -146,6 +145,16 @@ const PersonalDataTab = observer(
                 placeholder="Alarm Code"
                 width={8}
                 defaultValue={ProfileStore.alarmCode}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+            <Form.Input
+                name="username"
+                label="Username"
+                placeholder="Username"
+                width={8}
+                defaultValue={ProfileStore.username}
                 onChange={this.handleChange}
               />
             </Form.Group>

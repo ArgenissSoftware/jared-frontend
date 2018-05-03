@@ -38,7 +38,8 @@ const ProfilePage = observer(
           cellphone: ProfileStore.cellPhone,
           email: ProfileStore.email,
           skype: ProfileStore.skype,
-          githubID: ProfileStore.githubID
+          githubID: ProfileStore.githubID,
+          clients: ProfileStore.clients
         })
         .then(
           function(response) {
