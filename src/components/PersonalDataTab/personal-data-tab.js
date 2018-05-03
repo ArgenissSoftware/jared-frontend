@@ -148,6 +148,16 @@ const PersonalDataTab = observer(
                 onChange={this.handleChange}
               />
             </Form.Group>
+            <Form.Group>
+            <Form.Input
+                name="username"
+                label="Username"
+                placeholder="Username"
+                width={8}
+                defaultValue={ProfileStore.username}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
           </Form>
         </div>
       );
