@@ -28,7 +28,7 @@ class ProfileStore {
       githubID: "",
       oldPassword: "",
       newPassword: "",
-      newPassword2: ""
+      newPassword2: "",
       clients: []
     });
   }
