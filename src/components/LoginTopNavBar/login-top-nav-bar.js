@@ -34,14 +34,13 @@ const LoginTopNavBar = observer(
         .then(function(response) {
           profileStore.getUserData(signInStore.email);
           signInStore.navigate = true;
+          signInStore.email = "";
+          signInStore.password = "";
         })
         .catch(function(error) {
           console.log(error);
           loginErrorMessage = true;
         });
-
-      signInStore.email = "";
-      signInStore.password = "";
     }
 
     render() {
@@ -66,7 +65,6 @@ const LoginTopNavBar = observer(
                       type="text"
                       placeholder="Email or username"
                       name="email"
-                      value={signInStore.email}
                       onChange={this.handleChange}
                     />
                     <Form.Input
@@ -74,7 +72,6 @@ const LoginTopNavBar = observer(
                       type="password"
                       placeholder="password"
                       name="password"
-                      value={signInStore.password}
                       onChange={this.handleChange}
                     />
                     <Form.Button content="Login" onClick={this.logIn} />

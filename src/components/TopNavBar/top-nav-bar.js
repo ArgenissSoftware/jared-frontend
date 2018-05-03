@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import logo from "../../images/logo1.png";
 import profileStore from "../../stores/ProfileStore";
-import { Button, Dropdown, Menu, Icon } from "semantic-ui-react";
+import { Dropdown, Menu, Icon } from "semantic-ui-react";
 import "./top-nav-bar.css";
 
 const TopNavBar = observer(
