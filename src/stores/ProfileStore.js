@@ -26,6 +26,9 @@ class ProfileStore {
       email: "",
       skype: "",
       githubID: "",
+      oldPassword: "",
+      newPassword: "",
+      newPassword2: ""
       clients: []
     });
   }
