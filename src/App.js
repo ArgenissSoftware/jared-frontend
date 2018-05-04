@@ -9,6 +9,7 @@ import HomePage from "./pages/home-page/home-page";
 import ProfilePage from "./pages/profile-page/profile-page";
 import ClientsPage from "./pages/clients-page/clients-page";
 import PasswordPage from "./pages/password-page/password-page";
+import ClientDetailPage from "./pages/client-detail-page/client-detail-page";
 
 class App extends Component {
   render() {
@@ -16,11 +17,31 @@ class App extends Component {
       <Router>
         <div>
           <Route exact path="/" component={LoginPage} store={SignInStore} />
-          <Route path="/home" component={HomePage} store={SignInStore} />
-          <Route path="/profile" component={ProfilePage} store={ProfileStore} />
-          <Route path="/clients" component={ClientsPage} store={ClientsStore} />
-          <Route path="/password" component={PasswordPage} store={ClientsStore} />
-          </div>
+          <Route exact path="/home" component={HomePage} store={SignInStore} />
+          <Route
+            exact
+            path="/profile"
+            component={ProfilePage}
+            store={ProfileStore}
+          />
+          <Route
+            path="/clients/:id"
+            component={ClientDetailPage}
+            store={ClientsStore}
+          />
+          <Route
+            exact
+            path="/clients"
+            component={ClientsPage}
+            store={ClientsStore}
+          />
+          <Route
+            exact
+            path="/password"
+            component={PasswordPage}
+            store={ClientsStore}
+          />
+        </div>
       </Router>
     );
   }

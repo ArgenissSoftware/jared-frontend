@@ -8,12 +8,10 @@ const PersonalDataTab = observer(
   class PersonalDataTab extends Component {
     handleChange(e) {
       ProfileStore[e.target.name] = e.target.value;
-      console.log(ProfileStore);
     }
 
     setStatus(e, { value }) {
       ProfileStore.status = value;
-      console.log(ProfileStore);
     }
 
     getStatusTypes() {

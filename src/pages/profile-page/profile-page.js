@@ -56,7 +56,7 @@ const ProfilePage = observer(
         <div>
           <TopNavBar history={this.props.history} />
           <div className="ui container center aligned">
-            <ProfileTabs /> <Button onClick={this.save}>Save</Button>
+            <ProfileTabs history={this.props.history} /> <Button onClick={this.save}>Save</Button>
           </div>
         </div>
       );

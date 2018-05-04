@@ -16,8 +16,6 @@ const PasswordPage = observer(
     }
 
     save() {
-      console.log(ProfileStore.oldPassword, ProfileStore.newPassword, ProfileStore.newPassword2);
-
       //call API
     }
 

@@ -13,39 +13,24 @@ const ClientsTab = observer(
   class ClientsTab extends Component {
     constructor(props) {
       super(props);
-      ClientsStore.getClientsData();
+      ClientsStore.getClientsList();
     }
 
-    async save(e, { value }) {
+    save(e, { value }) {
       profileStore.clients.push(value);
-
-      console.log(profileStore.clients);
-
-      /*await axios
-        .put(AppStore.URL + "/api/user/", {
-          id: profileStore.id,
-          //  clients: profileStore.clients
-          clients: [
-            {
-              employees: [],
-              _id: "5acfa901da19220021b5714d",
-              name: "Jared",
-              active: true,
-              __v: 0
-            }
-          ]
-        })
-        .then()
-        .catch(function(error) {
-          console.log(error);
-        });*/
     }
 
-    getRenderedClientsList(clientName) {
+    async GoToDetail(id) {
+      await ClientsStore.getClient(id);
+
+      this.props.history.push("clients/" + id);
+    }
+
+    getRenderedClientsList(clientName, clientID) {
       return (
         <List.Item key={clientName}>
           <List.Icon name="user" size="large" verticalAlign="middle" />
-          <List.Content>
+          <List.Content onClick={() => this.GoToDetail(clientID)}>
             <List.Header as="a">{clientName}</List.Header>
             <List.Description as="a">Project Description</List.Description>
           </List.Content>
@@ -76,7 +61,7 @@ const ClientsTab = observer(
           <div className="ui container aligned">
             <List divided relaxed>
               {ClientsStore.clients.map(client =>
-                this.getRenderedClientsList(client.name)
+                this.getRenderedClientsList(client.name, client._id)
               )}
             </List>
           </div>

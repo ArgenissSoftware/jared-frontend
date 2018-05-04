@@ -6,15 +6,27 @@ class ClientsStore {
   constructor() {
     extendObservable(this, {
       clients: [],
-      newClientsInput: ""
+      newClientsInput: "",
+      client: {}
     });
   }
 
-  async getClientsData() {
+  async getClientsList() {
     await axios
       .get(AppStore.URL + "/api/clients")
       .then(response => {
         this.clients = response.data.data;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  async getClient(id) {
+    await axios
+      .get(AppStore.URL + "/api/clients/" + id)
+      .then(response => {
+        this.client = response.data.data;
       })
       .catch(function(error) {
         console.log(error);
