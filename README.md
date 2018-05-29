@@ -1,4 +1,6 @@
 # JARED FRONTEND README
+The Jared Project:
+Jared is an ERP system for handling employees, customers other ERP features related with software companies.
 
 ## Table of Contents
 
