@@ -2,9 +2,19 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import "./home-page.css";
 import TopNavBar from "../../components/TopNavBar/top-nav-bar";
+import SuccessMessage from '../../components/SuccessMessage/success-message'
+
+let registerSuccessMessage;
+let updateSuccessMessage;
 
 const HomePage = observer(
   class HomePage extends Component {
+
+    constructor(props) {
+      super(props);
+      registerSuccessMessage = typeof (props.location.state) !== "undefined"?props.location.state.registerSuccessMessage:false;
+      updateSuccessMessage = typeof (props.location.state) !== "undefined"?props.location.state.updateSuccessMessage:false;
+    }
     nextPath(path) {
       this.props.history.push(path);
     }
@@ -19,6 +29,12 @@ const HomePage = observer(
       return (
         <div>
           <TopNavBar history={this.props.history} />
+          {
+            (registerSuccessMessage==true)?<SuccessMessage title="Register" message="Your user registration was successful."></SuccessMessage>:null
+          }
+          {
+            (updateSuccessMessage==true)?<SuccessMessage title="Update data" message="Your data was successfully updated"></SuccessMessage>:null
+          }
           <div className="ui container center aligned">
             <div className="ui four cards ">
               <div className="card">

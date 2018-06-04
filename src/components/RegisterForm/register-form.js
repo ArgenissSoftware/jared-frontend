@@ -10,6 +10,7 @@ import { Redirect } from "react-router-dom";
 
 let registerErrorMessage = false;
 let errorText;
+let registerSuccessMessage = false;
 
 const RegisterForm = observer(
   class RegisterForm extends Component {
@@ -33,11 +34,14 @@ const RegisterForm = observer(
             password: signUpStore.password
           })
           .then(function(response) {
+            registerSuccessMessage = true;
+
             ProfileStore.username = signUpStore.username;
             ProfileStore.email = signUpStore.email;
-            
+
             ProfileStore.getUserData(ProfileStore.email);
             signUpStore.navigate = true;
+
           })
           .catch(function(error) {
             console.log(error);
@@ -48,15 +52,15 @@ const RegisterForm = observer(
         errorText = "Passwords do not match";
         registerErrorMessage = true;
       }
-
       signUpStore.email = "";
       signUpStore.password = "";
       signUpStore.repeatPassword = "";
+
     }
 
     render() {
-      if (signUpStore.navigate) {
-        return <Redirect to="/home" push={true} />;
+      if (signUpStore.navigate){
+        return <Redirect to={{ pathname: "/home", state: { registerSuccessMessage: registerSuccessMessage } }} push={true} />;
       }
       return (
         <div className="form-div">
@@ -137,7 +141,6 @@ const RegisterForm = observer(
                   <p>{errorText}</p>
                 </div>
               ) : null}
-
               <div className="ui message">
                 Forgot your password?{" "}
                 <a href="https://s.codepen.io/voltron2112/debug/PqrEPM?">
