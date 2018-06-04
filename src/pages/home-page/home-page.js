@@ -30,10 +30,10 @@ const HomePage = observer(
         <div>
           <TopNavBar history={this.props.history} />
           {
-            (registerSuccessMessage==true)?<SuccessMessage title="Register" message="Your user registration was successful."></SuccessMessage>:null
+            (registerSuccessMessage)?<SuccessMessage title="Register" message="Your user registration was successful."></SuccessMessage>:null
           }
           {
-            (updateSuccessMessage==true)?<SuccessMessage title="Update data" message="Your data was successfully updated"></SuccessMessage>:null
+            (updateSuccessMessage)?<SuccessMessage title="Update data" message="Your data was successfully updated"></SuccessMessage>:null
           }
           <div className="ui container center aligned">
             <div className="ui four cards ">
