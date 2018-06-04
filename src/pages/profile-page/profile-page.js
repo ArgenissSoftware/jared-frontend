@@ -8,11 +8,21 @@ import AppStore from "../../stores/AppStore";
 import ProfileStore from "../../stores/ProfileStore";
 import TopNavBar from "../../components/TopNavBar/top-nav-bar";
 
+import signUpStore from "../../stores/SignUpStore";
+import { Redirect } from "react-router-dom";
+
+let updateSuccessMessage = false;
+
 const ProfilePage = observer(
   class ProfilePage extends Component {
     constructor(props) {
       super(props);
       this.save = this.save.bind(this);
+      signUpStore.navigate = false;
+    }
+
+    handleChange(e) {
+      signUpStore[e.target.name] = e.target.value;
     }
 
     async save() {
@@ -43,6 +53,8 @@ const ProfilePage = observer(
         })
         .then(
           function(response) {
+            updateSuccessMessage = true;
+            signUpStore.navigate = true;
             this.props.history.push("home");
           }.bind(this)
         )
@@ -52,6 +64,9 @@ const ProfilePage = observer(
     }
 
     render() {
+      if (signUpStore.navigate){
+        return <Redirect to={{ pathname: "/home", state: { updateSuccessMessage: updateSuccessMessage } }} push={true} />;
+      }
       return (
         <div>
           <TopNavBar history={this.props.history} />
