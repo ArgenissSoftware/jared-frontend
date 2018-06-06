@@ -33,7 +33,7 @@ Jared is an ERP system for handling employees, customers other ERP features rela
 Run `npm build` on jared-frontend folder
 
 
-# Deploy
+# Herou Deployment
 * Run `heroku git:remote -a jared-frontend`
 * Run `git add .`
 * Run `git commit -m "react-create-app on Heroku"`
@@ -53,3 +53,6 @@ Run `npm build` on jared-frontend folder
 4. Update your branch against master - `$ git fetch origin && git rebase origin master`
 5. Push your branch to github - `$ git push origin <branch-name>`
 6. Create a Pull request and assign a reviewer
+
+# Test the application on heroku:
+The application is running at: [](https://jared-backend.herokuapp.com)
