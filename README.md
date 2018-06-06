@@ -55,4 +55,4 @@ Run `npm build` on jared-frontend folder
 6. Create a Pull request and assign a reviewer
 
 # Test the application on heroku:
-The application is running at: [](https://jared-backend.herokuapp.com)
+- The application is running at: [Jared Frontend](https://jared-backend.herokuapp.com)
