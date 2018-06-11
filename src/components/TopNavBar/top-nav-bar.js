@@ -23,7 +23,7 @@ const TopNavBar = observer(
                 <Icon name='user' />
                   My Profile
                 </Dropdown.Item>
-                <Dropdown.Item name="password" onClick={this.handleItemClick}>
+                <Dropdown.Item name="change_password" onClick={this.handleItemClick}>
                 <Icon name='lock' />
                   Change Password
                 </Dropdown.Item>
