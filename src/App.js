@@ -37,7 +37,7 @@ class App extends Component {
           />
           <Route
             exact
-            path="/password"
+            path="/change_password"
             component={PasswordPage}
             store={ClientsStore}
           />
