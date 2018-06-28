@@ -8,38 +8,44 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import profileStore from "../../stores/ProfileStore";
 
-let loginErrorMessage = false;
-
 const LoginTopNavBar = observer(
   class LoginTopNavBar extends Component {
     constructor(props) {
       super(props);
-      this.handleChange = this.handleChange.bind(this);
       signInStore.navigate = false;
+      this.state = {
+        haveError: false
+      }
     }
 
-    handleChange(e) {
+    /**
+     * set the values for the inputs
+     */
+    handleChange = (e) => {
+      console.log('hahaha');
       signInStore[e.target.name] = e.target.value;
-      loginErrorMessage = false;
+      this.setState({ haveError: false });
     }
 
-    async logIn() {
-      loginErrorMessage = false;
+    /**
+     * execute the login method
+     */
+    logIn = () => {
+      this.setState({ haveError: false });
 
-      await axios
+      axios
         .post(AppStore.URL + "/api/login", {
           email: signInStore.email,
           password: signInStore.password
         })
-        .then(function(response) {
+        .then((success) => {
           profileStore.getUserData(signInStore.email);
           signInStore.navigate = true;
           signInStore.email = "";
           signInStore.password = "";
         })
-        .catch(function(error) {
-          console.log(error);
-          loginErrorMessage = true;
+        .catch((error) => {
+          this.setState({ haveError: true });
         });
     }
 
@@ -58,29 +64,29 @@ const LoginTopNavBar = observer(
 
             <div className="right menu">
               <div className="item">
-                <Form onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmit} error={this.state.haveError}>
                   <Form.Group>
                     <Form.Input
-                      className={loginErrorMessage ? "error" : ""}
+                      className={this.state.haveError ? "error" : ""}
                       type="text"
                       placeholder="Email or username"
                       name="email"
                       onChange={this.handleChange}
                     />
                     <Form.Input
-                      className={loginErrorMessage ? "error" : ""}
+                      className={this.state.haveError ? "error" : ""}
                       type="password"
                       placeholder="password"
                       name="password"
                       onChange={this.handleChange}
                     />
-                    <Form.Button content="Login" onClick={this.logIn} />
+                    <Form.Button disabled={!(signInStore.email && signInStore.password)} content="Login" onClick={this.logIn} />
                   </Form.Group>
                 </Form>
               </div>
             </div>
           </div>
-          {loginErrorMessage ? (
+          {this.state.haveError ? (
             <div className="ui error message">
               <div className="header">Login failed!</div>
               <p>Invalid email/username or password</p>
