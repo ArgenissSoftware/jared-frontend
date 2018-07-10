@@ -6,7 +6,8 @@ import AppStore from "../../stores/AppStore";
 import logo from "../../images/logo1.png";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import profileStore from "../../stores/ProfileStore";
+import userStore from "../../stores/UserStore";
+import authStore from "../../stores/AuthStore";
 
 const LoginTopNavBar = observer(
   class LoginTopNavBar extends Component {
@@ -18,35 +19,24 @@ const LoginTopNavBar = observer(
       }
     }
 
-    /**
-     * set the values for the inputs
-     */
     handleChange = (e) => {
-      console.log('hahaha');
       signInStore[e.target.name] = e.target.value;
       this.setState({ haveError: false });
     }
 
-    /**
-     * execute the login method
-     */
     logIn = () => {
       this.setState({ haveError: false });
-
-      axios
-        .post(AppStore.URL + "/api/login", {
-          email: signInStore.email,
-          password: signInStore.password
-        })
-        .then((success) => {
-          profileStore.getUserData(signInStore.email);
-          signInStore.navigate = true;
-          signInStore.email = "";
-          signInStore.password = "";
-        })
-        .catch((error) => {
-          this.setState({ haveError: true });
-        });
+      let url = "/login";
+      let data = {
+        email: signInStore.email,
+        password: signInStore.password
+      }; 
+      authStore.login(url, data).then( response => {
+        authStore.setUserAuth(response.data);
+        userStore.getUserData(userStore.user.email);
+      }).catch(err => {
+        this.setState({ haveError: true });
+      });
     }
 
     render() {

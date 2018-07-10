@@ -8,6 +8,11 @@ class SignInStore {
       navigate: false
     });
   }
+
+  clear(){
+    this.email = "";
+    this.password = "";
+  }
 }
 
 let signInStore = new SignInStore();

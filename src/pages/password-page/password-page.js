@@ -4,7 +4,7 @@ import "./password-page.css";
 import { Button } from "semantic-ui-react";
 import axios from "axios";
 import AppStore from "../../stores/AppStore";
-import ProfileStore from "../../stores/ProfileStore";
+import UserStore from "../../stores/UserStore";
 import TopNavBar from "../../components/TopNavBar/top-nav-bar";
 import PasswordForm from "../../components/PasswordForm/password-form";
 

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-
 import {
   Button,
   Input,
@@ -14,6 +13,8 @@ import axios from "axios";
 import ClientsStore from "../../stores/ClientsStore";
 import AppStore from "../../stores/AppStore";
 import TopNavBar from "../../components/TopNavBar/top-nav-bar";
+import authStore from "../../stores/AuthStore";
+
 
 let client;
 
@@ -29,9 +30,13 @@ const ClientDetailPage = observer(
 
     async save() {
       await axios
-        .put(AppStore.URL + "/api/clients/" + ClientsStore.client._id, {
+        .put(AppStore.URL + "/clients/" + ClientsStore.client._id, {
           name: ClientsStore.client.name,
           id: ClientsStore.client.id
+        }, {
+          headers: {
+            Authorization: "Bearer " + authStore.token
+          }
         })
         .then(
           function(response) {

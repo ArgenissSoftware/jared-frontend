@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { Form, Segment, Container, Grid } from "semantic-ui-react";
 import "./password-form.css";
 import { observer } from "mobx-react";
-import ProfileStore from "../../stores/ProfileStore";
+import UserStore from "../../stores/UserStore";
 
 
 const PasswordForm = observer(
   class PasswordForm extends Component {
 
     handleChange(e) {
-      ProfileStore[e.target.name] = e.target.value;
+      UserStore[e.target.name] = e.target.value;
     }
 
     render() {

@@ -6,6 +6,7 @@ import axios from "axios";
 import ClientsStore from "../../stores/ClientsStore";
 import AppStore from "../../stores/AppStore";
 import TopNavBar from "../../components/TopNavBar/top-nav-bar";
+import authStore from "../../stores/AuthStore";
 
 const ClientsPage = observer(
   class ClientsPage extends Component {
@@ -31,13 +32,15 @@ const ClientsPage = observer(
       if (ClientsStore.newClientsInput) {
         await axios
           .post(
-            AppStore.URL + "/api/clients/",
+            AppStore.URL + "/clients/",
             {
               name: ClientsStore.newClientsInput
             },
             {
               headers: {
+                Authorization: "Bearer " + authStore.token,
                 "Content-Type": "application/json"
+                
               }
             }
           )
