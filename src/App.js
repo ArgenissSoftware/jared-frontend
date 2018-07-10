@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import SignInStore from "./stores/SignInStore";
-import ProfileStore from "./stores/ProfileStore";
+import UserStore from "./stores/UserStore";
 import ClientsStore from "./stores/ClientsStore";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import LoginPage from "./pages/login-page/login-page";
@@ -22,7 +22,7 @@ class App extends Component {
             exact
             path="/profile"
             component={ProfilePage}
-            store={ProfileStore}
+            store={UserStore}
           />
           <Route
             path="/clients/:id"

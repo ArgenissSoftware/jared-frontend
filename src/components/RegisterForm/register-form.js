@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import signUpStore from "../../stores/SignUpStore";
-import ProfileStore from "../../stores/ProfileStore";
+import UserStore from "../../stores/UserStore";
 import AppStore from "../../stores/AppStore";
 import "./register-form.css";
 import axios from "axios";
@@ -28,7 +28,7 @@ const RegisterForm = observer(
     async register() {
       if (signUpStore.password === signUpStore.repeatPassword) {
         await axios
-          .post(AppStore.URL + "/api/user/", {
+          .post(AppStore.URL + "/user", {
             username: signUpStore.username,
             email: signUpStore.email,
             password: signUpStore.password
@@ -36,10 +36,10 @@ const RegisterForm = observer(
           .then(function(response) {
             registerSuccessMessage = true;
 
-            ProfileStore.username = signUpStore.username;
-            ProfileStore.email = signUpStore.email;
+            UserStore.username = signUpStore.username;
+            UserStore.email = signUpStore.email;
 
-            ProfileStore.getUserData(ProfileStore.email);
+            UserStore.getUserData(UserStore.email);
             signUpStore.navigate = true;
 
           })
