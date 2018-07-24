@@ -20,9 +20,7 @@ const HomePage = observer(
     }
 
     goToLunch() {
-      window.open(
-        "https://docs.google.com/spreadsheets/d/1cz8sAt2OEYAh1fuaW8Nx-F9pNQVkH6q7k6j-VKzeuY4/edit#gid=2004327840"
-      );
+     
     }
 
     render() {
