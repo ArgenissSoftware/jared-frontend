@@ -10,6 +10,7 @@ import ProfilePage from "./pages/profile-page/profile-page";
 import ClientsPage from "./pages/clients-page/clients-page";
 import PasswordPage from "./pages/password-page/password-page";
 import ClientDetailPage from "./pages/client-detail-page/client-detail-page";
+import ForgotPasswordPage from "./pages/forgot-password-page/forgot-password-page";
 
 class App extends Component {
   render() {
@@ -40,6 +41,11 @@ class App extends Component {
             path="/change_password"
             component={PasswordPage}
             store={ClientsStore}
+          />
+          <Route 
+          exact 
+          path="/forgot_password" 
+          component={ForgotPasswordPage} 
           />
         </div>
       </Router>
