@@ -8,8 +8,6 @@ import AppStore from "../../stores/AppStore";
 import TopNavBar from "../../components/TopNavBar/top-nav-bar";
 import authStore from "../../stores/AuthStore";
 
-let cpSuccessMessage = false;
-let addedClient = "";
 const ClientsPage = observer(
   class ClientsPage extends Component {
     constructor(props) {
@@ -42,16 +40,14 @@ const ClientsPage = observer(
               headers: {
                 Authorization: "Bearer " + authStore.token,
                 "Content-Type": "application/json"
-
+                
               }
             }
           )
-          .then(function (response) {
+          .then(function(response) {
             ClientsStore.getClientsList();
-            addedClient = ClientsStore.newClientsInput;
-            cpSuccessMessage = true;
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.log(error);
           });
       }
@@ -73,14 +69,6 @@ const ClientsPage = observer(
               placeholder="Add a new client..."
               value={ClientsStore.newClientsInput}
             />
-            {cpSuccessMessage ? (
-              <div className="ui success message">
-                <div className="content">
-                  <div className="header">Success!</div>
-                  <p>{addedClient} has been added to your client list!.</p>
-                </div>
-              </div>
-            ) : null}
             <List divided relaxed>
               {ClientsStore.clients.map(client =>
                 this.getRenderedClientsList(client.name)
