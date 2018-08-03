@@ -33,7 +33,7 @@ Jared is an ERP system for handling employees, customers other ERP features rela
 Run `npm build` on jared-frontend folder
 
 
-# Herou Deployment
+# Heroku Deployment
 * Run `heroku git:remote -a jared-frontend`
 * Run `git add .`
 * Run `git commit -m "react-create-app on Heroku"`
