@@ -9,7 +9,7 @@ import TopNavBar from "../../components/TopNavBar/top-nav-bar";
 import authStore from "../../stores/AuthStore";
 
 let cpSuccessMessage = false;
-let addedClient = "";
+let addedClient = " ";
 const ClientsPage = observer(
   class ClientsPage extends Component {
     constructor(props) {
