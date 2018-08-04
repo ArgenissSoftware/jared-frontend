@@ -10,6 +10,7 @@ import authStore from "../../stores/AuthStore";
 
 let cpSuccessMessage = false;
 let addedClient = "";
+
 const ClientsPage = observer(
   class ClientsPage extends Component {
     constructor(props) {
