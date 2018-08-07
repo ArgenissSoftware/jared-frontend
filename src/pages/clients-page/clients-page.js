@@ -43,7 +43,6 @@ const ClientsPage = observer(
               headers: {
                 Authorization: "Bearer " + authStore.token,
                 "Content-Type": "application/json"
-
               }
             }
           )
