@@ -1,0 +1,12 @@
+.item{
+    position: relative;
+}
+.removeClientIcon{
+    position: absolute;
+    right: 0;
+    top: 30%;
+    cursor: pointer;
+}
+.ui.modal.transition.visible.active {
+    margin: 0 auto !important;
+}
