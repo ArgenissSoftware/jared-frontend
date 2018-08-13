@@ -2,18 +2,15 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import ProfileTabs from "../../components/ProfileTabs/profile-tabs";
 import { Button } from "semantic-ui-react";
-import TopNavBar from "../../components/TopNavBar/top-nav-bar";
 import signUpStore from "../../stores/SignUpStore";
-import { Redirect } from "react-router-dom";
 import userStore from "../../stores/UserStore";
 
 let updateSuccessMessage = false;
 
-const ProfilePage = observer(
-  class ProfilePage extends Component {
+const ProfileComponent = observer(
+  class ProfileComponent extends Component {
     constructor(props) {
       super(props);
-      signUpStore.navigate = false;
     }
 
     handleChange(e) {
@@ -24,7 +21,6 @@ const ProfilePage = observer(
       userStore.updateUser().then((response) => {
         if (response.data.message = "User updated!"){
           updateSuccessMessage = true;
-          signUpStore.navigate = true;
         }
       });
     }
@@ -34,19 +30,14 @@ const ProfilePage = observer(
     }
 
     render() {
-      if (signUpStore.navigate){
-        return <Redirect to={{ pathname: "/home", state: { updateSuccessMessage: updateSuccessMessage } }} push={true} />;
-      }
+
       return (
-        <div>
-          <TopNavBar history={this.props.history} />
           <div className="ui container center aligned">
             <ProfileTabs history={this.props.history} /> <Button onClick={this.save}>Save</Button>
           </div>
-        </div>
       );
     }
   }
 );
 
-export default ProfilePage;
+export default ProfileComponent;

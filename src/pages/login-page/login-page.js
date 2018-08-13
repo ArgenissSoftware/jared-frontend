@@ -12,7 +12,7 @@ const LoginPage = observer(
       return (
         <div>
           <div className="App">
-            <LoginTopNavBar store={signInStore} />
+            <LoginTopNavBar history={this.props.history} store={signInStore} />
             <RegisterForm store={signUpStore} />
           </div>
         </div>

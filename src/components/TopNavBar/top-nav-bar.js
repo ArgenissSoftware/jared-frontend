@@ -19,11 +19,11 @@ const TopNavBar = observer(
           <Menu.Menu position="right">
             <Dropdown item text={"Welcome " + UserStore.user.username}>
               <Dropdown.Menu>
-                <Dropdown.Item name="../profile" onClick={this.handleItemClick}>
+                <Dropdown.Item name="../home/profile" onClick={this.handleItemClick}>
                 <Icon name='user' />
                   My Profile
                 </Dropdown.Item>
-                <Dropdown.Item name="change_password" onClick={this.handleItemClick}>
+                <Dropdown.Item name="../home/change_password" onClick={this.handleItemClick}>
                 <Icon name='lock' />
                   Change Password
                 </Dropdown.Item>

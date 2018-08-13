@@ -4,8 +4,7 @@ class SignInStore {
   constructor() {
     extendObservable(this, {
       email: "",
-      password: "",
-      navigate: false
+      password: ""
     });
   }
 
