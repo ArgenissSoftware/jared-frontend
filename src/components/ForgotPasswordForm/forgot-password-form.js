@@ -33,7 +33,7 @@ const ForgotPasswordForm = observer(
       //true means email field has the form string - (optionally a dot and a string) - 'at' symbol - dot - string.
       if (regex.test(email) === true) {
         await axios
-          .post(AppStore.URL + "/forgot-password", {
+          .post(AppStore.URL + "/users/forgot_password", {
             email: email
           })
           .then(function (response) {
@@ -97,7 +97,7 @@ const ForgotPasswordForm = observer(
                     <i className="thumbs up icon"></i>
                     <div className="content">
                       <div className="header">{successText1}</div>
-                      <p>The reason for not receiving any verification mail is due to wrong email address used during registration, 
+                      <p>The reason for not receiving any verification mail is due to wrong email address used during registration,
                         or mail getting blocked due to spam filters. Please ensure all related issues are solved before proceeding.</p>
                     </div>
                   </div>
