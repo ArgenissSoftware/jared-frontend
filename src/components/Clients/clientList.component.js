@@ -1,15 +1,13 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import "./clients-page.css";
-import { Button, Input, List } from "semantic-ui-react";
+import { Button, Input, List, Header, Divider } from "semantic-ui-react";
 import axios from "axios";
 import ClientsStore from "../../stores/ClientsStore";
 import AppStore from "../../stores/AppStore";
-import TopNavBar from "../../components/TopNavBar/top-nav-bar";
 import authStore from "../../stores/AuthStore";
 
-const ClientsPage = observer(
-  class ClientsPage extends Component {
+const ClientListComponent = observer(
+  class ClientListComponent extends Component {
     constructor(props) {
       super(props);
       ClientsStore.getClientsList();
@@ -60,9 +58,9 @@ const ClientsPage = observer(
 
     render() {
       return (
-        <div>
-          <TopNavBar history={this.props.history} />
           <div className="ui container aligned">
+           <Header as="h3" icon="user" content="CLIENTS LIST" />
+            <Divider />
             <Input
               onChange={this.handleMessage.bind(this)}
               action={<Button onClick={() => this.addClient()}>ADD</Button>}
@@ -75,10 +73,10 @@ const ClientsPage = observer(
               )}
             </List>
           </div>
-        </div>
+
       );
     }
   }
 );
 
-export default ClientsPage;
+export default ClientListComponent;

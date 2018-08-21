@@ -13,7 +13,8 @@ class UserStore {
       oldPassword: "",
       newPassword: "",
       newPassword2: "",
-      clients: []
+      clients: [],
+      userList: []
     });
   }
 
@@ -60,8 +61,6 @@ class UserStore {
   }
 
   async updateUser() {
-
-    console.log("USER A GUARDAR", this.user );
     return axios
       .put(AppStore.URL + "/user/",  this.user, {
         headers: {
@@ -69,7 +68,6 @@ class UserStore {
         }
       })
       .then((response) => {
-        console.log("res dentro del userstore", response);
           return response.data;
         }
       )
@@ -78,6 +76,22 @@ class UserStore {
       });
   }
 
+  async getUsersList() {
+    return axios
+      .get(AppStore.URL + "/users", {
+        headers: {
+          Authorization: "Bearer " + authStore.token
+        }
+      })
+      .then((response) => {
+        this.userList = response.data.data;
+        return response.data;
+        }
+      )
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
 }
 

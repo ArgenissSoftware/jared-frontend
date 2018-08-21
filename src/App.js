@@ -1,14 +1,10 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "./App.css";
 import SignInStore from "./stores/SignInStore";
-import UserStore from "./stores/UserStore";
 import ClientsStore from "./stores/ClientsStore";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import LoginPage from "./pages/login-page/login-page";
-import HomePage from "./pages/home-page/home-page";
-import ProfilePage from "./pages/profile-page/profile-page";
-import ClientsPage from "./pages/clients-page/clients-page";
-import PasswordPage from "./pages/password-page/password-page";
+import HomePage from "./pages/home/home.page";
 import ClientDetailPage from "./pages/client-detail-page/client-detail-page";
 
 class App extends Component {
@@ -16,31 +12,8 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Route exact path="/" component={LoginPage} store={SignInStore} />
-          <Route exact path="/home" component={HomePage} store={SignInStore} />
-          <Route
-            exact
-            path="/profile"
-            component={ProfilePage}
-            store={UserStore}
-          />
-          <Route
-            path="/clients/:id"
-            component={ClientDetailPage}
-            store={ClientsStore}
-          />
-          <Route
-            exact
-            path="/clients"
-            component={ClientsPage}
-            store={ClientsStore}
-          />
-          <Route
-            exact
-            path="/change_password"
-            component={PasswordPage}
-            store={ClientsStore}
-          />
+          <Route exact path="/" component={LoginPage} store={SignInStore}/>
+          <Route path="/home" component={HomePage} store={SignInStore}/>
         </div>
       </Router>
     );
