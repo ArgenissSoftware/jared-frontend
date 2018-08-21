@@ -143,7 +143,7 @@ const RegisterForm = observer(
               ) : null}
               <div className="ui message">
                 Forgot your password?{" "}
-                <a href="https://s.codepen.io/voltron2112/debug/PqrEPM?">
+                <a href="/forgot_password">
                   Click Here
                 </a>
               </div>
