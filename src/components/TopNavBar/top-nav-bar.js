@@ -4,16 +4,15 @@ import logo from "../../images/logo1.png";
 import UserStore from "../../stores/UserStore";
 import {Dropdown, Menu, Icon} from "semantic-ui-react";
 import "./top-nav-bar.css";
+import authStore from "../../stores/AuthStore";
 
 const TopNavBar = observer(class TopNavBar extends Component {
-  handleItemClick = (e, {name}) => this
-    .props
-    .history
-    .push(name);
+
+  handleItemClick = (e, {name}) => this.props.history.push(name);
 
   render() {
     return (
-      <Menu >
+      <Menu size="huge">
         <Menu.Item name="../home" onClick={this.handleItemClick}>
           <img src={logo} alt=""/>
           <b>Jared</b>

@@ -1,21 +1,23 @@
-import { extendObservable } from "mobx";
+import {extendObservable} from "mobx";
 import axios from "axios";
 import AppStore from "./AppStore";
 import signInStore from "./SignInStore";
 import userStore from "./UserStore";
-import moment from "moment";
 
 class AuthStore {
   constructor() {
+    const token = sessionStorage.getItem('user_token');
+    userStore.user = JSON.parse(sessionStorage.getItem('user')) || [];
+
     extendObservable(this, {
       username: "",
-      token: ""
+      token: token || ""
     });
   }
 
-  login(url, data){
-      return axios
-      .post(AppStore.URL + url,data)
+  login(url, data) {
+    return axios
+      .post(AppStore.URL + url, data)
       .then((response) => {
         signInStore.navigate = true;
         signInStore.clear();
@@ -26,8 +28,10 @@ class AuthStore {
       });
   }
 
-  setUserAuth(data){
+  setUserAuth(data) {
     this.token = data.token;
+    sessionStorage.setItem('user_token', JSON.stringify(data.token));
+    sessionStorage.setItem('user', JSON.stringify(data.user));
     userStore.user = data.user;
     userStore.user.id = data.user._id;
   }
