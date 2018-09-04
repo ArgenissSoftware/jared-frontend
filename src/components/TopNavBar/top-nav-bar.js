@@ -10,11 +10,6 @@ const TopNavBar = observer(class TopNavBar extends Component {
 
   handleItemClick = (e, {name}) => this.props.history.push(name);
 
-  logout = () => {
-    sessionStorage.clear();
-    this.props.history.push("/");
-  }
-
   render() {
     return (
       <Menu size="huge">
@@ -22,6 +17,27 @@ const TopNavBar = observer(class TopNavBar extends Component {
           <img src={logo} alt=""/>
           <b>Jared</b>
         </Menu.Item>
+
+        <Dropdown item text="User">
+          <Dropdown.Menu>
+            <Dropdown.Item name="../home/users" onClick={this.handleItemClick}>
+              <Icon name='list'/>
+              User List
+            </Dropdown.Item>
+
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Dropdown item text="Client">
+          <Dropdown.Menu>
+            <Dropdown.Item name="../home/clients" onClick={this.handleItemClick}>
+              <Icon name='list'/>
+              Client List
+            </Dropdown.Item>
+
+          </Dropdown.Menu>
+        </Dropdown>
+
         <Menu.Menu position="right">
           <Dropdown item text={"Welcome " + UserStore.user.username}>
             <Dropdown.Menu>
@@ -33,7 +49,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
                 <Icon name='lock'/>
                 Change Password
               </Dropdown.Item>
-              <Dropdown.Item name="/" onClick={this.logout}>
+              <Dropdown.Item name="/" onClick={this.handleItemClick}>
                 <Icon name='sign out'/>
                 Logout
               </Dropdown.Item>

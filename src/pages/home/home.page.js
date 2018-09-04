@@ -3,7 +3,6 @@ import {observer} from "mobx-react";
 import "./home.page.css";
 import TopNavBar from "../../components/TopNavBar/top-nav-bar";
 import SuccessMessage from '../../components/SuccessMessage/success-message'
-import HomeMenuComponent from "../../components/HomeMenu/home-menu.component";
 import HomepageRouter from "../../homepage.router";
 
 let registerSuccessMessage;
@@ -37,7 +36,6 @@ const HomePage = observer(class HomePage extends Component {
           : null
 }
         <div className='rowC'>
-          <HomeMenuComponent history={this.props.history}/>
 
           <HomepageRouter/>
         </div>
