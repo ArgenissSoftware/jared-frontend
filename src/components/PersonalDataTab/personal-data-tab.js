@@ -9,27 +9,23 @@ const PersonalDataTab = observer(
   class PersonalDataTab extends Component {
 
     constructor() {
-        super();
-        this.state = {
-            loading: false,
-            error: false,
-            githubID: "",
-            name: "",
-            surname: ""
-        };
-        this.searchOnGithub = this.searchOnGithub.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+      super();
+      this.state = {
+        loading: false,
+        error: false,
+        githubID: "",
+      };
     }
 
-    searchOnGithub() {
+    searchOnGithub = () => {
       this.setState({ loading: true });
       axios.get("https://api.github.com/users/" + this.state.githubID)
            .then(res => {
               let name = res.data.name.split(" ")[0];
               let surname = res.data.name.split(" ")[1];
               this.setState({ loading: false, error: false, name: name, surname: surname });
-              userStore.user.name = name;
-              userStore.user.surname = surname;
+              userStore.setUserField('name', name);
+              userStore.setUserField('surname', surname);
               userStore.user.githubID = this.state.githubID;
            })
            .catch(error => {
@@ -38,13 +34,13 @@ const PersonalDataTab = observer(
            });
     };
 
-    handleChange(e) {
-        this.setState({ error: false });
-        if(e.target.name === "github") {
-            this.setState({ githubID: e.target.value });
-        } else {
-            userStore.user[e.target.name] = e.target.value;
-        }
+    handleChange = (e) => {
+      this.setState({ error: false });
+      userStore.setUserField(e.target.name, e.target.value);
+    }
+
+    setGithubUser = (user) => {
+      this.setState({ githubID: user });
     }
 
     setRelation(e, { value }) {
@@ -82,7 +78,7 @@ const PersonalDataTab = observer(
               placeholder="GitHub ID"
               action={ { color: 'teal', icon: "search", onClick: this.searchOnGithub } }
               width={8}
-              onChange={this.handleChange}
+              onChange={this.setGithubUser}
               error={this.state.error}/>
           <Divider/>
 
@@ -93,7 +89,7 @@ const PersonalDataTab = observer(
                 label="First name"
                 placeholder="First name"
                 width={8}
-                value={this.state.name}
+                value={userStore.user.name}
                 defaultValue={userStore.user.name}
                 onChange={this.handleChange}
               />
@@ -102,7 +98,7 @@ const PersonalDataTab = observer(
                 label="Last name"
                 placeholder="Last name"
                 width={8}
-                value={this.state.surname}
+                value={userStore.user.surname}
                 defaultValue={userStore.user.surname}
                 onChange={this.handleChange}
               />
@@ -113,6 +109,7 @@ const PersonalDataTab = observer(
                 label="Date of birth"
                 placeholder="Date of birth"
                 width={8}
+                value={userStore.user.birthday}
                 defaultValue={userStore.user.birthday}
                 onChange={this.handleChange}
                 type="date"
@@ -122,6 +119,7 @@ const PersonalDataTab = observer(
                 label="CUIL"
                 placeholder="CUIL"
                 width={8}
+                value={userStore.user.cuil}
                 defaultValue={userStore.user.cuil}
                 onChange={this.handleChange}
               />
@@ -132,6 +130,7 @@ const PersonalDataTab = observer(
                 label="Passport"
                 placeholder="Passport"
                 width={8}
+                value={userStore.user.passport}
                 defaultValue={userStore.user.passport}
                 onChange={this.handleChange}
               />
@@ -140,6 +139,7 @@ const PersonalDataTab = observer(
                 label="US VISA"
                 placeholder="US VISA"
                 width={8}
+                value={userStore.user.visa}
                 defaultValue={userStore.user.visa}
                 onChange={this.handleChange}
                 type="date"
@@ -151,6 +151,7 @@ const PersonalDataTab = observer(
                 label="Start date"
                 placeholder="Start date"
                 width={8}
+                value={userStore.user.startWorkDate}
                 defaultValue={userStore.user.startWorkDate}
                 onChange={this.handleChange}
                 type="date"
@@ -164,6 +165,7 @@ const PersonalDataTab = observer(
                 fluid
                 selection
                 options={this.getRelationTypes()}
+                value={userStore.user.relation}
                 defaultValue={userStore.user.relation}
               />
             </Form.Group>
@@ -173,6 +175,7 @@ const PersonalDataTab = observer(
                 label="Career"
                 placeholder="Career"
                 width={8}
+                value={userStore.user.career}
                 defaultValue={userStore.user.career}
                 onChange={this.handleChange}
               />
@@ -181,6 +184,7 @@ const PersonalDataTab = observer(
                 label="Career status"
                 placeholder="Career status"
                 width={8}
+                value={userStore.user.status}
                 defaultValue={userStore.user.status}
                 onChange={this.handleChange}
               />
@@ -191,6 +195,7 @@ const PersonalDataTab = observer(
                 label="Children"
                 placeholder="Children"
                 width={8}
+                value={userStore.user.children}
                 defaultValue={userStore.user.children}
                 onChange={this.handleChange}
               />
@@ -199,6 +204,7 @@ const PersonalDataTab = observer(
                 label="Alarm Code"
                 placeholder="Alarm Code"
                 width={8}
+                value={userStore.user.alarmCode}
                 defaultValue={userStore.user.alarmCode}
                 onChange={this.handleChange}
               />
@@ -209,6 +215,7 @@ const PersonalDataTab = observer(
                 label="Username"
                 placeholder="Username"
                 width={8}
+                value={userStore.user.username}
                 defaultValue={userStore.user.username}
                 onChange={this.handleChange}
               />

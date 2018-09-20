@@ -1,13 +1,15 @@
 import React, { Component } from "react";
+import { Button, Message } from "semantic-ui-react";
 import { observer } from "mobx-react";
+
 import ProfileTabs from "../../components/ProfileTabs/profile-tabs";
-import { Button } from "semantic-ui-react";
 import signUpStore from "../../stores/SignUpStore";
 import userStore from "../../stores/UserStore";
+import authStore from "../../stores/AuthStore";
 
 let updateSuccessMessage = false;
 
-const ProfileComponent = observer(
+export default observer(
   class ProfileComponent extends Component {
     constructor(props) {
       super(props);
@@ -19,10 +21,15 @@ const ProfileComponent = observer(
 
     save() {
       userStore.updateUser().then((response) => {
-        if (response.data.message = "User updated!"){
+        console.log(response);
+        if (response.status == '200'){
           updateSuccessMessage = true;
         }
       });
+    }
+
+    componentDidMount() {
+      userStore.getUserData(authStore.user.email);
     }
 
     setUser(user){
@@ -30,14 +37,16 @@ const ProfileComponent = observer(
     }
 
     render() {
-
       return (
           <div className="ui container center aligned">
-            <ProfileTabs history={this.props.history} /> <Button onClick={this.save}>Save</Button>
+            {(userStore.error) ? <Message negative
+              header="Error"
+              content={userStore.error}
+              /> : null}
+            <ProfileTabs history={this.props.history} />
+            <Button onClick={this.save}>Save</Button>
           </div>
       );
     }
   }
 );
-
-export default ProfileComponent;

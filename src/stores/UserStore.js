@@ -1,23 +1,46 @@
 import {
-  extendObservable
+  decorate,
+  action,
+  observable
 } from "mobx";
 import axios from "axios";
 import AppStore from "./AppStore";
 import moment from "moment";
 import authStore from "./AuthStore";
 
+/**
+ * User Store
+ */
 class UserStore {
-  constructor() {
-    extendObservable(this, {
-      user: [],
-      oldPassword: "",
-      newPassword: "",
-      newPassword2: "",
-      clients: [],
-      userList: []
-    });
+  user = {};
+  error = '';
+  oldPassword = '';
+  newPassword = '';
+  newPassword2 = '';
+  clients = [];
+  userList = [];
+
+  /**
+   * Set user field
+   * @param {string} field
+   * @param {mixed} value
+   */
+  setUserField(field, value) {
+    this.user[field] = value;
   }
 
+  /**
+   * Set error
+   * @param {string} error
+   */
+  setError(error) {
+    this.error = error;
+  }
+
+  /**
+   * Get user by mail or id
+   * @param {mixed} mail
+   */
   async getUserData(mail) {
     let url = "";
     let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -37,8 +60,7 @@ class UserStore {
           Authorization: "Bearer " + authStore.token
         }
       })
-      .then(
-        function (response) {
+      .then((response) => {
           let res;
 
           if (isMail) {
@@ -46,23 +68,22 @@ class UserStore {
           } else {
             res = response.data.data;
           }
-
+          console.log(res)
           this.user = res;
-          this.user.id = res._id; //CORREGIR Y QUITAR
           this.user.birthday = moment(res.birthday).format("YYYY-MM-DD") || "";
           this.user.visa = moment(res.visa).format("YYYY-MM-DD") || "";
           this.user.startWorkDate = moment(res.startWorkDate).format("YYYY-MM-DD") || "";
           this.clients = res.clients || [];
-        }.bind(this)
-      )
-      .catch(function (error) {
+        })
+      .catch(error => {
         console.log(error);
       });
   }
 
   async updateUser() {
+    this.setError('');
     return axios
-      .put(AppStore.URL + "/user/",  this.user, {
+      .put(AppStore.URL + '/users/' + this.user._id,  this.user, {
         headers: {
           Authorization: "Bearer " + authStore.token
         }
@@ -71,8 +92,12 @@ class UserStore {
           return response.data;
         }
       )
-      .catch(function (error) {
-        console.log(error);
+      .catch(error => {
+        this.setError('Error updating');
+        if (error.response && error.response.data) {
+          return error.response.data;
+        }
+        throw error;
       });
   }
 
@@ -92,8 +117,19 @@ class UserStore {
         console.log(error);
       });
   }
-
 }
+
+decorate(UserStore, {
+  user: observable,
+  error: observable,
+  oldPassword: observable,
+  newPassword: observable,
+  newPassword2: observable,
+  clients: observable,
+  userList: observable,
+  setUserField: action,
+  setError: action
+})
 
 let userStore = new UserStore();
 

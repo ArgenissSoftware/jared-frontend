@@ -29,8 +29,7 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
     authStore
       .login(url, data)
       .then(response => {
-        authStore.setUserAuth(response.data);
-        userStore.getUserData(userStore.user.email);
+        
         this
           .props
           .history

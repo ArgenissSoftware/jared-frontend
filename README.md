@@ -10,10 +10,6 @@ Jared is an ERP system for handling employees, customers other ERP features rela
 - [Deploy](#deploy)
 - [Select Endpoints URL](#select-endpoints-url)
 
-
-
-
-
 ## Installation Steps
 
 * [Install NodeJS](https://nodejs.org/es/)

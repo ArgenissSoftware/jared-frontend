@@ -29,7 +29,7 @@ const SuccessMessage = observer(
           />
         );
      }
-     return (<span></span>);
+     return null;
     }
   }
 );

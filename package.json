@@ -4,19 +4,19 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "mobx": "^3.5.1",
-    "mobx-react": "^4.4.2",
+    "mobx": "^5.1.1",
+    "mobx-react": "^5.2.8",
     "moment": "^2.22.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.5.1",
+    "react-dom": "^16.5.1",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.0",
+    "react-scripts": "1.1.5",
     "semantic-ui-css": "^2.2.14",
     "semantic-ui-react": "^0.78.1"
   },
   "scripts": {
-    "start": "set PORT=3001 && react-scripts start",
-    "dev": "set PORT=3001 && react-scripts start",
+    "start": "react-scripts start",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

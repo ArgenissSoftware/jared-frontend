@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import {observer} from "mobx-react";
 import logo from "../../images/logo1.png";
-import UserStore from "../../stores/UserStore";
 import {Dropdown, Menu, Icon} from "semantic-ui-react";
 import "./top-nav-bar.css";
 import authStore from "../../stores/AuthStore";
@@ -39,7 +38,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
         </Dropdown>
 
         <Menu.Menu position="right">
-          <Dropdown item text={"Welcome " + UserStore.user.username}>
+          <Dropdown item text={"Welcome " + authStore.user.username}>
             <Dropdown.Menu>
               <Dropdown.Item name="../home/profile" onClick={this.handleItemClick}>
                 <Icon name='user'/>
