@@ -29,7 +29,7 @@ export default observer(
     }
 
     componentDidMount() {
-      userStore.getUserData(authStore.user.email);
+      userStore.getUserData(authStore.user._id);
     }
 
     setUser(user){

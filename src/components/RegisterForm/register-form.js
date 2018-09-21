@@ -28,7 +28,7 @@ const RegisterForm = observer(
     async register() {
       if (signUpStore.password === signUpStore.repeatPassword) {
         await axios
-          .post(AppStore.URL + "/user", {
+          .post(AppStore.URL + "/users", {
             username: signUpStore.username,
             email: signUpStore.email,
             password: signUpStore.password

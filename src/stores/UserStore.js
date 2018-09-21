@@ -47,10 +47,10 @@ class UserStore {
     let isMail;
 
     if (re.test(mail)) {
-      url = AppStore.URL + "/user?email=" + mail;
+      url = AppStore.URL + "/users?email=" + mail;
       isMail = true;
     } else {
-      url = AppStore.URL + "/user/" + mail;
+      url = AppStore.URL + "/users/" + mail;
       isMail = false;
     }
 
@@ -68,7 +68,6 @@ class UserStore {
           } else {
             res = response.data.data;
           }
-          console.log(res)
           this.user = res;
           this.user.birthday = moment(res.birthday).format("YYYY-MM-DD") || "";
           this.user.visa = moment(res.visa).format("YYYY-MM-DD") || "";
