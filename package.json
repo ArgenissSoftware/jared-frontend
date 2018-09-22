@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "create-react-app": "^1.5.2",
     "mobx": "^5.1.1",
     "mobx-react": "^5.2.8",
     "moment": "^2.22.0",
@@ -15,7 +16,7 @@
     "semantic-ui-react": "^0.78.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

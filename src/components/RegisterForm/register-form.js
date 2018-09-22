@@ -33,7 +33,7 @@ const RegisterForm = observer(
             email: signUpStore.email,
             password: signUpStore.password
           })
-          .then(function(response) {
+          .then(function (response) {
             registerSuccessMessage = true;
 
             UserStore.username = signUpStore.username;
@@ -43,23 +43,24 @@ const RegisterForm = observer(
             signUpStore.navigate = true;
 
           })
-          .catch(function(error) {
-            console.log(error);
+          .catch(function (error) {
             errorText = "Please check your email and password";
             registerErrorMessage = true;
           });
       } else {
+        console.log("error");
         errorText = "Passwords do not match";
         registerErrorMessage = true;
       }
-      signUpStore.email = "";
-      signUpStore.password = "";
-      signUpStore.repeatPassword = "";
+
+      //signUpStore.email = "";
+      //signUpStore.password = "";
+      //signUpStore.repeatPassword = "";
 
     }
 
     render() {
-      if (signUpStore.navigate){
+      if (signUpStore.navigate) {
         return <Redirect to={{ pathname: "/home", state: { registerSuccessMessage: registerSuccessMessage } }} push={true} />;
       }
       return (
