@@ -52,7 +52,6 @@ const RegisterForm = observer(
         errorText = "Passwords do not match";
         registerErrorMessage = true;
       }
-
     }
 
     render() {
