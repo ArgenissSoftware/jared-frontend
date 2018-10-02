@@ -15,18 +15,16 @@ Jared is an ERP system for handling employees, customers other ERP features rela
 * [Install NodeJS](https://nodejs.org/es/)
 * Clone the Jared Front-End git repository
 * Move to jared-frontend folder
-* Run `npm install create-react-app`
-* Run `npm install`
+* Install dependecies:
+    * With npm: `npm install`
+    * Or with yarn: `yarn`
 
 
 # Development Mode
-* On Windows: In **package.json**, modify scripts start with `"start": "set PORT=3001 && react-scripts start"`
-* On Linux: In **package.json**, modify scripts start with `"start": "PORT=3001 react-scripts start"`
-* Run `npm start` on jared-frontend folder
-
+* Run `npm start` or `yarn start` on jared-frontend folder
 
 # Build
-Run `npm build` on jared-frontend folder
+Run `npm build` or `yarn build` on jared-frontend folder
 
 
 # Heroku Deployment
