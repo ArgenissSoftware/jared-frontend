@@ -45,6 +45,18 @@ class AuthStore {
     sessionStorage.setItem('user', JSON.stringify(data.user));
     this.user = data.user;
   }
+
+  isLoggedIn() {
+    console.log('logged ', (this.token && this.user) ? 'si':'no')
+    return this.token && this.user;
+  }
+
+  clearAuth() {
+    this.token = '';
+    this.user = null;
+    sessionStorage.removeItem('user_token');
+    sessionStorage.removeItem('user');
+  }
 }
 
 let authStore = new AuthStore();

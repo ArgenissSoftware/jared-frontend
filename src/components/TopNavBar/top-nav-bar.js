@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {observer} from "mobx-react";
+import { Redirect } from "react-router-dom";
 import logo from "../../images/logo1.png";
 import {Dropdown, Menu, Icon} from "semantic-ui-react";
 import "./top-nav-bar.css";
@@ -7,9 +8,22 @@ import authStore from "../../stores/AuthStore";
 
 const TopNavBar = observer(class TopNavBar extends Component {
 
+  /**
+   * Nav
+   */
   handleItemClick = (e, {name}) => this.props.history.push(name);
+  /**
+   * Logout and nav to /
+   */
+  logout = (e, {name}) => {
+    authStore.clearAuth();
+    this.props.history.push(name);
+  }
 
   render() {
+    if (!authStore.isLoggedIn()){
+      return <Redirect to={{ pathname: "/" }} push={false} />;
+    }
     return (
       <Menu size="huge">
         <Menu.Item name="../home" onClick={this.handleItemClick}>
@@ -48,7 +62,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
                 <Icon name='lock'/>
                 Change Password
               </Dropdown.Item>
-              <Dropdown.Item name="/" onClick={this.handleItemClick}>
+              <Dropdown.Item name="/" onClick={this.logout}>
                 <Icon name='sign out'/>
                 Logout
               </Dropdown.Item>
