@@ -191,12 +191,12 @@ const PersonalDataTab = observer(
             </Form.Group>
             <Form.Group>
               <Form.Input
-                name="children"
+                name="childrenCount"
                 label="Children"
                 placeholder="Children"
                 width={8}
-                value={userStore.user.children}
-                defaultValue={userStore.user.children}
+                value={userStore.user.childrenCount}
+                defaultValue={userStore.user.childrenCount}
                 onChange={this.handleChange}
               />
               <Form.Input
