@@ -21,15 +21,14 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
 
   logIn = () => {
     this.setState({haveError: false});
-    let url = "/login";
     let data = {
       email: signInStore.email,
       password: signInStore.password
     };
     authStore
-      .login(url, data)
+      .login(data)
       .then(response => {
-        
+
         this
           .props
           .history

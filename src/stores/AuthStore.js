@@ -24,9 +24,9 @@ class AuthStore {
     });
   }
 
-  login(url, data) {
+  login(data) {
     return axios
-      .post(AppStore.URL + url, data)
+      .post(AppStore.URL + '/auth/login', data)
       .then((response) => {
         signInStore.navigate = true;
         signInStore.clear();
@@ -35,6 +35,7 @@ class AuthStore {
       })
       .catch((error) => {
         console.log("error", error);
+        throw error;
       });
   }
 
