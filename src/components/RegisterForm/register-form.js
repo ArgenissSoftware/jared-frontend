@@ -18,6 +18,7 @@ const RegisterForm = observer(
       super(props);
       this.handleChange = this.handleChange.bind(this);
       signUpStore.navigate = false;
+      signUpStore.clear();
     }
 
     handleChange(e) {
@@ -52,10 +53,6 @@ const RegisterForm = observer(
         errorText = "Passwords do not match";
         registerErrorMessage = true;
       }
-      signUpStore.email = "";
-      signUpStore.password = "";
-      signUpStore.repeatPassword = "";
-
     }
 
     render() {
