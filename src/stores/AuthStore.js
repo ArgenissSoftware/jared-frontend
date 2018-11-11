@@ -9,14 +9,15 @@ import signInStore from "./SignInStore";
 class AuthStore {
 
   constructor() {
-    const token = sessionStorage.getItem('user_token');
+    const token = localStorage.getItem('user_token');
     let user;
 
     try {
-      user = JSON.parse(sessionStorage.getItem('user')) || [];
+      user = JSON.parse(localStorage.getItem('user')) || null;
     } catch(e) {
       user = null;
     }
+    console.log(user)
     extendObservable(this, {
       username: "",
       token: token || "",
@@ -41,8 +42,8 @@ class AuthStore {
 
   setUserAuth(data) {
     this.token = data.token;
-    sessionStorage.setItem('user_token', data.token);
-    sessionStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('user_token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
     this.user = data.user;
   }
 
@@ -54,8 +55,8 @@ class AuthStore {
   clearAuth() {
     this.token = '';
     this.user = null;
-    sessionStorage.removeItem('user_token');
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('user_token');
+    localStorage.removeItem('user');
   }
 }
 
