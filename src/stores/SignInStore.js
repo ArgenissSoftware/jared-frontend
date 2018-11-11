@@ -3,13 +3,13 @@ import { extendObservable } from "mobx";
 class SignInStore {
   constructor() {
     extendObservable(this, {
-      email: "",
+      username: "",
       password: ""
     });
   }
 
   clear(){
-    this.email = "";
+    this.username = "";
     this.password = "";
   }
 }

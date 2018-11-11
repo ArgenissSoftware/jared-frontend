@@ -3,7 +3,6 @@ import {Form} from "semantic-ui-react";
 import {observer} from "mobx-react";
 import signInStore from "../../stores/SignInStore";
 import logo from "../../images/logo1.png";
-import userStore from "../../stores/UserStore";
 import authStore from "../../stores/AuthStore";
 
 const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
@@ -22,7 +21,7 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
   logIn = () => {
     this.setState({haveError: false});
     let data = {
-      email: signInStore.email,
+      email: signInStore.username,
       password: signInStore.password
     };
     authStore
@@ -56,7 +55,7 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
                     className={this.state.haveError ? "error" : ""}
                     type="text"
                     placeholder="Email or username"
-                    name="email"
+                    name="username"
                     onChange={this.handleChange}/>
                   <Form.Input
                     className={this.state.haveError ? "error" : ""}
@@ -65,7 +64,7 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
                     name="password"
                     onChange={this.handleChange}/>
                   <Form.Button
-                    disabled={!(signInStore.email && signInStore.password)}
+                    disabled={!(signInStore.username && signInStore.password)}
                     content="Login"
                     onClick={this.logIn}/>
                 </Form.Group>
