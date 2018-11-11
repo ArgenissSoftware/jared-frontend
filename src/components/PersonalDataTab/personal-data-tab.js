@@ -39,8 +39,8 @@ const PersonalDataTab = observer(
       userStore.setUserField(e.target.name, e.target.value);
     }
 
-    setGithubUser = (user) => {
-      this.setState({ githubID: user });
+    setGithubUser = (e) => {
+      this.setState({ githubID: e.target.value });
     }
 
     setRelation(e, { value }) {
