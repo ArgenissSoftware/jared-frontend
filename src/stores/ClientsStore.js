@@ -12,7 +12,7 @@ class ClientsStore {
   }
 
   async getClientsList() {
-    await clientService.getClientsList()
+    await clientService.getList()
       .then(response => {
         this.clients = response.data.data;
       })
@@ -22,7 +22,7 @@ class ClientsStore {
   }
 
   async getClient(id) {
-    await clientService.getClient(id)
+    await clientService.get(id)
       .then(response => {
         this.client = response.data.data;
       })
@@ -32,9 +32,9 @@ class ClientsStore {
   }
 
   async addClient() {
-    if (ClientsStore.newClientsInput) {
-      await clientService.addClient(ClientsStore.newClientsInput)
-        .then(function (response) {
+    if (this.newClientsInput) {
+      await clientService.add({ name: this.newClientsInput })
+        .then(response => {
           this.getClientsList();
         })
         .catch(function (error) {

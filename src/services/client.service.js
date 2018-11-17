@@ -4,50 +4,36 @@ import authStore from "../stores/AuthStore";
 
 class ClientService {
 
-
-    getClientsList() {
-        return axios.get(AppStore.URL + "/clients", {
+    constructor() {
+        this.URL = AppStore.URL + "/clients/";
+        this.headers = {
             headers: {
-                Authorization: "Bearer " + authStore.token
+                "Authorization": "Bearer " + authStore.token,
+                "Content-Type": "application/json"
             }
-        })
+        }
     }
 
+    getList() {
+        return axios.get(this.URL, this.headers)
+    }
 
-    getClient(id) {
+    get(param) {
         return axios
-            .get(AppStore.URL + "/clients/" + id, {
-                headers: {
-                    Authorization: "Bearer " + authStore.token
-                }
-            })
+            .get(this.URL + param, this.headers)
     }
 
-
-    addClient(client) {
+    add(param) {
         return axios
-            .post(
-                AppStore.URL + "/clients/", client,
-                {
-                    headers: {
-                        Authorization: "Bearer " + authStore.token,
-                        "Content-Type": "application/json"
-                    }
-                }
-            )
+            .post(this.URL, param, this.headers)
     }
 
-    update(client) {
+    update(param) {
         return axios
-            .put(AppStore.URL + "/clients/" + client._id, client,
-                {
-                    headers: {
-                        Authorization: "Bearer " + authStore.token
-                    }
-                })
+            .put(this.URL + param._id, param, this.headers)
     }
+
 }
-
 
 const clientService = new ClientService();
 
