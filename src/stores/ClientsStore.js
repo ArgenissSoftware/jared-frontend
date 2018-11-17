@@ -1,7 +1,5 @@
 import { extendObservable } from "mobx";
-import axios from "axios";
-import AppStore from "../stores/AppStore";
-import authStore from "./AuthStore";
+import clientService from "../services/client.service";
 
 class ClientsStore {
   constructor() {
@@ -10,34 +8,50 @@ class ClientsStore {
       newClientsInput: "",
       client: {}
     });
+
   }
 
   async getClientsList() {
-    await axios
-      .get(AppStore.URL + "/clients", {
-        headers: {
-          Authorization: "Bearer " + authStore.token
-        }
-      })
+    await clientService.getClientsList()
       .then(response => {
         this.clients = response.data.data;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
 
   async getClient(id) {
-    await axios
-      .get(AppStore.URL + "/clients/" + id, {
-        headers: {
-          Authorization: "Bearer " + authStore.token
-        }
-      })
+    await clientService.getClient(id)
       .then(response => {
         this.client = response.data.data;
       })
-      .catch(function(error) {
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  async addClient() {
+    if (ClientsStore.newClientsInput) {
+      await clientService.addClient(ClientsStore.newClientsInput)
+        .then(function (response) {
+          this.getClientsList();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    ClientsStore.newClientsInput = "";
+  }
+
+  async update() {
+    await clientService.update(this.client)
+      .then(
+        function (response) {
+          //confirmation semantic modal
+        }
+      )
+      .catch(function (error) {
         console.log(error);
       });
   }
