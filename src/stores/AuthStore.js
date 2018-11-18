@@ -1,6 +1,5 @@
 import { extendObservable } from "mobx";
-import axios from "axios";
-import AppStore from "./AppStore";
+import AuthService from "../services/auth.service"
 import signInStore from "./SignInStore";
 
 /**
@@ -14,7 +13,7 @@ class AuthStore {
 
     try {
       user = JSON.parse(sessionStorage.getItem('user')) || [];
-    } catch(e) {
+    } catch (e) {
       user = null;
     }
     extendObservable(this, {
@@ -24,15 +23,13 @@ class AuthStore {
     });
   }
 
-  login(data) {
-    return axios
-      .post(AppStore.URL + '/auth/login', data)
-      .then((response) => {
-        signInStore.navigate = true;
-        signInStore.clear();
-        this.setUserAuth(response.data.data);
-        return response.data;
-      })
+  async login(data) {
+    return AuthService.login(data).then((response) => {
+      signInStore.navigate = true;
+      signInStore.clear();
+      this.setUserAuth(response.data.data);
+      return response.data;
+    })
       .catch((error) => {
         console.log("error", error);
         throw error;
@@ -47,7 +44,7 @@ class AuthStore {
   }
 
   isLoggedIn() {
-    console.log('logged ', (this.token && this.user) ? 'si':'no')
+    console.log('logged ', (this.token && this.user) ? 'si' : 'no')
     return this.token && this.user;
   }
 
