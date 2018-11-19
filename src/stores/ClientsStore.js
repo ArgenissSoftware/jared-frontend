@@ -1,5 +1,5 @@
 import { extendObservable } from "mobx";
-import clientService from "../services/client.service";
+import clientsService from "../services/clients.service";
 
 class ClientsStore {
   constructor() {
@@ -12,32 +12,32 @@ class ClientsStore {
   }
 
   async getClientsList() {
-    await clientService.getList()
+    await clientsService.getList()
       .then(response => {
         this.clients = response.data.data;
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
   }
 
   async getClient(id) {
-    await clientService.get(id)
+    await clientsService.get(id)
       .then(response => {
         this.client = response.data.data;
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
   }
 
   async addClient() {
     if (this.newClientsInput) {
-      await clientService.add({ name: this.newClientsInput })
+      await clientsService.add({ name: this.newClientsInput })
         .then(response => {
           this.getClientsList();
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         });
     }
@@ -45,13 +45,8 @@ class ClientsStore {
   }
 
   async update() {
-    await clientService.update(this.client)
-      .then(
-        function (response) {
-          //confirmation semantic modal
-        }
-      )
-      .catch(function (error) {
+    await clientsService.update(this.client)
+      .catch((error) => {
         console.log(error);
       });
   }

@@ -4,7 +4,7 @@ import {
   observable
 } from "mobx";
 import moment from "moment";
-import UserService from "../services/user.service"
+import UsersService from "../services/users.service"
 
 /**
  * User Store
@@ -37,10 +37,26 @@ class UserStore {
 
   /**
    * Get user by mail or id
+   * @param {mixed} param
+   */
+  async addUser(param) {
+    await UsersService.add(param)
+      .then(response => {
+        this.user = response.data.user;
+        this.parseData();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+
+  /**
+   * Get user by mail or id
    * @param {mixed} mail
    */
   async getUserData(mail) {
-    await UserService.getByEmail(mail)
+    await UsersService.getByEmail(mail)
       .then((response) => {
         this.user = response.data.data;
         this.parseData();
@@ -51,7 +67,7 @@ class UserStore {
   }
 
   async getUserById(param) {
-    await UserService.get(param)
+    await UsersService.get(param)
       .then((response) => {
         this.user = response.data.data;
         this.parseData();
@@ -63,7 +79,7 @@ class UserStore {
 
   async updateUser() {
     this.setError('');
-    return UserService.update(this.user)
+    return UsersService.update(this.user)
       .then((response) => {
         return response.data;
       })
@@ -73,12 +89,27 @@ class UserStore {
   }
 
   async getUsersList() {
-    return UserService.getList()
+    return UsersService.getList()
       .then((response) => {
         this.userList = response.data.data;
         return response.data;
       }
       ).catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  async getGitHubUser(githubID) {
+    UsersService.getGitHubUser(githubID).then(res => {
+      let name = res.data.name.split(" ")[0];
+      let surname = res.data.name.split(" ")[1];
+      //this.setState({ loading: false, error: false, name: name, surname: surname });
+      this.user.name = name;
+      this.user.surname = surname;
+      this.user.githubID = githubID;
+    })
+      .catch(error => {
+        this.setState({ loading: false, error: true });
         console.log(error);
       });
   }

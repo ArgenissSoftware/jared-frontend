@@ -2,10 +2,10 @@ import axios from "axios";
 import AppStore from "../stores/AppStore";
 import authStore from "../stores/AuthStore";
 
-class UserService {
+class ClientsService {
 
     constructor() {
-        this.URL = AppStore.URL + "/users/";
+        this.URL = AppStore.URL + "/clients/";
         this.headers = {
             headers: {
                 "Authorization": "Bearer " + authStore.token,
@@ -33,13 +33,8 @@ class UserService {
             .put(this.URL + param._id, param, this.headers)
     }
 
-    getByEmail(param) {
-        return axios
-            .get(this.URL + "?email=" + param, this.headers)
-    }
-
 }
 
-const userService = new UserService();
+const clientsService = new ClientsService();
 
-export default userService;
+export default clientsService;

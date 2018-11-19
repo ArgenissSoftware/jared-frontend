@@ -1,9 +1,8 @@
-import React, {Component} from "react";
-import {Form} from "semantic-ui-react";
-import {observer} from "mobx-react";
+import React, { Component } from "react";
+import { Form } from "semantic-ui-react";
+import { observer } from "mobx-react";
 import signInStore from "../../stores/SignInStore";
 import logo from "../../images/logo1.png";
-import userStore from "../../stores/UserStore";
 import authStore from "../../stores/AuthStore";
 
 const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
@@ -16,11 +15,11 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
 
   handleChange = (e) => {
     signInStore[e.target.name] = e.target.value;
-    this.setState({haveError: false});
+    this.setState({ haveError: false });
   }
 
   logIn = () => {
-    this.setState({haveError: false});
+    this.setState({ haveError: false });
     let data = {
       email: signInStore.email,
       password: signInStore.password
@@ -28,14 +27,13 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
     authStore
       .login(data)
       .then(response => {
-
         this
           .props
           .history
           .push("/home");
       })
       .catch(err => {
-        this.setState({haveError: true});
+        this.setState({ haveError: true });
       });
   }
 
@@ -44,7 +42,7 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
       <div>
         <div className="ui menu">
           <div className="header small item">
-            <img src={logo} alt=""/>
+            <img src={logo} alt="" />
             Jared
           </div>
 
@@ -57,17 +55,17 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
                     type="text"
                     placeholder="Email or username"
                     name="email"
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChange} />
                   <Form.Input
                     className={this.state.haveError ? "error" : ""}
                     type="password"
                     placeholder="password"
                     name="password"
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChange} />
                   <Form.Button
                     disabled={!(signInStore.email && signInStore.password)}
                     content="Login"
-                    onClick={this.logIn}/>
+                    onClick={this.logIn} />
                 </Form.Group>
               </Form>
             </div>

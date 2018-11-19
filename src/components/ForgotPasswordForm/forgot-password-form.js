@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { Form, Segment, Container, Grid } from "semantic-ui-react";
 import "./forgot-password-form.css";
 import { observer } from "mobx-react";
-import axios from 'axios';
-import AppStore from "../../stores/AppStore";
+import ProfileService from "../../services/profile.service"
 
 let fpErrorMessage = false;
 let errorText1 = "";
@@ -29,13 +28,10 @@ const ForgotPasswordForm = observer(
       fpErrorMessage = false;
       fpSuccessMessage = false;
       //check email validity using regex
-      var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      var regex = /^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       //true means email field has the form string - (optionally a dot and a string) - 'at' symbol - dot - string.
       if (regex.test(email) === true) {
-        await axios
-          .post(AppStore.URL + "/users/forgot_password", {
-            email: email
-          })
+        await ProfileService.forgotPassword(email)
           .then(function (response) {
             successText1 = "An email has been sent to " + email;
             fpSuccessMessage = true;
