@@ -18,11 +18,14 @@ const PersonalDataTab = observer(
 
     searchOnGithub = () => {
       this.setState({ loading: true });
-      usersStore.getGitHubUser(this.state.githubID).then(() => {
-        this.setState({ loading: false, error: false });
-      }
+      usersStore.getGitHubUser(this.state.githubID).
+        then(() => this.setState({ loading: false, error: false }))
+        .catch(error => {
+          console.log(error);
+          this.setState({ loading: false, error: true });
+        }
 
-      )
+        )
 
     };
 
@@ -32,7 +35,7 @@ const PersonalDataTab = observer(
     }
 
     setGithubUser = (user) => {
-      this.setState({ githubID: user });
+      this.setState({ githubID: user.target.value });
     }
 
     setRelation(e, { value }) {

@@ -1,11 +1,14 @@
 import axios from "axios";
-import AppStore from "../stores/AppStore";
+import BaseService from "./base.service";
 
-class AuthService {
+class AuthService extends BaseService {
 
     constructor() {
-        this.URL = AppStore.URL + "/auth/login";
-        this.headers = {
+        super("/auth/");
+    }
+
+    getHeaders() {
+        return {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -13,7 +16,7 @@ class AuthService {
     }
 
     login(param) {
-        return axios.post(this.URL, param, this.headers)
+        return axios.post(this.URL + "login", param, this.getHeaders())
     }
 
 }

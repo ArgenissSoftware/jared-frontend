@@ -1,24 +1,17 @@
 import axios from "axios";
-import AppStore from "../stores/AppStore";
-import authStore from "../stores/AuthStore";
+import BaseService from "./base.service";
 
-class ProfileService {
+class ProfileService extends BaseService {
 
     constructor() {
-        this.URL = AppStore.URL + "/users/";
-        this.headers = {
-            headers: {
-                "Authorization": "Bearer " + authStore.token,
-                "Content-Type": "application/json"
-            }
-        }
+        super("/me/");
     }
 
     forgotPasword(params) {
         return axios
             .post(this.URL + "forgot_password", {
                 email: params
-            })
+            });
     }
 
 }

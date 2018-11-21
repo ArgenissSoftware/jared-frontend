@@ -36,13 +36,13 @@ class UserStore {
   }
 
   /**
-   * Get user by mail or id
-   * @param {mixed} param
+   * add user
+   * @param {object} param
    */
-  async addUser(param) {
+  async add(param) {
     await UsersService.add(param)
       .then(response => {
-        this.user = response.data.user;
+        this.user = response.data.data.user;
         this.parseData();
       })
       .catch(function (error) {
@@ -52,8 +52,8 @@ class UserStore {
 
 
   /**
-   * Get user by mail or id
-   * @param {mixed} mail
+   * Get user by mail 
+   * @param {string} mail
    */
   async getUserData(mail) {
     await UsersService.getByEmail(mail)
@@ -66,6 +66,10 @@ class UserStore {
       });
   }
 
+  /**
+   * Get user by id 
+   * @param {mixed} mail
+   */
   async getUserById(param) {
     await UsersService.get(param)
       .then((response) => {
@@ -77,6 +81,9 @@ class UserStore {
       });
   }
 
+  /**
+   * Update user  
+   */
   async updateUser() {
     this.setError('');
     return UsersService.update(this.user)
@@ -88,6 +95,9 @@ class UserStore {
       });
   }
 
+  /**
+   * get all users  
+   */
   async getUsersList() {
     return UsersService.getList()
       .then((response) => {
@@ -99,26 +109,28 @@ class UserStore {
       });
   }
 
+  /**
+   * get user from github  
+   */
   async getGitHubUser(githubID) {
-    UsersService.getGitHubUser(githubID).then(res => {
-      let name = res.data.name.split(" ")[0];
-      let surname = res.data.name.split(" ")[1];
-      //this.setState({ loading: false, error: false, name: name, surname: surname });
-      this.user.name = name;
-      this.user.surname = surname;
+    return UsersService.getGitHubUser(githubID).then(res => {
+      let completeName = res.data.name
+      if (completeName) {
+        let name = completeName.split(" ")[0];
+        let surname = completeName.split(" ")[1];
+        this.user.name = name;
+        this.user.surname = surname;
+      }
       this.user.githubID = githubID;
     })
-      .catch(error => {
-        this.setState({ loading: false, error: true });
-        console.log(error);
-      });
+
   }
 
   parseData() {
-    this.user.birthday = moment(this.user.birthday).format("YYYY-MM-DD") || "";
-    this.user.visa = moment(this.user.visa).format("YYYY-MM-DD") || "";
-    this.user.startWorkDate = moment(this.user.startWorkDate).format("YYYY-MM-DD") || "";
-    this.clients = this.user.clients || [];
+    this.user.birthday = this.user.birthday ? moment(this.user.birthday).format("YYYY-MM-DD") : "";
+    this.user.visa = this.user.visa ? moment(this.user.visa).format("YYYY-MM-DD") : "";
+    this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).format("YYYY-MM-DD") : "";
+    this.clients = this.user.clients ? this.user.clients : [];
   }
 
 }
