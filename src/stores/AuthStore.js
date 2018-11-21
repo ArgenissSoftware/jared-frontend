@@ -10,7 +10,6 @@ class AuthStore {
   constructor() {
     const token = sessionStorage.getItem('user_token');
     let user;
-
     try {
       user = JSON.parse(sessionStorage.getItem('user')) || [];
     } catch (e) {
@@ -24,16 +23,11 @@ class AuthStore {
   }
 
   async login(data) {
-    return AuthService.login(data).then((response) => {
-      signInStore.navigate = true;
-      signInStore.clear();
-      this.setUserAuth(response.data.data);
-      return response.data;
-    })
-      .catch((error) => {
-        console.log("error", error);
-        throw error;
-      });
+    const response = await AuthService.login(data)
+    signInStore.navigate = true;
+    signInStore.clear();
+    this.setUserAuth(response.data.data);
+    return response.data;
   }
 
   setUserAuth(data) {

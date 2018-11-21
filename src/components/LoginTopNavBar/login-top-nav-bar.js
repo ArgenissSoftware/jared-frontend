@@ -26,11 +26,8 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
     };
     authStore
       .login(data)
-      .then(response => {
-        this
-          .props
-          .history
-          .push("/home");
+      .then(() => {
+        this.props.history.push("/home");
       })
       .catch(err => {
         this.setState({ haveError: true });

@@ -7,6 +7,7 @@ class BaseService {
         this.URL = AppStore.URL + url;
     }
 
+    /** use to add headers to request */
     getHeaders() {
         return {
             headers: {

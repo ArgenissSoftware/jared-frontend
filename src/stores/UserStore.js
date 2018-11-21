@@ -40,14 +40,10 @@ class UserStore {
    * @param {object} param
    */
   async add(param) {
-    await UsersService.add(param)
-      .then(response => {
-        this.user = response.data.data.user;
-        this.parseData();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const response = await UsersService.add(param)
+    this.user = response.data.data.user;
+    this.parseData();
+
   }
 
 
@@ -56,14 +52,9 @@ class UserStore {
    * @param {string} mail
    */
   async getUserData(mail) {
-    await UsersService.getByEmail(mail)
-      .then((response) => {
-        this.user = response.data.data;
-        this.parseData();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const response = await UsersService.getByEmail(mail);
+    this.user = response.data.data;
+    this.parseData();
   }
 
   /**
@@ -71,14 +62,9 @@ class UserStore {
    * @param {mixed} mail
    */
   async getUserById(param) {
-    await UsersService.get(param)
-      .then((response) => {
-        this.user = response.data.data;
-        this.parseData();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const response = await UsersService.get(param);
+    this.user = response.data.data;
+    this.parseData();
   }
 
   /**
@@ -86,13 +72,10 @@ class UserStore {
    */
   async updateUser() {
     this.setError('');
-    return UsersService.update(this.user)
-      .then((response) => {
-        return response.data;
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    await UsersService.update(this.user)
+
+
+
   }
 
   /**

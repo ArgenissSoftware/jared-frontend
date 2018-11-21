@@ -7,6 +7,7 @@ class ProfileService extends BaseService {
         super("/me/");
     }
 
+    /** request for forgetting the password */
     forgotPasword(params) {
         return axios
             .post(this.URL + "forgot_password", {

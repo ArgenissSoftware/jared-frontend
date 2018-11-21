@@ -7,6 +7,7 @@ class AuthService extends BaseService {
         super("/auth/");
     }
 
+    /** overrride -  use to add headers to request  */
     getHeaders() {
         return {
             headers: {
@@ -15,6 +16,9 @@ class AuthService extends BaseService {
         }
     }
 
+    /** login  
+     * @param {object} param
+     * */
     login(param) {
         return axios.post(this.URL + "login", param, this.getHeaders())
     }

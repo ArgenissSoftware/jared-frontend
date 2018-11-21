@@ -12,43 +12,37 @@ class ClientsStore {
   }
 
   async getClientsList() {
-    await clientsService.getList()
-      .then(response => {
-        this.clients = response.data.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const response = await clientsService.getList();
+      this.clients = response.data.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async getClient(id) {
-    await clientsService.get(id)
-      .then(response => {
-        this.client = response.data.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const response = await clientsService.get(id);
+      this.client = response.data.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async addClient() {
-    if (this.newClientsInput) {
-      await clientsService.add({ name: this.newClientsInput })
-        .then(response => {
-          this.getClientsList();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    try {
+      if (this.newClientsInput) {
+        await clientsService.add({ name: this.newClientsInput });
+        this.getClientsList();
+      }
+      ClientsStore.newClientsInput = "";
+    } catch (err) {
+      console.error(err);
     }
-    ClientsStore.newClientsInput = "";
   }
 
   async update() {
-    await clientsService.update(this.client)
-      .catch((error) => {
-        console.log(error);
-      });
+    await clientsService.update(this.client);
   }
 }
 
