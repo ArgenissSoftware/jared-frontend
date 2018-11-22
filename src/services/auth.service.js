@@ -4,7 +4,7 @@ import BaseService from "./base.service";
 class AuthService extends BaseService {
 
     constructor() {
-        super("/auth/");
+        super("/auth");
     }
 
     /** overrride -  use to add headers to request  */
@@ -20,7 +20,7 @@ class AuthService extends BaseService {
      * @param {object} param
      * */
     login(param) {
-        return axios.post(this.URL + "login", param, this.getHeaders())
+        return axios.post(this.URL + "/login", param, this.getHeaders())
     }
 
 }

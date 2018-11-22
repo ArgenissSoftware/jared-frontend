@@ -11,19 +11,19 @@ class CrudService extends BaseService {
         return axios.get(this.URL, this.getHeaders())
     }
     /** request for a record by Id */
-    get(param) {
+    get(id) {
         return axios
-            .get(this.URL + param, this.getHeaders())
+            .get(this.URL + "/" + id, this.getHeaders())
     }
     /** request for save a new record */
-    add(param) {
+    add(obj) {
         return axios
-            .post(this.URL, param, this.getHeaders())
+            .post(this.URL, obj, this.getHeaders())
     }
     /** reques for update a record */
-    update(param) {
+    update(obj) {
         return axios
-            .put(this.URL + param._id, param, this.getHeaders())
+            .put(this.URL + "/" + obj._id, obj, this.getHeaders())
     }
 
 

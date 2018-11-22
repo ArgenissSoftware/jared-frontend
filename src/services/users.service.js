@@ -4,7 +4,7 @@ import CrudService from "./crud.services";
 class UsersService extends CrudService {
 
     constructor() {
-        super("/users/");
+        super("/users");
     }
 
     /** request user by email
@@ -12,7 +12,7 @@ class UsersService extends CrudService {
     */
     getByEmail(param) {
         return axios
-            .get(this.URL + "?email=" + param, this.getHeaders());
+            .get(this.URL + "/email/" + param, this.getHeaders());
     }
 
     /** github user  request
@@ -23,10 +23,10 @@ class UsersService extends CrudService {
             .get("https://api.github.com/users/" + githubID);
     }
 
-    /** request for save a new record */
-    add(param) {
+    /** request for register a new record */
+    add(obj) {
         return axios
-            .post(this.URL, param, { headers: { "Content-Type": "application/json" } });
+            .post(this.URL, obj, { headers: { "Content-Type": "application/json" } });
     }
 
 }

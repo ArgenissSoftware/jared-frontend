@@ -4,14 +4,14 @@ import BaseService from "./base.service";
 class ProfileService extends BaseService {
 
     constructor() {
-        super("/me/");
+        super("/me");
     }
 
     /** request for forgetting the password */
-    forgotPasword(params) {
+    forgotPasword(mail) {
         return axios
-            .post(this.URL + "forgot_password", {
-                email: params
+            .post(this.URL + "/forgot_password", {
+                email: mail
             });
     }
 
