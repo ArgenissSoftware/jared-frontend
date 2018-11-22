@@ -10,6 +10,13 @@ class SignUpStore {
       navigate: false
     });
   }
+
+  clear() {
+    this.email = "";
+    this.username = "";
+    this.password = "";
+    this.repeatPassword = "";
+  }
 }
 
 let signUpStore = new SignUpStore();

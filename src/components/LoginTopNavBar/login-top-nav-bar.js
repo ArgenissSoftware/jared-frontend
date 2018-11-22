@@ -21,7 +21,7 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
   logIn = () => {
     this.setState({ haveError: false });
     let data = {
-      email: signInStore.email,
+      email: signInStore.username,
       password: signInStore.password
     };
     authStore
@@ -51,8 +51,8 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
                     className={this.state.haveError ? "error" : ""}
                     type="text"
                     placeholder="Email or username"
-                    name="email"
-                    onChange={this.handleChange} />
+                    name="username"
+                    onChange={this.handleChange}/>
                   <Form.Input
                     className={this.state.haveError ? "error" : ""}
                     type="password"
@@ -60,7 +60,7 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
                     name="password"
                     onChange={this.handleChange} />
                   <Form.Button
-                    disabled={!(signInStore.email && signInStore.password)}
+                    disabled={!(signInStore.username && signInStore.password)}
                     content="Login"
                     onClick={this.logIn} />
                 </Form.Group>
