@@ -1,7 +1,5 @@
 import { extendObservable } from "mobx";
-import axios from "axios";
-import AppStore from "../stores/AppStore";
-import authStore from "./AuthStore";
+import clientsService from "../services/clients.service";
 
 class ClientsStore {
   constructor() {
@@ -10,36 +8,41 @@ class ClientsStore {
       newClientsInput: "",
       client: {}
     });
+
   }
 
   async getClientsList() {
-    await axios
-      .get(AppStore.URL + "/clients", {
-        headers: {
-          Authorization: "Bearer " + authStore.token
-        }
-      })
-      .then(response => {
-        this.clients = response.data.data;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    try {
+      const response = await clientsService.getList();
+      this.clients = response.data.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async getClient(id) {
-    await axios
-      .get(AppStore.URL + "/clients/" + id, {
-        headers: {
-          Authorization: "Bearer " + authStore.token
-        }
-      })
-      .then(response => {
-        this.client = response.data.data;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    try {
+      const response = await clientsService.get(id);
+      this.client = response.data.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async addClient() {
+    try {
+      if (this.newClientsInput) {
+        await clientsService.add({ name: this.newClientsInput });
+        this.getClientsList();
+      }
+      ClientsStore.newClientsInput = "";
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async update() {
+    await clientsService.update(this.client);
   }
 }
 
