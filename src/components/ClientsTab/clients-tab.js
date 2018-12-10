@@ -3,9 +3,7 @@ import { observer } from "mobx-react";
 import "./clients-tab.css";
 import { List, Dropdown, Button } from "semantic-ui-react";
 import ClientsStore from "../../stores/ClientsStore";
-import axios from "axios";
 import UserStore from "../../stores/UserStore";
-import AppStore from "../../stores/AppStore";
 
 let selectedClientID;
 
@@ -38,7 +36,7 @@ const ClientsTab = observer(
       );
     }
 
-    addClient() {}
+    addClient() { }
 
     render() {
       const options = ClientsStore.clients.map(({ _id, name }) => ({

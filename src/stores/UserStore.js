@@ -3,10 +3,8 @@ import {
   action,
   observable
 } from "mobx";
-import axios from "axios";
-import AppStore from "./AppStore";
 import moment from "moment";
-import authStore from "./AuthStore";
+import UsersService from "../services/users.service"
 
 /**
  * User Store
@@ -38,84 +36,86 @@ class UserStore {
   }
 
   /**
-   * Get user by mail or id
-   * @param {mixed} mail
+   * add user
+   * @param {object} param
+   */
+  async add(param) {
+    const response = await UsersService.add(param)
+    this.user = response.data.data.user;
+    this.parseData();
+
+  }
+
+
+  /**
+   * Get user by mail 
+   * @param {string} mail
    */
   async getUserData(mail) {
-    let url = "";
-    let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let isMail;
-
-    if (re.test(mail)) {
-      url = AppStore.URL + "/users?email=" + mail;
-      isMail = true;
-    } else {
-      url = AppStore.URL + "/users/" + mail;
-      isMail = false;
-    }
-
-    await axios
-      .get(url, {
-        headers: {
-          Authorization: "Bearer " + authStore.token
-        }
-      })
-      .then((response) => {
-          let res;
-
-          if (isMail) {
-            res = response.data.data[0];
-          } else {
-            res = response.data.data;
-          }
-          this.user = res;
-          this.user.birthday = moment(res.birthday).format("YYYY-MM-DD") || "";
-          this.user.visa = moment(res.visa).format("YYYY-MM-DD") || "";
-          this.user.startWorkDate = moment(res.startWorkDate).format("YYYY-MM-DD") || "";
-          this.clients = res.clients || [];
-        })
-      .catch(error => {
-        console.log(error);
-      });
+    const response = await UsersService.getByEmail(mail);
+    this.user = response.data.data;
+    this.parseData();
   }
 
+  /**
+   * Get user by id 
+   * @param {mixed} mail
+   */
+  async getUserById(param) {
+    const response = await UsersService.get(param);
+    this.user = response.data.data;
+    this.parseData();
+  }
+
+  /**
+   * Update user  
+   */
   async updateUser() {
     this.setError('');
-    return axios
-      .put(AppStore.URL + '/users/' + this.user._id,  this.user, {
-        headers: {
-          Authorization: "Bearer " + authStore.token
-        }
-      })
-      .then((response) => {
-          return response.data;
-        }
-      )
-      .catch(error => {
-        this.setError('Error updating');
-        if (error.response && error.response.data) {
-          return error.response.data;
-        }
-        throw error;
-      });
+    await UsersService.update(this.user)
+
+
+
   }
 
+  /**
+   * get all users  
+   */
   async getUsersList() {
-    return axios
-      .get(AppStore.URL + "/users", {
-        headers: {
-          Authorization: "Bearer " + authStore.token
-        }
-      })
+    return UsersService.getList()
       .then((response) => {
         this.userList = response.data.data;
         return response.data;
-        }
-      )
-      .catch(function (error) {
+      }
+      ).catch(function (error) {
         console.log(error);
       });
   }
+
+  /**
+   * get user from github  
+   */
+  async getGitHubUser(githubID) {
+    return UsersService.getGitHubUser(githubID).then(res => {
+      let completeName = res.data.name
+      if (completeName) {
+        let name = completeName.split(" ")[0];
+        let surname = completeName.split(" ")[1];
+        this.user.name = name;
+        this.user.surname = surname;
+      }
+      this.user.githubID = githubID;
+    })
+
+  }
+
+  parseData() {
+    this.user.birthday = this.user.birthday ? moment(this.user.birthday).format("YYYY-MM-DD") : "";
+    this.user.visa = this.user.visa ? moment(this.user.visa).format("YYYY-MM-DD") : "";
+    this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).format("YYYY-MM-DD") : "";
+    this.clients = this.user.clients ? this.user.clients : [];
+  }
+
 }
 
 decorate(UserStore, {
