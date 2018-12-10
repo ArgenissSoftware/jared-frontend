@@ -7,6 +7,7 @@ import axios from "axios";
 import AppStore from "./AppStore";
 import moment from "moment";
 import authStore from "./AuthStore";
+import { getOne, updateOne, getList } from "../services/BaseService";
 
 /**
  * User Store
@@ -60,6 +61,7 @@ class UserStore {
           Authorization: "Bearer " + authStore.token
         }
       })
+    // await getOne(url)
       .then((response) => {
           let res;
 
@@ -87,6 +89,7 @@ class UserStore {
           Authorization: "Bearer " + authStore.token
         }
       })
+    // return updateOne('/users/' + this.user._id,  this.user)
       .then((response) => {
           return response.data;
         }
@@ -107,6 +110,7 @@ class UserStore {
           Authorization: "Bearer " + authStore.token
         }
       })
+    // return getList("/users")
       .then((response) => {
         this.userList = response.data.data;
         return response.data;

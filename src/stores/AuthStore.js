@@ -2,6 +2,7 @@ import { extendObservable } from "mobx";
 import axios from "axios";
 import AppStore from "./AppStore";
 import signInStore from "./SignInStore";
+import { postOne } from "../services/BaseService";
 
 /**
  * Auth Store
@@ -26,8 +27,10 @@ class AuthStore {
   }
 
   login(data) {
+    console.log("Metodo login()")
     return axios
       .post(AppStore.URL + '/auth/login', data)
+    // return postOne('/auth/login', data)
       .then((response) => {
         signInStore.navigate = true;
         signInStore.clear();

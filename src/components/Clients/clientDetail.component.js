@@ -13,6 +13,7 @@ import axios from "axios";
 import ClientsStore from "../../stores/ClientsStore";
 import AppStore from "../../stores/AppStore";
 import authStore from "../../stores/AuthStore";
+import { postOneAuth } from "../../services/BaseService";
 
 
 const ClientDetailComponent = observer(
@@ -26,15 +27,19 @@ const ClientDetailComponent = observer(
     }
 
     async save() {
-      await axios
-        .put(AppStore.URL + "/clients/" + ClientsStore.client._id, {
-          name: ClientsStore.client.name,
-          id: ClientsStore.client.id
-        }, {
-          headers: {
-            Authorization: "Bearer " + authStore.token
-          }
-        })
+      // await axios
+      //   .put(AppStore.URL + "/clients/" + ClientsStore.client._id, {
+      //     name: ClientsStore.client.name,
+      //     id: ClientsStore.client.id
+      //   }, {
+      //     headers: {
+      //       Authorization: "Bearer " + authStore.token
+      //     }
+      //   })
+      await postOneAuth("/clients/" + ClientsStore.client._id, {
+             name: ClientsStore.client.name,
+             id: ClientsStore.client.id
+            })
         .then(
           function(response) {
             //confirmation semantic modal

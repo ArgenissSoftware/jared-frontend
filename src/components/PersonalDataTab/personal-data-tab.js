@@ -4,6 +4,7 @@ import "./personal-data-tab.css";
 import { observer } from "mobx-react";
 import userStore from "../../stores/UserStore";
 import axios from "axios";
+import { getOne } from "../../services/BaseService";
 
 const PersonalDataTab = observer(
   class PersonalDataTab extends Component {
@@ -19,7 +20,8 @@ const PersonalDataTab = observer(
 
     searchOnGithub = () => {
       this.setState({ loading: true });
-      axios.get("https://api.github.com/users/" + this.state.githubID)
+      // axios.get("https://api.github.com/users/" + this.state.githubID)
+      getOne("https://api.github.com/users/" + this.state.githubID)
            .then(res => {
               let name = res.data.name.split(" ")[0];
               let surname = res.data.name.split(" ")[1];

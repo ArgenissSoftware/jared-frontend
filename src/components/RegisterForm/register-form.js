@@ -6,6 +6,7 @@ import AppStore from "../../stores/AppStore";
 import "./register-form.css";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
+import { postOne } from "../../services/BaseService";
 
 
 let registerErrorMessage = false;
@@ -28,12 +29,17 @@ const RegisterForm = observer(
 
     async register() {
       if (signUpStore.password === signUpStore.repeatPassword) {
-        await axios
-          .post(AppStore.URL + "/users", {
-            username: signUpStore.username,
-            email: signUpStore.email,
-            password: signUpStore.password
-          })
+        // await axios
+        //   .post(AppStore.URL + "/users", {
+        //     username: signUpStore.username,
+        //     email: signUpStore.email,
+        //     password: signUpStore.password
+        //   })
+        await postOne("/users", {
+                username: signUpStore.username,
+                email: signUpStore.email,
+                password: signUpStore.password
+              })
           .then(function(response) {
             registerSuccessMessage = true;
 

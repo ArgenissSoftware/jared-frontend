@@ -2,6 +2,7 @@ import { extendObservable } from "mobx";
 import axios from "axios";
 import AppStore from "../stores/AppStore";
 import authStore from "./AuthStore";
+import { getOne, getList } from "../services/BaseService";
 
 class ClientsStore {
   constructor() {
@@ -19,6 +20,7 @@ class ClientsStore {
           Authorization: "Bearer " + authStore.token
         }
       })
+    // await getList('/clients')
       .then(response => {
         this.clients = response.data.data;
       })
@@ -34,6 +36,7 @@ class ClientsStore {
           Authorization: "Bearer " + authStore.token
         }
       })
+    // getOne("/clients/" + id)
       .then(response => {
         this.client = response.data.data;
       })

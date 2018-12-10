@@ -5,6 +5,7 @@ import axios from "axios";
 import ClientsStore from "../../stores/ClientsStore";
 import AppStore from "../../stores/AppStore";
 import authStore from "../../stores/AuthStore";
+import { postOne, postOneAuth } from "../../services/BaseService";
 
 const ClientListComponent = observer(
   class ClientListComponent extends Component {
@@ -28,20 +29,23 @@ const ClientListComponent = observer(
 
     async addClient() {
       if (ClientsStore.newClientsInput) {
-        await axios
-          .post(
-            AppStore.URL + "/clients/",
-            {
-              name: ClientsStore.newClientsInput
-            },
-            {
-              headers: {
-                Authorization: "Bearer " + authStore.token,
-                "Content-Type": "application/json"
+        // await axios
+        //   .post(
+        //     AppStore.URL + "/clients/",
+        //     {
+        //       name: ClientsStore.newClientsInput
+        //     },
+        //     {
+        //       headers: {
+        //         Authorization: "Bearer " + authStore.token,
+        //         "Content-Type": "application/json"
                 
-              }
-            }
-          )
+        //       }
+        //     }
+        //   )
+        await postOneAuth("/clients/", {
+                name: ClientsStore.newClientsInput
+              })
           .then(function(response) {
             ClientsStore.getClientsList();
           })
