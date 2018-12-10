@@ -7,7 +7,7 @@ import signUpStore from "../../stores/SignUpStore";
 import userStore from "../../stores/UserStore";
 import authStore from "../../stores/AuthStore";
 
-let updateSuccessMessage = false;
+
 
 export default observer(
   class ProfileComponent extends Component {
@@ -20,32 +20,27 @@ export default observer(
     }
 
     save() {
-      userStore.updateUser().then((response) => {
-        console.log(response);
-        if (response.status == '200'){
-          updateSuccessMessage = true;
-        }
-      });
+      userStore.updateUser();
     }
 
     componentDidMount() {
-      userStore.getUserData(authStore.user._id);
+      userStore.getUserById(authStore.user._id);
     }
 
-    setUser(user){
+    setUser(user) {
       this.user = user;
     }
 
     render() {
       return (
-          <div className="ui container center aligned">
-            {(userStore.error) ? <Message negative
-              header="Error"
-              content={userStore.error}
-              /> : null}
-            <ProfileTabs history={this.props.history} />
-            <Button onClick={this.save}>Save</Button>
-          </div>
+        <div className="ui container center aligned">
+          {(userStore.error) ? <Message negative
+            header="Error"
+            content={userStore.error}
+          /> : null}
+          <ProfileTabs history={this.props.history} />
+          <Button onClick={this.save}>Save</Button>
+        </div>
       );
     }
   }

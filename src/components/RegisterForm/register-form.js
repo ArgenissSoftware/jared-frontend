@@ -2,11 +2,8 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import signUpStore from "../../stores/SignUpStore";
 import UserStore from "../../stores/UserStore";
-import AppStore from "../../stores/AppStore";
 import "./register-form.css";
-import axios from "axios";
 import { Redirect } from "react-router-dom";
-import { postOne } from "../../services/BaseService";
 
 
 let registerErrorMessage = false;
@@ -29,28 +26,16 @@ const RegisterForm = observer(
 
     async register() {
       if (signUpStore.password === signUpStore.repeatPassword) {
-        // await axios
-        //   .post(AppStore.URL + "/users", {
-        //     username: signUpStore.username,
-        //     email: signUpStore.email,
-        //     password: signUpStore.password
-        //   })
-        await postOne("/users", {
-                username: signUpStore.username,
-                email: signUpStore.email,
-                password: signUpStore.password
-              })
-          .then(function(response) {
+        await UserStore.add({
+          username: signUpStore.username,
+          email: signUpStore.email,
+          password: signUpStore.password
+        })
+          .then(() => {
             registerSuccessMessage = true;
-
-            UserStore.username = signUpStore.username;
-            UserStore.email = signUpStore.email;
-
-            UserStore.getUserData(UserStore.email);
             signUpStore.navigate = true;
-
           })
-          .catch(function(error) {
+          .catch((error) => {
             console.log(error);
             errorText = "Please check your email and password";
             registerErrorMessage = true;
@@ -62,7 +47,7 @@ const RegisterForm = observer(
     }
 
     render() {
-      if (signUpStore.navigate){
+      if (signUpStore.navigate) {
         return <Redirect to={{ pathname: "/home", state: { registerSuccessMessage: registerSuccessMessage } }} push={true} />;
       }
       return (

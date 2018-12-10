@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { Button, Input, List, Header, Divider } from "semantic-ui-react";
-import axios from "axios";
 import ClientsStore from "../../stores/ClientsStore";
-import AppStore from "../../stores/AppStore";
-import authStore from "../../stores/AuthStore";
-import { postOne, postOneAuth } from "../../services/BaseService";
 
 const ClientListComponent = observer(
   class ClientListComponent extends Component {
@@ -27,33 +23,8 @@ const ClientListComponent = observer(
       );
     }
 
-    async addClient() {
-      if (ClientsStore.newClientsInput) {
-        // await axios
-        //   .post(
-        //     AppStore.URL + "/clients/",
-        //     {
-        //       name: ClientsStore.newClientsInput
-        //     },
-        //     {
-        //       headers: {
-        //         Authorization: "Bearer " + authStore.token,
-        //         "Content-Type": "application/json"
-                
-        //       }
-        //     }
-        //   )
-        await postOneAuth("/clients/", {
-                name: ClientsStore.newClientsInput
-              })
-          .then(function(response) {
-            ClientsStore.getClientsList();
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      }
-      ClientsStore.newClientsInput = "";
+    addClient() {
+      ClientsStore.addClient();
     }
 
     handleMessage(e) {
@@ -62,21 +33,21 @@ const ClientListComponent = observer(
 
     render() {
       return (
-          <div className="ui container aligned">
-           <Header as="h3" icon="user" content="CLIENTS LIST" />
-            <Divider />
-            <Input
-              onChange={this.handleMessage.bind(this)}
-              action={<Button onClick={() => this.addClient()}>ADD</Button>}
-              placeholder="Add a new client..."
-              value={ClientsStore.newClientsInput}
-            />
-            <List divided relaxed>
-              {ClientsStore.clients.map(client =>
-                this.getRenderedClientsList(client.name)
-              )}
-            </List>
-          </div>
+        <div className="ui container aligned">
+          <Header as="h3" icon="user" content="CLIENTS LIST" />
+          <Divider />
+          <Input
+            onChange={this.handleMessage.bind(this)}
+            action={<Button onClick={() => this.addClient()}>ADD</Button>}
+            placeholder="Add a new client..."
+            value={ClientsStore.newClientsInput}
+          />
+          <List divided relaxed>
+            {ClientsStore.clients.map(client =>
+              this.getRenderedClientsList(client.name)
+            )}
+          </List>
+        </div>
 
       );
     }
