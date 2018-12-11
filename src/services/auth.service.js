@@ -1,4 +1,5 @@
 import BaseService from "./base.service";
+import api from "./api.service";
 
 class AuthService extends BaseService {
 
@@ -19,7 +20,7 @@ class AuthService extends BaseService {
      * @param {object} param
      * */
     login(param) {
-        return this.postOne("/login", param, this.getHeaders())
+        return api.post(this.URL + "/login", param, this.getHeaders())
     }
 
 }

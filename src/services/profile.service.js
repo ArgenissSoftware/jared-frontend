@@ -1,3 +1,4 @@
+import api from "./api.service"
 import BaseService from "./base.service";
 
 class ProfileService extends BaseService {
@@ -8,7 +9,10 @@ class ProfileService extends BaseService {
 
     /** request for forgetting the password */
     forgotPasword(mail) {
-        return this.postOne("/forgot_password", {email: mail});
+        return api
+            .post(this.URL + "/forgot_password", {
+                email: mail
+            });
     }
 
 }

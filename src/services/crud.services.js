@@ -1,4 +1,5 @@
 import BaseService from "./base.service";
+import api from "./api.service"
 
 class CrudService extends BaseService {
 
@@ -7,19 +8,22 @@ class CrudService extends BaseService {
     }
     /** request for all records */
     getList() {
-        return this.getAll(this.getHeaders())
+        return api.get(this.URL, this.getHeaders())
     }
     /** request for a record by Id */
     get(id) {
-        return this.getOne(id, this.getHeaders())
+        return api
+            .get(this.URL + "/" + id, this.getHeaders())
     }
     /** request for save a new record */
     add(obj) {
-        return this.postOne("", obj, this.getHeaders())
+        return api
+            .post(this.URL, obj, this.getHeaders())
     }
     /** reques for update a record */
     update(obj) {
-        return this.updateOne(obj._id, obj, this.getHeaders())
+        return api
+            .put(this.URL + "/" + obj._id, obj, this.getHeaders())
     }
 
 
