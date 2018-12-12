@@ -1,6 +1,3 @@
-import axios from "axios";
-import AppStore from "../stores/AppStore";
-import authStore from "../stores/AuthStore";
 import CrudService from "./crud.services";
 
 class ClientsService extends CrudService {
