@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import signUpStore from "../../stores/SignUpStore";
 import UserStore from "../../stores/UserStore";
+import authStore from "../../stores/AuthStore";
 import "./register-form.css";
 import { Redirect } from "react-router-dom";
 
@@ -33,10 +34,22 @@ const RegisterForm = observer(
         })
           .then(() => {
             registerSuccessMessage = true;
-            signUpStore.navigate = true;
+            // once registered, log in
+            const data = {
+                email: signUpStore.username,
+                password: signUpStore.password
+            };
+            authStore
+              .login(data)
+              .then(() => {
+                  signUpStore.navigate = true;
+              })
           })
           .catch((error) => {
-            console.log(error);
+            const err =  (Array.isArray(error.response.data.errors)) ?
+                            error.response.data.errors[0].message :
+                            error.response.data.errors.message;
+            console.log(err);
             errorText = "Please check your email and password";
             registerErrorMessage = true;
           });
