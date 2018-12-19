@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "./api.service"
 import BaseService from "./base.service";
 
 class ProfileService extends BaseService {
@@ -9,7 +9,7 @@ class ProfileService extends BaseService {
 
     /** request for forgetting the password */
     forgotPasword(mail) {
-        return axios
+        return api
             .post(this.URL + "/forgot_password", {
                 email: mail
             });

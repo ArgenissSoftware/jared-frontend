@@ -1,5 +1,5 @@
-import axios from "axios";
 import BaseService from "./base.service";
+import api from "./api.service"
 
 class CrudService extends BaseService {
 
@@ -8,22 +8,22 @@ class CrudService extends BaseService {
     }
     /** request for all records */
     getList() {
-        return axios.get(this.URL, this.getHeaders())
+        return api.get(this.URL)
     }
     /** request for a record by Id */
     get(id) {
-        return axios
-            .get(this.URL + "/" + id, this.getHeaders())
+        return api
+            .get(this.URL + "/" + id)
     }
     /** request for save a new record */
     add(obj) {
-        return axios
-            .post(this.URL, obj, this.getHeaders())
+        return api
+            .post(this.URL, obj)
     }
     /** reques for update a record */
     update(obj) {
-        return axios
-            .put(this.URL + "/" + obj._id, obj, this.getHeaders())
+        return api
+            .put(this.URL + "/" + obj._id, obj)
     }
 
 
