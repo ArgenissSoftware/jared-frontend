@@ -40,10 +40,10 @@ class UserStore {
    * @param {object} param
    */
   async add(param) {
-    const response = await UsersService.add(param)
+    const response = await UsersService.add(param);
     this.user = response.data.data.user;
     this.parseData();
-
+    return response;
   }
 
 
