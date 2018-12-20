@@ -4,10 +4,10 @@ import signUpStore from "../../stores/SignUpStore";
 import UserStore from "../../stores/UserStore";
 import "./register-form.css";
 import { Redirect } from "react-router-dom";
+import ErrorMessage from "../ErrorMessage/error-message";
+import errorStore from "../../stores/ErrorStore"
 
-
-let registerErrorMessage = false;
-let errorText;
+let registerErrorMessage= false;
 let registerSuccessMessage = false;
 
 const RegisterForm = observer(
@@ -17,13 +17,13 @@ const RegisterForm = observer(
       this.handleChange = this.handleChange.bind(this);
       signUpStore.navigate = false;
       signUpStore.clear();
+      errorStore.clear();
     }
-
+    
     handleChange(e) {
       signUpStore[e.target.name] = e.target.value;
-      registerErrorMessage = false;
     }
-
+    
     async register() {
       if (signUpStore.password === signUpStore.repeatPassword) {
         await UserStore.add({
@@ -31,21 +31,19 @@ const RegisterForm = observer(
           email: signUpStore.email,
           password: signUpStore.password
         })
-          .then(() => {
-            registerSuccessMessage = true;
-            signUpStore.navigate = true;
-          })
-          .catch((error) => {
-            console.log(error);
-            errorText = "Please check your email and password";
-            registerErrorMessage = true;
-          });
+        .then(() => {
+          registerSuccessMessage = true;
+          signUpStore.navigate = true;
+        })
+        .catch((error) => {
+          errorStore.message = error.response.request.responseText;
+        });
       } else {
-        errorText = "Passwords do not match";
-        registerErrorMessage = true;
+        errorStore.message = JSON.stringify( {"errors":[{"message":"\"Password\" Password do not match"}]})
       }
     }
-
+    
+    
     render() {
       if (signUpStore.navigate) {
         return <Redirect to={{ pathname: "/home", state: { registerSuccessMessage: registerSuccessMessage } }} push={true} />;
@@ -123,11 +121,8 @@ const RegisterForm = observer(
                   </div>
                 </div>
               </form>
-              {registerErrorMessage ? (
-                <div className="ui error message">
-                  <div className="header">Registration failed!</div>
-                  <p>{errorText}</p>
-                </div>
+              { errorStore.message ? (
+                <ErrorMessage message = { errorStore.message } />
               ) : null}
               <div className="ui message">
                 Forgot your password?{" "}
@@ -144,3 +139,4 @@ const RegisterForm = observer(
 );
 
 export default RegisterForm;
+      
