@@ -10,14 +10,13 @@ import {
   Header
 } from "semantic-ui-react";
 import ClientsStore from "../../stores/ClientsStore";
-import errorStore from "../../stores/ErrorStore";
 import ErrorMessage from "../ErrorMessage/error-message";
 
 const ClientDetailComponent = observer(
   class ClientDetailComponent extends Component {
     constructor(props) {
       super(props);
-      errorStore.clear();
+      this.state= { errorText: ""};
     }
 
     handleChange(e) {
@@ -26,11 +25,12 @@ const ClientDetailComponent = observer(
     toggle = () => ClientsStore.client.active = !ClientsStore.client.active;
 
 
-    async save(path) {
+    save = async (path) => {
       ClientsStore.update().then(() => {
+        this.setState({ errorText: ""});
         this.props.history.push(path);
       }).catch((error) => {
-        errorStore.message = error.response.request.responseText;
+        this.setState({ errorText: error.response.request.responseText});
       });
     }
 
@@ -107,8 +107,8 @@ const ClientDetailComponent = observer(
               <Button onClick={() => this.save("/home/profile")}>Save</Button>
             </div>
           </Container>
-          { errorStore.message ? (
-                <ErrorMessage message = { errorStore.message } />
+          { this.state.errorText ? (
+                <ErrorMessage message = { this.state.errorText } />
               ) : null}
         </div>
       );
