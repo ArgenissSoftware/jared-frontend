@@ -15,21 +15,36 @@ const ClientDetailComponent = observer(
   class ClientDetailComponent extends Component {
     constructor(props) {
       super(props);
+      let title;
+      this.setTitle();
     }
 
     handleChange(e) {
       ClientsStore.client[e.target.name] = e.target.value;
     }
 
+    setTitle(){
+      let url = (window.location.href).split("/");
+      if(url[url.length -1] == 'new'){ 
+        this.title = "NEW CLIENT";       
+      }else{
+        this.title = "CLIENT DETAILS";       
+      }
+    }
 
-    async save() {
-      ClientsStore.update();
+    save = async () => {
+      if(this.title == "NEW CLIENT"){
+        ClientsStore.addClient();
+      }else{
+        ClientsStore.update();
+      }
+      this.props.history.push('/home/clients');
     }
 
     render() {
       return (
         <div className="ui container aligned">
-          <Header as="h3" icon="user" content="CLIENT DETAIL" />
+          <Header as="h3" icon="user" content={this.title} />
           <Divider />
           <Container>
             <Grid>
