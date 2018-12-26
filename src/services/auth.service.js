@@ -7,20 +7,11 @@ class AuthService extends BaseService {
         super("/auth");
     }
 
-    /** overrride -  use to add headers to request  */
-    getHeaders() {
-        return {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-    }
-
     /** login  
      * @param {object} param
      * */
     login(param) {
-        return api.post(this.URL + "/login", param, this.getHeaders())
+        return api.post(this.URL + "/login", param)
     }
 
 }

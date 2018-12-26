@@ -8,22 +8,22 @@ class CrudService extends BaseService {
     }
     /** request for all records */
     getList() {
-        return api.get(this.URL, this.getHeaders())
+        return api.get(this.URL)
     }
     /** request for a record by Id */
     get(id) {
         return api
-            .get(this.URL + "/" + id, this.getHeaders())
+            .get(this.URL + "/" + id)
     }
     /** request for save a new record */
     add(obj) {
         return api
-            .post(this.URL, obj, this.getHeaders())
+            .post(this.URL, obj)
     }
     /** reques for update a record */
     update(obj) {
         return api
-            .put(this.URL + "/" + obj._id, obj, this.getHeaders())
+            .put(this.URL + "/" + obj._id, obj)
     }
 
 
