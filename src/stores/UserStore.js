@@ -11,7 +11,6 @@ import UsersService from "../services/users.service"
  */
 class UserStore {
   user = {};
-  userLogged = {};
   error = '';
   oldPassword = '';
   newPassword = '';
@@ -43,14 +42,7 @@ class UserStore {
   async add(param) {
     const response = await UsersService.add(param);
     this.user = response.data.data.user;
-    this.parseData(this.user);
-    return response;
-  }
-
-  setUserLogged(param){
-    const response = await UsersService.add(param);
-    this.userLogged = response.data.data.user;
-    this.parseData(userLogged);
+    this.parseData();
     return response;
   }
 
@@ -62,7 +54,7 @@ class UserStore {
   async getUserData(mail) {
     const response = await UsersService.getByEmail(mail);
     this.user = response.data.data;
-    this.parseData(this.user);
+    this.parseData();
   }
 
   /**
@@ -72,7 +64,7 @@ class UserStore {
   async getUserById(param) {
     const response = await UsersService.get(param);
     this.user = response.data.data;
-    this.parseData(this.user);
+    this.parseData();
   }
 
   /**
@@ -117,10 +109,10 @@ class UserStore {
 
   }
 
-  parseData(user) {
-    user.birthday = this.user.birthday ? moment(this.user.birthday).format("YYYY-MM-DD") : "";
-    user.visa = this.user.visa ? moment(this.user.visa).format("YYYY-MM-DD") : "";
-    user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).format("YYYY-MM-DD") : "";
+  parseData() {
+    this.user.birthday = this.user.birthday ? moment(this.user.birthday).format("YYYY-MM-DD") : "";
+    this.user.visa = this.user.visa ? moment(this.user.visa).format("YYYY-MM-DD") : "";
+    this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).format("YYYY-MM-DD") : "";
     this.clients = this.user.clients ? this.user.clients : [];
   }
 

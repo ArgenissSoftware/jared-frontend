@@ -3,6 +3,7 @@ import { Form, Header, Input, Divider, Dimmer, Loader } from "semantic-ui-react"
 import "./personal-data-tab.css";
 import { observer } from "mobx-react";
 import usersStore from "../../stores/UserStore";
+import authStore from "../../stores/AuthStore";
 
 const PersonalDataTab = observer(
   class PersonalDataTab extends Component {
@@ -14,7 +15,7 @@ const PersonalDataTab = observer(
         error: false,
         githubID: "",
       };
-    }
+      usersStore.getUserById(authStore.user.id);    }
 
     searchOnGithub = () => {
       this.setState({ loading: true });
@@ -39,7 +40,7 @@ const PersonalDataTab = observer(
     }
 
     setRelation(e, { value }) {
-      usersStore.userLogged.relation = value;
+      usersStore.user.relation = value;
     }
 
     getRelationTypes() {
@@ -84,8 +85,8 @@ const PersonalDataTab = observer(
                 label="First name"
                 placeholder="First name"
                 width={8}
-                value={usersStore.userLogged.name}
-                defaultValue={usersStore.userLogged.name}
+                value={usersStore.user.name}
+                defaultValue={usersStore.user.name}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -93,8 +94,8 @@ const PersonalDataTab = observer(
                 label="Last name"
                 placeholder="Last name"
                 width={8}
-                value={usersStore.userLogged.surname}
-                defaultValue={usersStore.userLogged.surname}
+                value={usersStore.user.surname}
+                defaultValue={usersStore.user.surname}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -104,8 +105,8 @@ const PersonalDataTab = observer(
                 label="Date of birth"
                 placeholder="Date of birth"
                 width={8}
-                value={usersStore.userLogged.birthday}
-                defaultValue={usersStore.userLogged.birthday}
+                value={usersStore.user.birthday}
+                defaultValue={usersStore.user.birthday}
                 onChange={this.handleChange}
                 type="date"
               />
@@ -114,8 +115,8 @@ const PersonalDataTab = observer(
                 label="CUIL"
                 placeholder="CUIL"
                 width={8}
-                value={usersStore.userLogged.cuil}
-                defaultValue={usersStore.userLogged.cuil}
+                value={usersStore.user.cuil}
+                defaultValue={usersStore.user.cuil}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -125,8 +126,8 @@ const PersonalDataTab = observer(
                 label="Passport"
                 placeholder="Passport"
                 width={8}
-                value={usersStore.userLogged.passport}
-                defaultValue={usersStore.userLogged.passport}
+                value={usersStore.user.passport}
+                defaultValue={usersStore.user.passport}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -134,8 +135,8 @@ const PersonalDataTab = observer(
                 label="US VISA"
                 placeholder="US VISA"
                 width={8}
-                value={usersStore.userLogged.visa}
-                defaultValue={usersStore.userLogged.visa}
+                value={usersStore.user.visa}
+                defaultValue={usersStore.user.visa}
                 onChange={this.handleChange}
                 type="date"
               />
@@ -146,8 +147,8 @@ const PersonalDataTab = observer(
                 label="Start date"
                 placeholder="Start date"
                 width={8}
-                value={usersStore.userLogged.startWorkDate}
-                defaultValue={usersStore.userLogged.startWorkDate}
+                value={usersStore.user.startWorkDate}
+                defaultValue={usersStore.user.startWorkDate}
                 onChange={this.handleChange}
                 type="date"
               />
@@ -160,8 +161,8 @@ const PersonalDataTab = observer(
                 fluid
                 selection
                 options={this.getRelationTypes()}
-                value={usersStore.userLogged.relation}
-                defaultValue={usersStore.userLogged.relation}
+                value={usersStore.user.relation}
+                defaultValue={usersStore.user.relation}
               />
             </Form.Group>
             <Form.Group>
@@ -170,8 +171,8 @@ const PersonalDataTab = observer(
                 label="Career"
                 placeholder="Career"
                 width={8}
-                value={usersStore.userLogged.career}
-                defaultValue={usersStore.userLogged.career}
+                value={usersStore.user.career}
+                defaultValue={usersStore.user.career}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -179,8 +180,8 @@ const PersonalDataTab = observer(
                 label="Career status"
                 placeholder="Career status"
                 width={8}
-                value={usersStore.userLogged.status}
-                defaultValue={usersStore.userLogged.status}
+                value={usersStore.user.status}
+                defaultValue={usersStore.user.status}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -190,8 +191,8 @@ const PersonalDataTab = observer(
                 label="Children"
                 placeholder="Children"
                 width={8}
-                value={usersStore.userLogged.childrenCount}
-                defaultValue={usersStore.userLogged.childrenCount}
+                value={usersStore.user.childrenCount}
+                defaultValue={usersStore.user.childrenCount}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -199,8 +200,8 @@ const PersonalDataTab = observer(
                 label="Alarm Code"
                 placeholder="Alarm Code"
                 width={8}
-                value={usersStore.userLogged.alarmCode}
-                defaultValue={usersStore.userLogged.alarmCode}
+                value={usersStore.user.alarmCode}
+                defaultValue={usersStore.user.alarmCode}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -210,8 +211,8 @@ const PersonalDataTab = observer(
                 label="Username"
                 placeholder="Username"
                 width={8}
-                value={usersStore.userLogged.username}
-                defaultValue={usersStore.userLogged.username}
+                value={usersStore.user.username}
+                defaultValue={usersStore.user.username}
                 onChange={this.handleChange}
               />
             </Form.Group>
