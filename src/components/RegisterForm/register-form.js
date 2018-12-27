@@ -4,6 +4,7 @@ import signUpStore from "../../stores/SignUpStore";
 import authStore from "../../stores/AuthStore";
 import "./register-form.css";
 import { Redirect } from "react-router-dom";
+import userStore from "../../stores/UserStore";
 
 
 let registerErrorMessage = false;
@@ -35,6 +36,7 @@ const RegisterForm = observer(
             registerSuccessMessage = true;
             // once registered, set authStore credentials
             authStore.setUserAuth(response.data.data);
+            userStore.setUserLogged(response.data.data)
             signUpStore.navigate = true;
           })
           .catch((error) => {
