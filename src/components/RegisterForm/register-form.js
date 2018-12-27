@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import signUpStore from "../../stores/SignUpStore";
-import UserStore from "../../stores/UserStore";
-import authStore from "../../stores/AuthStore";
 import "./register-form.css";
 import { Redirect } from "react-router-dom";
+import authStore from "../../stores/AuthStore";
 
 
 let registerErrorMessage = false;
@@ -27,24 +26,32 @@ const RegisterForm = observer(
 
     async register() {
       if (signUpStore.password === signUpStore.repeatPassword) {
-        await UserStore.add({
+        await authStore.register({
           username: signUpStore.username,
           email: signUpStore.email,
           password: signUpStore.password
         })
           .then((response) => {
+            console.log("en el then");
+            console.log(response);
+            
+            
             registerSuccessMessage = true;
             // once registered, set authStore credentials
             authStore.setUserAuth(response.data.data);
             signUpStore.navigate = true;
           })
           .catch((error) => {
-            const err =  (Array.isArray(error.response.data.errors)) ?
-                error.response.data.errors[0].message :
-                error.response.data.errors.message;
-            console.log(err);
-            errorText = "Please check your email and password";
-            registerErrorMessage = true;
+            console.log("Tiro error");
+            console.log(error);
+            
+            
+            // const err =  (Array.isArray(error.response.data.errors)) ?
+            //     error.response.data.errors[0].message :
+            //     error.response.data.errors.message;
+            // console.log(err);
+            // errorText = "Please check your email and password";
+            // registerErrorMessage = true;
           });
       } else {
         errorText = "Passwords do not match";

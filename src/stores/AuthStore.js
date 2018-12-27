@@ -31,6 +31,11 @@ class AuthStore {
     return response.data;
   }
 
+  async register(data){    
+    const response = await AuthService.register(data)
+    return response;
+  }
+
   setUserAuth(data) {
     this.token = data.token;
     localStorage.setItem('user_token', data.token);
