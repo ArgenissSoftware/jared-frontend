@@ -32,26 +32,18 @@ const RegisterForm = observer(
           password: signUpStore.password
         })
           .then((response) => {
-            console.log("en el then");
-            console.log(response);
-            
-            
             registerSuccessMessage = true;
             // once registered, set authStore credentials
             authStore.setUserAuth(response.data.data);
             signUpStore.navigate = true;
           })
           .catch((error) => {
-            console.log("Tiro error");
-            console.log(error);
-            
-            
-            // const err =  (Array.isArray(error.response.data.errors)) ?
-            //     error.response.data.errors[0].message :
-            //     error.response.data.errors.message;
-            // console.log(err);
-            // errorText = "Please check your email and password";
-            // registerErrorMessage = true;
+            const err =  (Array.isArray(error.response.data.errors)) ?
+                error.response.data.errors[0].message :
+                error.response.data.errors.message;
+            console.log(err);
+            errorText = "Please check your email and password";
+            registerErrorMessage = true;
           });
       } else {
         errorText = "Passwords do not match";
