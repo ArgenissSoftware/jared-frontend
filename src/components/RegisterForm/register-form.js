@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import signUpStore from "../../stores/SignUpStore";
+import authStore from "../../stores/AuthStore";
 import "./register-form.css";
 import { Redirect } from "react-router-dom";
-import authStore from "../../stores/AuthStore";
 
 
 let registerErrorMessage = false;
