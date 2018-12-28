@@ -15,7 +15,7 @@ const PersonalDataTab = observer(
         error: false,
         githubID: "",
       };
-      usersStore.getUserById(authStore.user.id);    }
+    }
 
     searchOnGithub = () => {
       this.setState({ loading: true });
