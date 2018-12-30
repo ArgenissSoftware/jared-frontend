@@ -35,7 +35,7 @@ const ClientDetailComponent = observer(
       }
     }
 
-    save = async () => {
+    save = async (path) => {
       if(this.title == "NEW CLIENT"){
         ClientsStore.addClient().then(() => {
           this.setState({ errorText: "" });
