@@ -3,7 +3,6 @@ import { Button, Message } from "semantic-ui-react";
 import { observer } from "mobx-react";
 
 import UserProfileTabs from "../../components/UserTabs/user-profile-tabs";
-import signUpStore from "../../stores/SignUpStore";
 import userStore from "../../stores/UserStore";
 
 export default observer(
@@ -14,7 +13,7 @@ export default observer(
     }
 
     handleChange(e) {
-      signUpStore[e.target.name] = e.target.value;
+      userStore.user[e.target.name] = e.target.value;
     }
 
     save() {
@@ -33,7 +32,11 @@ export default observer(
     }
 
     componentDidMount(){
-      userStore.getUserById(userStore.user._id)
+      if(this.state.newClient){
+        userStore.getUserById(userStore.user._id);
+      }else{
+        userStore.add({ newUser: {} });
+      }
     }
 
     render() {
