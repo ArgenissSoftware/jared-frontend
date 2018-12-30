@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { List, Header, Divider } from "semantic-ui-react";
+import { List, Header, Divider, Button } from "semantic-ui-react";
 import UserStore from "../../stores/UserStore";
 
 const UserListComponent = observer(
@@ -22,11 +22,16 @@ const UserListComponent = observer(
       );
     }
 
+    addClient = () => {
+    this.props.history.push('/home/users/new');
+    }
+
 
     render() {
         return (
         <div className="ui container aligned">
             <Header as="h3" icon="user" content="USERS LIST" />
+            <Button onClick={this.addClient}>New Client</Button>
             <Divider />
             <List divided relaxed verticalAlign='middle'>
                 {UserStore.userList.map(user =>

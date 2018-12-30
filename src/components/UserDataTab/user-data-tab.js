@@ -6,8 +6,7 @@ import usersStore from "../../stores/UserStore";
 
 const UserDataTab = observer(
   class PersonalDataTab extends Component {
-
-    constructor() {
+    constructor(){
       super();
       this.state = {
         loading: false,
@@ -17,21 +16,19 @@ const UserDataTab = observer(
     }
 
     searchOnGithub = () => {
-      this.setState({ loading: true });
-      usersStore.getGitHubUser(this.state.githubID).
-        then(() => this.setState({ loading: false, error: false }))
+      this.setState({loading: true});
+      usersStore.getGitHubUser(this.state.githubID)
+        .then(() => this.setState({ loading: false, error: false}))
         .catch(error => {
           console.log(error);
-          this.setState({ loading: false, error: true });
+          this.setState({ loading: false, error: true});
         }
-
         )
-
-    };
+    }
 
     handleChange = (e) => {
-      this.setState({ error: false });
-      usersStore.setUserField(e.target.name, e.target.value);
+      this.setState({ error: false});
+      usersStore.setUserField(e.target.name, e.terget.value);
     }
 
     setGithubUser = (e) => {
@@ -64,20 +61,20 @@ const UserDataTab = observer(
             <Loader inverted>Loading</Loader>
           </Dimmer>
 
-          <Header as='h3'>
-            Update your profile by searching you in GitHub
+          <Header as="h3">
+            Update the profile by searching him in GitHub
           </Header>
           <Input
             name="github"
             label="https://github.com/"
             placeholder="GitHub ID"
-            action={{ color: 'teal', icon: "search", onClick: this.searchOnGithub }}
+            action={{ color: 'teal', icon: "search", onclick: this.searchOnGithub }}
             width={8}
             onChange={this.setGithubUser}
             error={this.state.error} />
-          <Divider />
+            <Divider/>
 
-          <Form>
+            <Form>
             <Form.Group>
               <Form.Input
                 name="name"
@@ -212,6 +209,15 @@ const UserDataTab = observer(
                 width={8}
                 value={usersStore.user.username}
                 defaultValue={usersStore.user.username}
+                onChange={this.handleChange}
+              />
+              <Form.Input
+                name="password"
+                label="Password"
+                placeholder="Password"
+                width={8}
+                value={usersStore.user.password}
+                defaultValue={""}
                 onChange={this.handleChange}
               />
             </Form.Group>
