@@ -12,7 +12,19 @@ const UserDataTab = observer(
         loading: false,
         error: false,
         githubID: "",
+        newClient: false,
       };
+    }
+
+    componentDidMount(){
+      this.isNew();
+    }
+
+    isNew(){
+      let url = (window.location.href).split("/");
+      if(url[url.length -1] == 'new'){ 
+        this.setState({ newClient: true });
+      }
     }
 
     searchOnGithub = () => {
@@ -28,7 +40,7 @@ const UserDataTab = observer(
 
     handleChange = (e) => {
       this.setState({ error: false});
-      usersStore.setUserField(e.target.name, e.terget.value);
+      usersStore.user[e.target.name] = e.target.value;
     }
 
     setGithubUser = (e) => {
@@ -47,7 +59,7 @@ const UserDataTab = observer(
         },
         {
           text: "freelancer",
-          value: "freelancer"
+          value: "freelance"
         }
       ];
       return typesOptions;
@@ -211,6 +223,7 @@ const UserDataTab = observer(
                 defaultValue={usersStore.user.username}
                 onChange={this.handleChange}
               />
+              { this.state.newClient ? 
               <Form.Input
                 name="password"
                 label="Password"
@@ -220,6 +233,7 @@ const UserDataTab = observer(
                 defaultValue={""}
                 onChange={this.handleChange}
               />
+              : null }
             </Form.Group>
           </Form>
         </div>

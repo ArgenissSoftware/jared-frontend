@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { List, Header, Divider, Button } from "semantic-ui-react";
 import UserStore from "../../stores/UserStore";
+import userStore from "../../stores/UserStore";
 
 const UserListComponent = observer(
   class UserListComponent extends Component {
@@ -10,11 +11,11 @@ const UserListComponent = observer(
       UserStore.getUsersList();
     }
 
-    getRenderedUserList(name, email) {
+    getRenderedUserList(name, email, id) {
       return (
         <List.Item key={name}>
           <List.Icon name="user" size="large" verticalAlign="middle" />
-          <List.Content>
+          <List.Content onClick={() => this.GoToDetail(id)}>
             <List.Header as="a">{name}</List.Header>
             <List.Description as="a">{email}</List.Description>
           </List.Content>
@@ -23,9 +24,14 @@ const UserListComponent = observer(
     }
 
     addClient = () => {
+      userStore.clearUser();
     this.props.history.push('/home/users/new');
     }
 
+    async GoToDetail(id){
+      await userStore.getUserById(id);
+      this.props.history.push("users/" + userStore.id);
+    }
 
     render() {
         return (
@@ -35,7 +41,7 @@ const UserListComponent = observer(
             <Divider />
             <List divided relaxed verticalAlign='middle'>
                 {UserStore.userList.map(user =>
-                    this.getRenderedUserList(user.username, user.email)
+                    this.getRenderedUserList(user.username, user.email, user._id)
                 )}
             </List>
         </div>

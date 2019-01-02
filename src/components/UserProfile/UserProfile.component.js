@@ -1,41 +1,53 @@
 import React, { Component } from "react";
-import { Button, Message } from "semantic-ui-react";
+import { Button, Message, Header } from "semantic-ui-react";
 import { observer } from "mobx-react";
 
 import UserProfileTabs from "../../components/UserTabs/user-profile-tabs";
 import userStore from "../../stores/UserStore";
+import ErrorMessage from "../ErrorMessage/error-message";
 
 export default observer(
   class UserProfileComponent extends Component {
     constructor(props) {
       super(props);
-      this.state = { newClient: false}
-    }
-
-    handleChange(e) {
-      userStore.user[e.target.name] = e.target.value;
-    }
-
-    save() {
-      if(this.state.newClient){
-        userStore.add(userStore.user);
-      }else{
-      userStore.updateUser();
-      }
-    }
-
-    setTitle(){
-      let url = (window.location.href).split("/");
-      if(url[url.length -1] == 'new'){ 
-        this.setState({ newClient: true });
-      }
+      this.state = { newClient: false,
+                     title: "",
+                     errorText: ""                    
+                    };
     }
 
     componentDidMount(){
+      this.isNew()
+    }
+
+    save = async () => {
+      this.setState({ errorText: "" });
       if(this.state.newClient){
-        userStore.getUserById(userStore.user._id);
+        userStore.add(userStore.user)
+        .then(() =>{
+          this.props.history.push("/home/users");
+        })
+        .catch((error) => {
+          this.setState({ errorText: error.response.request.responseText });
+        });
       }else{
-        userStore.add({ newUser: {} });
+      userStore.updateUser()
+      .then(() => {
+        this.props.history.push("/home/users");
+      })
+      .catch((error) => {
+        this.setState({ errorText: error.response.request.responseText });
+      });
+      }
+    }
+
+    isNew(){
+      let url = (window.location.href).split("/");
+      if(url[url.length -1] == 'new'){ 
+        this.setState({ newClient: true });
+        this.setState({ title: "Create User"});
+        }else{
+          this.setState({ title: "Update User"});        
       }
     }
 
@@ -46,8 +58,13 @@ export default observer(
             header="Error"
             content={userStore.error}
           /> : null}
+          <Header as="h3" icon="user" content={this.state.title} />
           <UserProfileTabs history={this.props.history}/>
           <Button onClick={this.save}>Save</Button>
+          { this.state.errorText ? (
+            <ErrorMessage message = { this.state.errorText }/>
+            ) : null
+          }
         </div>
       );
     }

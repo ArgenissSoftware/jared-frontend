@@ -35,6 +35,10 @@ class UserStore {
     this.error = error;
   }
 
+  clearUser(){
+    this.user = {};
+  }
+
   /**
    * add user
    * @param {object} param

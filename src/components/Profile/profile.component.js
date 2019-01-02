@@ -6,6 +6,7 @@ import ProfileTabs from "../../components/ProfileTabs/profile-tabs";
 import signUpStore from "../../stores/SignUpStore";
 import userStore from "../../stores/UserStore";
 import authStore from "../../stores/AuthStore";
+import ErrorMessage from "../ErrorMessage/error-message";
 
 
 
@@ -13,14 +14,15 @@ export default observer(
   class ProfileComponent extends Component {
     constructor(props) {
       super(props);
+      this.state = { errorText: "" };
     }
 
-    handleChange(e) {
-      signUpStore[e.target.name] = e.target.value;
-    }
-
-    save() {
-      userStore.updateUser();
+    save = async () => {
+      this.setState({ errorText: "" });
+      userStore.updateUser()
+      .catch((error) => {
+        this.setState({ errorText: error.response.request.responseText });
+      });
     }
 
     componentDidMount() {
@@ -40,6 +42,10 @@ export default observer(
           /> : null}
           <ProfileTabs history={this.props.history} />
           <Button onClick={this.save}>Save</Button>
+          { this.state.errorText ? (
+            <ErrorMessage message = { this.state.errorText }/>
+            ) : null
+          }
         </div>
       );
     }

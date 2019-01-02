@@ -35,6 +35,10 @@ class HomepageRouter extends Component {
                     render={(props) => <UserProfileComponent history={props.history}/>}/>
 
                 <Route
+                    path='/home/users/:id'
+                    render={(props) => <UserProfileComponent history={props.history}/>}/>
+
+                <Route
                     exact
                     path='/home/change_password'
                     render={(props) => <ChangePasswordComponent history={props.history}/>}/>
