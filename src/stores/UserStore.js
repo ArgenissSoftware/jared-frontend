@@ -51,6 +51,16 @@ class UserStore {
     return response;
   }
 
+  /**
+   * softdelete user
+   */
+  async disable() {
+    const response = await UsersService.disable(this.user._id);
+    if(authStore.user._id == this.user._id){
+      authStore.clearAuth();
+    }
+    return response;
+  }
 
   /**
    * Get user by mail 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Message, Header } from "semantic-ui-react";
+import { Button, Message, Header, Form } from "semantic-ui-react";
 import { observer } from "mobx-react";
 
 import UserProfileTabs from "../../components/UserTabs/user-profile-tabs";
@@ -41,6 +41,16 @@ export default observer(
       }
     }
 
+    delete = async() => {
+      userStore.disable()
+      .then(() => {
+        this.props.history.push("/home/users");
+      })
+      .catch((error) => {
+        console.log("Fail to delete. Error: " + error);
+      });
+    }
+
     isNew(){
       let url = (window.location.href).split("/");
       if(url[url.length -1] == 'new'){ 
@@ -60,7 +70,13 @@ export default observer(
           /> : null}
           <Header as="h3" icon="user" content={this.state.title} />
           <UserProfileTabs history={this.props.history}/>
-          <Button onClick={this.save}>Save</Button>
+          <Form>
+            <Button positive onClick={this.save}>Save</Button>
+            { !this.state.newClient ? (
+              <Button negative onClick={this.delete}>Delete</Button>
+              ) : null
+            }
+          </Form>
           { this.state.errorText ? (
             <ErrorMessage message = { this.state.errorText }/>
             ) : null
