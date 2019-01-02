@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Form, Header, Input, Divider, Dimmer, Loader } from "semantic-ui-react";
-import "./user-data-tab.css";
 import { observer } from "mobx-react";
 import usersStore from "../../stores/UserStore";
 

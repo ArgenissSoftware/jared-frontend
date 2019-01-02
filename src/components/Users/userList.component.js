@@ -30,7 +30,7 @@ const UserListComponent = observer(
 
     async GoToDetail(id){
       await userStore.getUserById(id);
-      this.props.history.push("users/" + userStore.id);
+      this.props.history.push("users/" + id);
     }
 
     render() {

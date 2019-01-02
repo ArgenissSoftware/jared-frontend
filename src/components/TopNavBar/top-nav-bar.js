@@ -26,7 +26,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
     }
     return (
       <Menu size="huge">
-        <Menu.Item name="../home" onClick={this.handleItemClick}>
+        <Menu.Item name="/home" onClick={this.handleItemClick}>
           <img src={logo} alt=""/>
           <b>Jared</b>
         </Menu.Item>

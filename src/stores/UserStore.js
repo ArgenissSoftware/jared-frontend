@@ -5,6 +5,7 @@ import {
 } from "mobx";
 import moment from "moment";
 import UsersService from "../services/users.service"
+import authStore from "./AuthStore";
 
 /**
  * User Store
@@ -76,10 +77,10 @@ class UserStore {
    */
   async updateUser() {
     this.setError('');
+    if( authStore.user._id == this.user._id ){
+      authStore.user.username = this.user.username;
+    }
     await UsersService.update(this.user)
-
-
-
   }
 
   /**
