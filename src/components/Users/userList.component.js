@@ -37,7 +37,7 @@ const UserListComponent = observer(
         return (
         <div className="ui container aligned">
             <Header as="h3" icon="user" content="USERS LIST" />
-            <Button onClick={this.addClient}>New Client</Button>
+            <Button onClick={this.addClient}>New User</Button>
             <Divider />
             <List divided relaxed verticalAlign='middle'>
                 {UserStore.userList.map(user =>
