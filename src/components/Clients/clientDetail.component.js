@@ -16,6 +16,8 @@ const ClientDetailComponent = observer(
   class ClientDetailComponent extends Component {
     constructor(props) {
       super(props);
+      let title;
+      this.setTitle();
       this.state= { errorText: ""};
     }
 
@@ -24,20 +26,37 @@ const ClientDetailComponent = observer(
     }
     toggle = () => ClientsStore.client.active = !ClientsStore.client.active;
 
+    setTitle(){
+      let url = (window.location.href).split("/");
+      if(url[url.length -1] == 'new'){ 
+        this.title = "NEW CLIENT";       
+      }else{
+        this.title = "CLIENT DETAILS";       
+      }
+    }
 
     save = async (path) => {
-      ClientsStore.update().then(() => {
-        this.setState({ errorText: ""});
-        this.props.history.push(path);
-      }).catch((error) => {
-        this.setState({ errorText: error.response.request.responseText});
-      });
-    }
+      if(this.title == "NEW CLIENT"){
+        ClientsStore.addClient().then(() => {
+          this.setState({ errorText: "" });
+          this.props.history.push(path);
+        }).catch((error) => {
+          this.setState({ errorText: error.response.request.responseText });
+        });
+      }else{
+        ClientsStore.update().then(() => {
+          this.setState({ errorText: ""});
+          this.props.history.push(path);
+        }).catch((error) => {
+          this.setState({ errorText: error.response.request.responseText });
+        });
+      } 
+    }   
 
     render() {
       return (
-        <div className="ui container">
-          <Header as="h3" icon="user" content="CLIENT DETAIL" />
+        <div className="ui container aligned">
+          <Header as="h3" icon="user" content={this.title} />
           <Divider />
           <Container>
             <Grid>
@@ -104,7 +123,7 @@ const ClientDetailComponent = observer(
               </Grid.Row>
             </Grid>
             <div className="ui container center aligned">
-              <Button onClick={() => this.save("/home/profile")}>Save</Button>
+              <Button onClick={() => this.save('/home/clients')}>Save</Button>
             </div>
           </Container>
           { this.state.errorText ? (

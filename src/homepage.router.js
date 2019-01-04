@@ -44,6 +44,11 @@ class HomepageRouter extends Component {
                     path='/home/clients/:id'
                     render={(props) => <ClientDetailComponent {...props}/>}/>
 
+                <Route
+                    exact
+                    path='/home/clients/new'
+                    render={(props) => <ClientDetailComponent history={props.history}/>}/>
+
             </Switch>
         )
     }

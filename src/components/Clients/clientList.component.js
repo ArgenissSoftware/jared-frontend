@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { Button, Input, List, Header, Divider } from "semantic-ui-react";
+import { Button, List, Header, Divider } from "semantic-ui-react";
 import ClientsStore from "../../stores/ClientsStore";
+import clientsStore from "../../stores/ClientsStore";
 
 const ClientListComponent = observer(
   class ClientListComponent extends Component {
@@ -24,7 +25,8 @@ const ClientListComponent = observer(
     }
 
     addClient() {
-      ClientsStore.addClient();
+      clientsStore.clearClient();
+      this.props.history.push('/home/clients/new');
     }
 
     handleMessage(e) {
@@ -36,19 +38,13 @@ const ClientListComponent = observer(
         <div className="ui container aligned">
           <Header as="h3" icon="user" content="CLIENTS LIST" />
           <Divider />
-          <Input
-            onChange={this.handleMessage.bind(this)}
-            action={<Button onClick={() => this.addClient()}>ADD</Button>}
-            placeholder="Add a new client..."
-            value={ClientsStore.newClientsInput}
-          />
+          <Button onClick={() => this.addClient()}>NEW CLIENT</Button>
           <List divided relaxed>
             {ClientsStore.clients.map(client =>
               this.getRenderedClientsList(client.name)
             )}
           </List>
         </div>
-
       );
     }
   }
