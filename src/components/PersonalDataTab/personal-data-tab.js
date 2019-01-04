@@ -86,7 +86,6 @@ const PersonalDataTab = observer(
                 placeholder="First name"
                 width={8}
                 value={usersStore.user.name}
-                defaultValue={usersStore.user.name}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -95,7 +94,6 @@ const PersonalDataTab = observer(
                 placeholder="Last name"
                 width={8}
                 value={usersStore.user.surname}
-                defaultValue={usersStore.user.surname}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -106,7 +104,6 @@ const PersonalDataTab = observer(
                 placeholder="Date of birth"
                 width={8}
                 value={usersStore.user.birthday}
-                defaultValue={usersStore.user.birthday}
                 onChange={this.handleChange}
                 type="date"
               />
@@ -116,7 +113,6 @@ const PersonalDataTab = observer(
                 placeholder="CUIL"
                 width={8}
                 value={usersStore.user.cuil}
-                defaultValue={usersStore.user.cuil}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -127,7 +123,6 @@ const PersonalDataTab = observer(
                 placeholder="Passport"
                 width={8}
                 value={usersStore.user.passport}
-                defaultValue={usersStore.user.passport}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -136,7 +131,6 @@ const PersonalDataTab = observer(
                 placeholder="US VISA"
                 width={8}
                 value={usersStore.user.visa}
-                defaultValue={usersStore.user.visa}
                 onChange={this.handleChange}
                 type="date"
               />
@@ -148,7 +142,6 @@ const PersonalDataTab = observer(
                 placeholder="Start date"
                 width={8}
                 value={usersStore.user.startWorkDate}
-                defaultValue={usersStore.user.startWorkDate}
                 onChange={this.handleChange}
                 type="date"
               />
@@ -162,7 +155,6 @@ const PersonalDataTab = observer(
                 selection
                 options={this.getRelationTypes()}
                 value={usersStore.user.relation}
-                defaultValue={usersStore.user.relation}
               />
             </Form.Group>
             <Form.Group>
@@ -172,7 +164,6 @@ const PersonalDataTab = observer(
                 placeholder="Career"
                 width={8}
                 value={usersStore.user.career}
-                defaultValue={usersStore.user.career}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -181,7 +172,6 @@ const PersonalDataTab = observer(
                 placeholder="Career status"
                 width={8}
                 value={usersStore.user.status}
-                defaultValue={usersStore.user.status}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -192,7 +182,6 @@ const PersonalDataTab = observer(
                 placeholder="Children"
                 width={8}
                 value={usersStore.user.childrenCount}
-                defaultValue={usersStore.user.childrenCount}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -201,7 +190,6 @@ const PersonalDataTab = observer(
                 placeholder="Alarm Code"
                 width={8}
                 value={usersStore.user.alarmCode}
-                defaultValue={usersStore.user.alarmCode}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -212,7 +200,6 @@ const PersonalDataTab = observer(
                 placeholder="Username"
                 width={8}
                 value={usersStore.user.username}
-                defaultValue={usersStore.user.username}
                 onChange={this.handleChange}
               />
             </Form.Group>

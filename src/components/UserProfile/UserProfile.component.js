@@ -13,7 +13,7 @@ export default observer(
       this.state = {
         newClient: false,
         title: "",
-        errorText: ""
+        errorObj: ""
       };
       userStore.clearUser();
     }
@@ -23,23 +23,23 @@ export default observer(
     }
 
     save = async () => {
-      this.setState({ errorText: "" });
+      this.setState({ errorObj: "" });
       if(this.state.newClient){
         userStore.add(userStore.user)
         .then(() =>{
           this.props.history.push("/home/users");
         })
         .catch((error) => {
-          this.setState({ errorText: error.response.request.responseText });
+          this.setState({ errorObj: error.response.data });
         });
-      }else{
+      } else {
       userStore.updateUser()
-      .then(() => {
-        this.props.history.push("/home/users");
-      })
-      .catch((error) => {
-        this.setState({ errorText: error.response.request.responseText });
-      });
+        .then(() => {
+          this.props.history.push("/home/users");
+        })
+        .catch((error) => {
+          this.setState({ errorObj: error.response.data });
+        });
       }
     }
 
@@ -55,14 +55,12 @@ export default observer(
 
     async isNew() {
       const id = this.props.match.params.id;
-      console.log('id', id)
       if (id === 'new'){
           this.setState({ newClient: true, title: "Create User"});
-        } else {
+      } else {
           this.setState({ title: "Update User"});
           // TODO: add loading state
           await userStore.getUserById(id);
-          console.log('loaded', id, userStore.user)
       }
     }
 
@@ -73,8 +71,8 @@ export default observer(
             header="Error"
             content={userStore.error}
           /> : null}
-          { this.state.errorText ? (
-            <ErrorMessage message = { this.state.errorText }/>
+          { this.state.errorObj ? (
+            <ErrorMessage message = { this.state.errorObj }/>
             ) : null
           }
           <Header as="h3" icon="user" content={this.state.title} />

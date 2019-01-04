@@ -17,7 +17,7 @@ const UserListComponent = observer(
       return (
         <List.Item key={name}>
           <List.Icon name="user" size="large" verticalAlign="middle" />
-          <List.Content onClick={() => this.GoToDetail(id)}>
+          <List.Content onClick={() => this.goToDetail(id)}>
             <List.Header as="a">{name}</List.Header>
             <List.Description as="a">{email}</List.Description>
           </List.Content>
@@ -29,7 +29,7 @@ const UserListComponent = observer(
       this.props.history.push('users/new');
     }
 
-    async GoToDetail(id){
+    goToDetail(id) {
       this.props.history.push("users/" + id);
     }
 

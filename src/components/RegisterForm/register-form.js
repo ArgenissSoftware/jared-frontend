@@ -19,11 +19,11 @@ const RegisterForm = observer(
       signUpStore.navigate = false;
       signUpStore.clear();
     }
-    
+
     handleChange(e) {
       signUpStore[e.target.name] = e.target.value;
     }
-    
+
     register = async () => {
       this.setState({ errorText: ""});
       if (signUpStore.password === signUpStore.repeatPassword) {
@@ -43,16 +43,14 @@ const RegisterForm = observer(
             const err =  (Array.isArray(error.response.data.errors)) ?
                 error.response.data.errors[0].message :
                 error.response.data.errors.message;
-            console.log(err);
-            errorText = "Please check your email and password";
-            registerErrorMessage = true;
+            // TODO: show error
           });
       } else {
         this.setState({errorText: JSON.stringify( {"errors":[{"message":"Password do not match"}]})})
       }
     }
-    
-    
+
+
     render() {
       if (signUpStore.navigate) {
         return <Redirect to={{ pathname: "/home", state: { registerSuccessMessage: registerSuccessMessage } }} push={true} />;
