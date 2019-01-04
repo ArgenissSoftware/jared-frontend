@@ -10,14 +10,16 @@ export default observer(
   class UserProfileComponent extends Component {
     constructor(props) {
       super(props);
-      this.state = { newClient: false,
-                     title: "",
-                     errorText: ""                    
-                    };
+      this.state = {
+        newClient: false,
+        title: "",
+        errorText: ""
+      };
+      userStore.clearUser();
     }
 
-    componentDidMount(){
-      this.isNew()
+    componentDidMount() {
+      this.isNew();
     }
 
     save = async () => {
@@ -51,13 +53,16 @@ export default observer(
       });
     }
 
-    isNew(){
-      let url = (window.location.href).split("/");
-      if(url[url.length -1] == 'new'){ 
-        this.setState({ newClient: true });
-        this.setState({ title: "Create User"});
-        }else{
-          this.setState({ title: "Update User"});        
+    async isNew() {
+      const id = this.props.match.params.id;
+      console.log('id', id)
+      if (id === 'new'){
+          this.setState({ newClient: true, title: "Create User"});
+        } else {
+          this.setState({ title: "Update User"});
+          // TODO: add loading state
+          await userStore.getUserById(id);
+          console.log('loaded', id, userStore.user)
       }
     }
 
@@ -68,8 +73,12 @@ export default observer(
             header="Error"
             content={userStore.error}
           /> : null}
+          { this.state.errorText ? (
+            <ErrorMessage message = { this.state.errorText }/>
+            ) : null
+          }
           <Header as="h3" icon="user" content={this.state.title} />
-          <UserProfileTabs history={this.props.history}/>
+          <UserProfileTabs history={this.props.history} match={this.props.match}/>
           <Form>
             <Button positive onClick={this.save}>Save</Button>
             { !this.state.newClient ? (
@@ -77,10 +86,7 @@ export default observer(
               ) : null
             }
           </Form>
-          { this.state.errorText ? (
-            <ErrorMessage message = { this.state.errorText }/>
-            ) : null
-          }
+
         </div>
       );
     }

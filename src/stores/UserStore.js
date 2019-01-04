@@ -63,7 +63,7 @@ class UserStore {
   }
 
   /**
-   * Get user by mail 
+   * Get user by mail
    * @param {string} mail
    */
   async getUserData(mail) {
@@ -73,7 +73,7 @@ class UserStore {
   }
 
   /**
-   * Get user by id 
+   * Get user by id
    * @param {mixed} mail
    */
   async getUserById(param) {
@@ -83,7 +83,7 @@ class UserStore {
   }
 
   /**
-   * Update user  
+   * Update user
    */
   async updateUser() {
     this.setError('');
@@ -94,7 +94,7 @@ class UserStore {
   }
 
   /**
-   * get all users  
+   * get all users
    */
   async getUsersList() {
     return UsersService.getList()
@@ -108,7 +108,7 @@ class UserStore {
   }
 
   /**
-   * get user from github  
+   * get user from github
    */
   async getGitHubUser(githubID) {
     return UsersService.getGitHubUser(githubID).then(res => {
@@ -142,6 +142,7 @@ decorate(UserStore, {
   clients: observable,
   userList: observable,
   setUserField: action,
+  getUserById: action,
   setError: action
 })
 

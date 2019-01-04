@@ -20,8 +20,8 @@ const UserDataTab = observer(
     }
 
     isNew(){
-      let url = (window.location.href).split("/");
-      if(url[url.length -1] == 'new'){ 
+      if(this.props.match.params.id === 'new'){
+        console.log('new')
         this.setState({ newClient: true });
       }
     }
@@ -79,13 +79,14 @@ const UserDataTab = observer(
             name="github"
             label="https://github.com/"
             placeholder="GitHub ID"
-            action={{ color: 'teal', icon: "search", onclick: this.searchOnGithub }}
+            action={{ color: 'teal', icon: "search", onClick: this.searchOnGithub }}
             width={8}
             onChange={this.setGithubUser}
-            error={this.state.error} />
-            <Divider/>
+            error={this.state.error}
+          />
+          <Divider/>
 
-            <Form>
+          <Form>
             <Form.Group>
               <Form.Input
                 name="name"
@@ -93,7 +94,6 @@ const UserDataTab = observer(
                 placeholder="First name"
                 width={8}
                 value={usersStore.user.name}
-                defaultValue={usersStore.user.name}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -102,7 +102,6 @@ const UserDataTab = observer(
                 placeholder="Last name"
                 width={8}
                 value={usersStore.user.surname}
-                defaultValue={usersStore.user.surname}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -113,7 +112,6 @@ const UserDataTab = observer(
                 placeholder="Date of birth"
                 width={8}
                 value={usersStore.user.birthday}
-                defaultValue={usersStore.user.birthday}
                 onChange={this.handleChange}
                 type="date"
               />
@@ -123,7 +121,6 @@ const UserDataTab = observer(
                 placeholder="CUIL"
                 width={8}
                 value={usersStore.user.cuil}
-                defaultValue={usersStore.user.cuil}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -134,7 +131,6 @@ const UserDataTab = observer(
                 placeholder="Passport"
                 width={8}
                 value={usersStore.user.passport}
-                defaultValue={usersStore.user.passport}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -143,7 +139,6 @@ const UserDataTab = observer(
                 placeholder="US VISA"
                 width={8}
                 value={usersStore.user.visa}
-                defaultValue={usersStore.user.visa}
                 onChange={this.handleChange}
                 type="date"
               />
@@ -155,7 +150,6 @@ const UserDataTab = observer(
                 placeholder="Start date"
                 width={8}
                 value={usersStore.user.startWorkDate}
-                defaultValue={usersStore.user.startWorkDate}
                 onChange={this.handleChange}
                 type="date"
               />
@@ -169,7 +163,6 @@ const UserDataTab = observer(
                 selection
                 options={this.getRelationTypes()}
                 value={usersStore.user.relation}
-                defaultValue={usersStore.user.relation}
               />
             </Form.Group>
             <Form.Group>
@@ -179,7 +172,6 @@ const UserDataTab = observer(
                 placeholder="Career"
                 width={8}
                 value={usersStore.user.career}
-                defaultValue={usersStore.user.career}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -188,7 +180,6 @@ const UserDataTab = observer(
                 placeholder="Career status"
                 width={8}
                 value={usersStore.user.status}
-                defaultValue={usersStore.user.status}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -222,7 +213,7 @@ const UserDataTab = observer(
                 defaultValue={usersStore.user.username}
                 onChange={this.handleChange}
               />
-              { this.state.newClient ? 
+              { this.state.newClient ?
               <Form.Input
                 name="password"
                 label="Password"

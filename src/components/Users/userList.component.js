@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { List, Header, Divider, Button } from "semantic-ui-react";
-import UserStore from "../../stores/UserStore";
 import userStore from "../../stores/UserStore";
 
 const UserListComponent = observer(
   class UserListComponent extends Component {
     constructor(props) {
       super(props);
-      UserStore.getUsersList();
+    }
+
+    componentDidMount() {
+      userStore.getUsersList();
     }
 
     getRenderedUserList(name, email, id) {
@@ -23,27 +25,25 @@ const UserListComponent = observer(
       );
     }
 
-    addClient = () => {
-      userStore.clearUser();
-    this.props.history.push('/home/users/new');
+    addUser = () => {
+      this.props.history.push('users/new');
     }
 
     async GoToDetail(id){
-      await userStore.getUserById(id);
       this.props.history.push("users/" + id);
     }
 
     render() {
         return (
         <div className="ui container aligned">
-            <Header as="h3" icon="user" content="USERS LIST" />
-            <Button onClick={this.addClient}>New User</Button>
-            <Divider />
-            <List divided relaxed verticalAlign='middle'>
-                {UserStore.userList.map(user =>
-                    this.getRenderedUserList(user.username, user.email, user._id)
-                )}
-            </List>
+          <Header as="h3" icon="user" content="USERS LIST" />
+          <Button onClick={this.addUser}>New User</Button>
+          <Divider />
+          <List divided relaxed verticalAlign='middle'>
+              {userStore.userList.map(user =>
+                  this.getRenderedUserList(user.username, user.email, user._id)
+              )}
+          </List>
         </div>
       );
     }
