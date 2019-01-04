@@ -5,10 +5,9 @@ import authStore from "../../stores/AuthStore";
 import "./register-form.css";
 import { Redirect } from "react-router-dom";
 import userStore from "../../stores/UserStore";
+import ErrorMessage from "../ErrorMessage/error-message";
 
-
-let registerErrorMessage = false;
-let errorText;
+let registerErrorMessage= false;
 let registerSuccessMessage = false;
 
 const RegisterForm = observer(
@@ -16,16 +15,17 @@ const RegisterForm = observer(
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
+      this.state = { errorText: "" };
       signUpStore.navigate = false;
       signUpStore.clear();
     }
-
+    
     handleChange(e) {
       signUpStore[e.target.name] = e.target.value;
-      registerErrorMessage = false;
     }
-
-    async register() {
+    
+    register = async () => {
+      this.setState({ errorText: ""});
       if (signUpStore.password === signUpStore.repeatPassword) {
         await authStore.register({
           username: signUpStore.username,
@@ -48,11 +48,11 @@ const RegisterForm = observer(
             registerErrorMessage = true;
           });
       } else {
-        errorText = "Passwords do not match";
-        registerErrorMessage = true;
+        this.setState({errorText: JSON.stringify( {"errors":[{"message":"Password do not match"}]})})
       }
     }
-
+    
+    
     render() {
       if (signUpStore.navigate) {
         return <Redirect to={{ pathname: "/home", state: { registerSuccessMessage: registerSuccessMessage } }} push={true} />;
@@ -124,17 +124,14 @@ const RegisterForm = observer(
                   </div>
                   <div
                     className="ui fluid large teal submit button"
-                    onClick={this.register}
+                    onClick= { this.register}
                   >
                     Create
                   </div>
                 </div>
               </form>
-              {registerErrorMessage ? (
-                <div className="ui error message">
-                  <div className="header">Registration failed!</div>
-                  <p>{errorText}</p>
-                </div>
+              { this.state.errorText ? (
+                <ErrorMessage message = { this.state.errorText } />
               ) : null}
               <div className="ui message">
                 Forgot your password?{" "}
