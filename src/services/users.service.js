@@ -30,6 +30,14 @@ class UsersService extends CrudService {
         .post(this.URL, obj);
     }
 
+    /** disable user
+    *  @param {string} param
+    */
+    disable(param){
+      return api 
+        .put(this.URL + "/disable/" + param)  
+    }
+
 }
 
 const usersService = new UsersService();

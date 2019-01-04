@@ -26,7 +26,7 @@ const RegisterForm = observer(
     register = async () => {
       this.setState({ errorText: ""});
       if (signUpStore.password === signUpStore.repeatPassword) {
-        await UserStore.add({
+        await UserStore.add({          
           username: signUpStore.username,
           email: signUpStore.email,
           password: signUpStore.password
@@ -140,4 +140,3 @@ const RegisterForm = observer(
 );
 
 export default RegisterForm;
-      

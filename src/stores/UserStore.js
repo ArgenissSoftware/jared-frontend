@@ -5,6 +5,7 @@ import {
 } from "mobx";
 import moment from "moment";
 import UsersService from "../services/users.service"
+import authStore from "./AuthStore";
 
 /**
  * User Store
@@ -35,6 +36,10 @@ class UserStore {
     this.error = error;
   }
 
+  clearUser(){
+    this.user = {};
+  }
+
   /**
    * add user
    * @param {object} param
@@ -46,6 +51,16 @@ class UserStore {
     return response;
   }
 
+  /**
+   * softdelete user
+   */
+  async disable() {
+    const response = await UsersService.disable(this.user._id);
+    if(authStore.user._id == this.user._id){
+      authStore.clearAuth();
+    }
+    return response;
+  }
 
   /**
    * Get user by mail 
@@ -72,10 +87,10 @@ class UserStore {
    */
   async updateUser() {
     this.setError('');
+    if( authStore.user._id == this.user._id ){
+      authStore.user.username = this.user.username;
+    }
     await UsersService.update(this.user)
-
-
-
   }
 
   /**
