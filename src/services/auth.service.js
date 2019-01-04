@@ -14,6 +14,10 @@ class AuthService extends BaseService {
         return api.post(this.URL + "/login", param)
     }
 
+    register(param){        
+        return api.post(this.URL + "/register", param)
+    }
+
 }
 
 const authService = new AuthService();

@@ -3,6 +3,7 @@ import { Form, Header, Input, Divider, Dimmer, Loader } from "semantic-ui-react"
 import "./personal-data-tab.css";
 import { observer } from "mobx-react";
 import usersStore from "../../stores/UserStore";
+import authStore from "../../stores/AuthStore";
 
 const PersonalDataTab = observer(
   class PersonalDataTab extends Component {
