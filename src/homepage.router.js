@@ -6,6 +6,7 @@ import ClientListComponent from "./components/Clients/clientList.component";
 import ChangePasswordComponent from "./components/ChangePassword/changePassword.component";
 import UserListComponent from "./components/Users/userList.component";
 import ClientDetailComponent from "./components/Clients/clientDetail.component";
+import UserProfileComponent from "./components/UserProfile/UserProfile.component";
 
 class HomepageRouter extends Component {
     render() {
@@ -17,26 +18,31 @@ class HomepageRouter extends Component {
                 <Route
                     exact
                     path='/home/profile'
-                    render={(props) => <ProfileComponent history={props.history}/>}/>
+                    render={(props) => <ProfileComponent {...props}/>}/>
 
                 <Route
                     exact
                     path='/home/clients'
-                    render={(props) => <ClientListComponent history={props.history}/>}/>
-                
+                    render={(props) => <ClientListComponent {...props}/>}/>
+
                 <Route
+                    exact
                     path='/home/users'
-                    render={(props) => <UserListComponent history={props.history}/>}/>
+                    render={(props) => <UserListComponent {...props}/>}/>
+
+                <Route
+                    path='/home/users/:id'
+                    render={(props) => <UserProfileComponent {...props}/>}/>
 
                 <Route
                     exact
                     path='/home/change_password'
-                    render={(props) => <ChangePasswordComponent history={props.history}/>}/>
+                    render={(props) => <ChangePasswordComponent {...props}/>}/>
 
                 <Route
                     exact
                     path='/home/clients/:id'
-                    render={(props) => <ClientDetailComponent history={props.history}/>}/>
+                    render={(props) => <ClientDetailComponent {...props}/>}/>
 
             </Switch>
         )

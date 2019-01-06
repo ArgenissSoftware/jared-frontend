@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import signUpStore from "../../stores/SignUpStore";
-import UserStore from "../../stores/UserStore";
+import authStore from "../../stores/AuthStore";
 import "./register-form.css";
 import { Redirect } from "react-router-dom";
+import userStore from "../../stores/UserStore";
+import ErrorMessage from "../ErrorMessage/error-message";
 
-
-let registerErrorMessage = false;
-let errorText;
+let registerErrorMessage= false;
 let registerSuccessMessage = false;
 
 const RegisterForm = observer(
@@ -15,36 +15,41 @@ const RegisterForm = observer(
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
+      this.state = { errorText: "" };
       signUpStore.navigate = false;
       signUpStore.clear();
     }
 
     handleChange(e) {
       signUpStore[e.target.name] = e.target.value;
-      registerErrorMessage = false;
     }
 
-    async register() {
+    register = async () => {
+      this.setState({ errorText: ""});
       if (signUpStore.password === signUpStore.repeatPassword) {
-        await UserStore.add({
+        await authStore.register({
           username: signUpStore.username,
           email: signUpStore.email,
           password: signUpStore.password
         })
-          .then(() => {
+          .then((response) => {
             registerSuccessMessage = true;
+            // once registered, set authStore credentials
+            authStore.setUserAuth(response.data.data);
+            userStore.setUserLogged(response.data.data)
             signUpStore.navigate = true;
           })
           .catch((error) => {
-            console.log(error);
-            errorText = "Please check your email and password";
-            registerErrorMessage = true;
+            const err =  (Array.isArray(error.response.data.errors)) ?
+                error.response.data.errors[0].message :
+                error.response.data.errors.message;
+            // TODO: show error
           });
       } else {
-        errorText = "Passwords do not match";
-        registerErrorMessage = true;
+        this.setState({errorText: JSON.stringify( {"errors":[{"message":"Password do not match"}]})})
       }
     }
+
 
     render() {
       if (signUpStore.navigate) {
@@ -117,17 +122,14 @@ const RegisterForm = observer(
                   </div>
                   <div
                     className="ui fluid large teal submit button"
-                    onClick={this.register}
+                    onClick= { this.register}
                   >
                     Create
                   </div>
                 </div>
               </form>
-              {registerErrorMessage ? (
-                <div className="ui error message">
-                  <div className="header">Registration failed!</div>
-                  <p>{errorText}</p>
-                </div>
+              { this.state.errorText ? (
+                <ErrorMessage message = { this.state.errorText } />
               ) : null}
               <div className="ui message">
                 Forgot your password?{" "}

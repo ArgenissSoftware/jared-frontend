@@ -1,5 +1,5 @@
-import axios from "axios";
 import BaseService from "./base.service";
+import api from "./api.service";
 
 class AuthService extends BaseService {
 
@@ -7,20 +7,15 @@ class AuthService extends BaseService {
         super("/auth");
     }
 
-    /** overrride -  use to add headers to request  */
-    getHeaders() {
-        return {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }
-    }
-
     /** login  
      * @param {object} param
      * */
     login(param) {
-        return axios.post(this.URL + "/login", param, this.getHeaders())
+        return api.post(this.URL + "/login", param)
+    }
+
+    register(param){        
+        return api.post(this.URL + "/register", param)
     }
 
 }

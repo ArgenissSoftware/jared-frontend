@@ -26,14 +26,14 @@ const TopNavBar = observer(class TopNavBar extends Component {
     }
     return (
       <Menu size="huge">
-        <Menu.Item name="../home" onClick={this.handleItemClick}>
+        <Menu.Item name="/home" onClick={this.handleItemClick}>
           <img src={logo} alt=""/>
           <b>Jared</b>
         </Menu.Item>
 
         <Dropdown item text="User">
           <Dropdown.Menu>
-            <Dropdown.Item name="../home/users" onClick={this.handleItemClick}>
+            <Dropdown.Item name="/home/users" onClick={this.handleItemClick}>
               <Icon name='list'/>
               User List
             </Dropdown.Item>
@@ -43,7 +43,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
 
         <Dropdown item text="Client">
           <Dropdown.Menu>
-            <Dropdown.Item name="../home/clients" onClick={this.handleItemClick}>
+            <Dropdown.Item name="/home/clients" onClick={this.handleItemClick}>
               <Icon name='list'/>
               Client List
             </Dropdown.Item>
@@ -54,11 +54,11 @@ const TopNavBar = observer(class TopNavBar extends Component {
         <Menu.Menu position="right">
           <Dropdown item text={"Welcome " + authStore.user.username}>
             <Dropdown.Menu>
-              <Dropdown.Item name="../home/profile" onClick={this.handleItemClick}>
+              <Dropdown.Item name="/home/profile" onClick={this.handleItemClick}>
                 <Icon name='user'/>
                 My Profile
               </Dropdown.Item>
-              <Dropdown.Item name="../home/change_password" onClick={this.handleItemClick}>
+              <Dropdown.Item name="/home/change_password" onClick={this.handleItemClick}>
                 <Icon name='lock'/>
                 Change Password
               </Dropdown.Item>

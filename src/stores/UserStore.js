@@ -5,6 +5,7 @@ import {
 } from "mobx";
 import moment from "moment";
 import UsersService from "../services/users.service"
+import authStore from "./AuthStore";
 
 /**
  * User Store
@@ -35,20 +36,34 @@ class UserStore {
     this.error = error;
   }
 
+  clearUser(){
+    this.user = {};
+  }
+
   /**
    * add user
    * @param {object} param
    */
   async add(param) {
-    const response = await UsersService.add(param)
+    const response = await UsersService.add(param);
     this.user = response.data.data.user;
     this.parseData();
-
+    return response;
   }
 
+  /**
+   * softdelete user
+   */
+  async disable() {
+    const response = await UsersService.disable(this.user._id);
+    if(authStore.user._id == this.user._id){
+      authStore.clearAuth();
+    }
+    return response;
+  }
 
   /**
-   * Get user by mail 
+   * Get user by mail
    * @param {string} mail
    */
   async getUserData(mail) {
@@ -58,7 +73,7 @@ class UserStore {
   }
 
   /**
-   * Get user by id 
+   * Get user by id
    * @param {mixed} mail
    */
   async getUserById(param) {
@@ -68,18 +83,18 @@ class UserStore {
   }
 
   /**
-   * Update user  
+   * Update user
    */
   async updateUser() {
     this.setError('');
+    if( authStore.user._id == this.user._id ){
+      authStore.user.username = this.user.username;
+    }
     await UsersService.update(this.user)
-
-
-
   }
 
   /**
-   * get all users  
+   * get all users
    */
   async getUsersList() {
     return UsersService.getList()
@@ -93,7 +108,7 @@ class UserStore {
   }
 
   /**
-   * get user from github  
+   * get user from github
    */
   async getGitHubUser(githubID) {
     return UsersService.getGitHubUser(githubID).then(res => {
@@ -127,6 +142,7 @@ decorate(UserStore, {
   clients: observable,
   userList: observable,
   setUserField: action,
+  getUserById: action,
   setError: action
 })
 

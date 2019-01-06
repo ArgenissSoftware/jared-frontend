@@ -1,5 +1,6 @@
-import axios from "axios";
 import CrudService from "./crud.services";
+import api from "./api.service";
+import Axios from "axios";
 
 class UsersService extends CrudService {
 
@@ -11,22 +12,30 @@ class UsersService extends CrudService {
      *  @param {string} param
     */
     getByEmail(param) {
-        return axios
-            .get(this.URL + "/email/" + param, this.getHeaders());
+        return api
+            .get(this.URL + "/email/" + param);
     }
 
     /** github user  request
     * @param {string} githubID
     */
     getGitHubUser(githubID) {
-        return axios
+        return Axios
             .get("https://api.github.com/users/" + githubID);
     }
 
     /** request for register a new record */
     add(obj) {
-        return axios
-            .post(this.URL, obj, { headers: { "Content-Type": "application/json" } });
+        return api
+        .post(this.URL, obj);
+    }
+
+    /** disable user
+    *  @param {string} param
+    */
+    disable(param){
+      return api 
+        .put(this.URL + "/disable/" + param)  
     }
 
 }
