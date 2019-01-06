@@ -5,6 +5,7 @@ import logo from "../../images/logo1.png";
 import {Dropdown, Menu, Icon} from "semantic-ui-react";
 import "./top-nav-bar.css";
 import authStore from "../../stores/AuthStore";
+import LogoToolbar from '../Common/LogoToolbar';
 
 const TopNavBar = observer(class TopNavBar extends Component {
 
@@ -25,15 +26,10 @@ const TopNavBar = observer(class TopNavBar extends Component {
       return <Redirect to={{ pathname: "/" }} push={false} />;
     }
     return (
-      <Menu size="huge">
-        <Menu.Item name="/home" onClick={this.handleItemClick}>
-          <img src={logo} alt=""/>
-          <b>Jared</b>
-        </Menu.Item>
-
+      <LogoToolbar logo={logo}>
         <Dropdown item text="User">
           <Dropdown.Menu>
-            <Dropdown.Item name="/home/users" onClick={this.handleItemClick}>
+            <Dropdown.Item name="/home/users" onClick={this.handleItemClick} >
               <Icon name='list'/>
               User List
             </Dropdown.Item>
@@ -69,7 +65,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Menu>
-      </Menu>
+      </LogoToolbar>
     );
   }
 });

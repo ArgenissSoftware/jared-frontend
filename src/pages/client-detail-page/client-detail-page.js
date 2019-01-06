@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import {
   Button,
-  Input,
-  List,
   Form,
   Grid,
   Segment,
@@ -11,10 +9,6 @@ import {
 } from "semantic-ui-react";
 import ClientsStore from "../../stores/ClientsStore";
 import TopNavBar from "../../components/TopNavBar/top-nav-bar";
-
-
-
-let client;
 
 const ClientDetailPage = observer(
   class ClientDetailPage extends Component {

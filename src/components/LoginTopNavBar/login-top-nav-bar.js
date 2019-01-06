@@ -4,6 +4,9 @@ import { observer } from "mobx-react";
 import signInStore from "../../stores/SignInStore";
 import logo from "../../images/logo1.png";
 import authStore from "../../stores/AuthStore";
+import { Menu, Grid } from "semantic-ui-react";
+
+import LogoToolbar from '../Common/LogoToolbar';
 
 const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
   constructor(props) {
@@ -37,43 +40,40 @@ const LoginTopNavBar = observer(class LoginTopNavBar extends Component {
   render() {
     return (
       <div>
-        <div className="ui menu">
-          <div className="header small item">
-            <img src={logo} alt="" />
-            Jared
-          </div>
-
-          <div className="right menu">
-            <div className="item">
-              <Form onSubmit={this.handleSubmit} error={this.state.haveError}>
-                <Form.Group>
-                  <Form.Input
-                    className={this.state.haveError ? "error" : ""}
-                    type="text"
-                    placeholder="Email or username"
-                    name="username"
-                    onChange={this.handleChange}/>
-                  <Form.Input
-                    className={this.state.haveError ? "error" : ""}
-                    type="password"
-                    placeholder="password"
-                    name="password"
-                    onChange={this.handleChange} />
-                  <Form.Button
-                    disabled={!(signInStore.username && signInStore.password)}
-                    content="Login"
-                    onClick={this.logIn} />
-                </Form.Group>
-              </Form>
-            </div>
-          </div>
-        </div>
+        <LogoToolbar logo={logo}>
+          <Menu.Menu position="right">
+            <Form onSubmit={this.handleSubmit} error={this.state.haveError}>
+              <Form.Group>
+                <Form.Input
+                  className={this.state.haveError ? "error" : ""}
+                  type="text"
+                  placeholder="Email or username"
+                  name="username"
+                  onChange={this.handleChange}/>
+                <Form.Input
+                  className={this.state.haveError ? "error" : ""}
+                  type="password"
+                  placeholder="password"
+                  name="password"
+                  onChange={this.handleChange} />
+                <Form.Button
+                  disabled={!(signInStore.username && signInStore.password)}
+                  content="Login"
+                  onClick={this.logIn} />
+              </Form.Group>
+            </Form>
+          </Menu.Menu>
+        </LogoToolbar>
         {this.state.haveError
           ? (
-            <div className="ui error message">
-              <div className="header">Login failed!</div>
-              <p>Invalid email/username or password</p>
-            </div>
+            <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+              <Grid.Column style={{ maxWidth: 450 }}>
+                <div className="ui error message">
+                  <div className="header">Login failed!</div>
+                  <p>Invalid email/username or password</p>
+                </div>
+              </Grid.Column>
+            </Grid>
           )
           : null}
       </div>

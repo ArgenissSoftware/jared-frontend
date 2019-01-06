@@ -7,7 +7,6 @@ class SignUpStore {
       username: "",
       password: "",
       repeatPassword: "",
-      navigate: false
     });
   }
 
