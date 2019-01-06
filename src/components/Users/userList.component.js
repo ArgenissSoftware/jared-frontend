@@ -36,8 +36,8 @@ const UserListComponent = observer(
     render() {
         return (
         <div className="ui container aligned">
-          <Header as="h3" icon="user" content="USERS LIST" />
           <Button onClick={this.addUser}>New User</Button>
+          <Header as="h3" icon="user" content="USERS LIST" />
           <Divider />
           <List divided relaxed verticalAlign='middle'>
               {userStore.userList.map(user =>

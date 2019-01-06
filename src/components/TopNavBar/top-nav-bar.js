@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {observer} from "mobx-react";
 import { Redirect } from "react-router-dom";
 import logo from "../../images/logo1.png";
-import {Dropdown, Menu, Icon} from "semantic-ui-react";
+import {Dropdown, Menu, Icon, Image} from "semantic-ui-react";
 import "./top-nav-bar.css";
 import authStore from "../../stores/AuthStore";
 import LogoToolbar from '../Common/LogoToolbar';
@@ -25,6 +25,11 @@ const TopNavBar = observer(class TopNavBar extends Component {
     if (!authStore.isLoggedIn()){
       return <Redirect to={{ pathname: "/" }} push={false} />;
     }
+    const trigger = (
+      <span>
+        <Image avatar src={authStore.getAvatar()} /> {authStore.user.name} {authStore.user.surname}
+      </span>
+    )
     return (
       <LogoToolbar logo={logo}>
         <Dropdown item text="User">
@@ -48,7 +53,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
         </Dropdown>
 
         <Menu.Menu position="right">
-          <Dropdown item text={"Welcome " + authStore.user.username}>
+          <Dropdown item trigger={trigger}>
             <Dropdown.Menu>
               <Dropdown.Item name="/home/profile" onClick={this.handleItemClick}>
                 <Icon name='user'/>

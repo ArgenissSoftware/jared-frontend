@@ -12,7 +12,7 @@ class LogoToolbar extends PureComponent {
    */
   render() {
     return (
-      <Menu size="large">
+      <Menu size="medium">
         <Menu.Item name="/home" onClick={this.handleItemClick}>
           <img src={this.props.logo} alt=""/>
           <b>{config.appName}</b>
