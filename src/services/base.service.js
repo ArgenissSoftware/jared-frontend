@@ -1,10 +1,10 @@
-import AppStore from "../stores/AppStore";
+import config from "../config";
 
 class BaseService {
 
-    constructor(url) {
-        this.URL = AppStore.URL + url;
-    }
+  constructor(url) {
+    this.URL = config.apiHost + url;
+  }
 }
 
 

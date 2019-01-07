@@ -80,6 +80,18 @@ const HomeComponent = observer(class HomePage extends Component {
                             Go to clients list
                         </div>
                     </div>
+                    <div className="card">
+                        <div className="content">
+                            <div className="header">Users</div>
+                            <div className="description">Add new users</div>
+                        </div>
+                        <div
+                            className="ui bottom attached button"
+                            onClick={() => this.nextPath("home/users")}>
+                            <i className="add icon"/>
+                            Go to users list
+                        </div>
+                    </div>
                 </div>
             </div>
         );

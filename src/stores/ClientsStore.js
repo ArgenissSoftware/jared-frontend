@@ -5,7 +5,6 @@ class ClientsStore {
   constructor() {
     extendObservable(this, {
       clients: [],
-      newClientsInput: "",
       client: {}
     });
 
@@ -29,13 +28,14 @@ class ClientsStore {
     }
   }
 
+  clearClient(){
+    this.client = {};
+  }
+
   async addClient() {
     try {
-      if (this.newClientsInput) {
-        await clientsService.add({ name: this.newClientsInput });
+        await clientsService.add(this.client);
         this.getClientsList();
-      }
-      ClientsStore.newClientsInput = "";
     } catch (err) {
       console.error(err);
     }
