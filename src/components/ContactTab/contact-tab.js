@@ -6,8 +6,12 @@ import UserStore from "../../stores/UserStore";
 
 const ContactTab = observer(
   class ContactTab extends Component {
+    constructor(){
+      super();
+    }
+    
     handleChange(e) {
-      UserStore[e.target.name] = e.target.value;
+      UserStore.user[e.target.name] = e.target.value;
     }
 
     render() {

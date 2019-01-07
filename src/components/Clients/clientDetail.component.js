@@ -10,7 +10,7 @@ import {
   Header,
   Dropdown
 } from "semantic-ui-react";
-import ClientsStore from "../../stores/ClientsStore";
+import clientsStore from "../../stores/ClientsStore";
 import ErrorMessage from "../ErrorMessage/error-message";
 import userStore from "../../stores/UserStore";
 
@@ -18,8 +18,10 @@ const ClientDetailComponent = observer(
   class ClientDetailComponent extends Component {
     constructor(props) {
       super(props);
-      this.state= { errorText: "", users: [] };
+      this.state= { errorObj: null, users: [] };
+      this.setTitle();
       this.setUsersList();
+      clientsStore.clearClient();
     }
 
     setUsersList= async () => {
@@ -48,21 +50,43 @@ const ClientDetailComponent = observer(
 
     toggle = () => ClientsStore.client.active = !ClientsStore.client.active;
 
+    setTitle(){
+      const id = this.props.match.params.id;
+      if (id  === 'new') {
+        this.title = "NEW CLIENT";
+      } else {
+        this.title = "CLIENT DETAILS";
+        // TODO: add loading state
+        clientsStore.getClient(id);
+      }
+    }
 
     save = async (path) => {
-      ClientsStore.update().then(() => {
-        this.setState({ errorText: ""});
-        this.props.history.push(path);
-      }).catch((error) => {
-        this.setState({ errorText: error.response.request.responseText});
-      });
+      if (this.props.match.params.id === 'new') {
+        clientsStore.addClient().then(() => {
+          this.setState({ errorObj: "" });
+          this.props.history.push(path);
+        }).catch((error) => {
+          this.setState({ errorObj: error.response.data });
+        });
+      } else {
+        clientsStore.update().then(() => {
+          this.setState({ errorObj: ""});
+          this.props.history.push(path);
+        }).catch((error) => {
+          this.setState({ errorObj: error.response.data });
+        });
+      }
     }
 
     render() {
       return (
-        <div className="ui container">
-          <Header as="h3" icon="user" content="CLIENT DETAIL" />
+        <div className="ui container aligned">
+          <Header as="h3" icon="user" content={this.title} />
           <Divider />
+          { this.state.errorObj ? (
+                <ErrorMessage message = { this.state.errorObj } />
+              ) : null}
           <Container>
             <Grid>
               <Grid.Row centered>
@@ -73,16 +97,16 @@ const ClientDetailComponent = observer(
                         name="name"
                         label="Name"
                         placeholder="Name"
-                        value={ClientsStore.client.name}
-                        defaultValue={ClientsStore.client.name}
+                        value={clientsStore.client.name}
+                        defaultValue={clientsStore.client.name}
                         onChange={this.handleChange}
                       />
                       <Form.Input
                         name="contactName"
                         label="Contact Name"
                         placeholder="Contact Name"
-                        value={ClientsStore.client.contactName}
-                        defaultValue={ClientsStore.client.contactName}
+                        value={clientsStore.client.contactName}
+                        defaultValue={clientsStore.client.contactName}
                         onChange={this.handleChange}
                       />
                       </Form.Group>
@@ -91,16 +115,16 @@ const ClientDetailComponent = observer(
                         name="email"
                         label="Email"
                         placeholder="Email"
-                        value={ClientsStore.client.email}
-                        defaultValue={ClientsStore.client.email}
+                        value={clientsStore.client.email}
+                        defaultValue={clientsStore.client.email}
                         onChange={this.handleChange}
                       />
                       <Form.Input
                         name="address"
                         label="Address"
                         placeholder="Address"
-                        value={ClientsStore.client.address}
-                        defaultValue={ClientsStore.client.address}
+                        value={clientsStore.client.address}
+                        defaultValue={clientsStore.client.address}
                         onChange={this.handleChange}
                       />
                       </Form.Group>
@@ -109,8 +133,8 @@ const ClientDetailComponent = observer(
                         name="url"
                         label="URL"
                         placeholder="URL"
-                        value={ClientsStore.client.url}
-                        defaultValue={ClientsStore.client.url}
+                        value={clientsStore.client.url}
+                        defaultValue={clientsStore.client.url}
                         onChange={this.handleChange}
                       />
                       </Form.Group>
@@ -118,8 +142,8 @@ const ClientDetailComponent = observer(
                       <Form.Checkbox
                         name="active"
                         label="Active"
-                        checked={ClientsStore.client.active}
-                        defaultValue={ClientsStore.client.active}
+                        checked = {clientsStore.client.active}
+                        defaultValue={clientsStore.client.active}
                         onChange={this.toggle}
                       />
                       </Form.Group>
@@ -140,12 +164,9 @@ const ClientDetailComponent = observer(
               </Grid.Row>
             </Grid>
             <div className="ui container center aligned">
-              <Button onClick={() => this.save("/home/profile")}>Save</Button>
+              <Button onClick={() => this.save('/home/clients')}>Save</Button>
             </div>
           </Container>
-          { this.state.errorText ? (
-                <ErrorMessage message = { this.state.errorText } />
-              ) : null}
         </div>
       );
     }

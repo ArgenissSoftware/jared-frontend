@@ -1,38 +1,45 @@
 import React, { Component } from "react";
 import { Form, Header, Input, Divider, Dimmer, Loader } from "semantic-ui-react";
-import "./personal-data-tab.css";
 import { observer } from "mobx-react";
 import usersStore from "../../stores/UserStore";
-import authStore from "../../stores/AuthStore";
 
-const PersonalDataTab = observer(
+const UserDataTab = observer(
   class PersonalDataTab extends Component {
-
-    constructor() {
+    constructor(){
       super();
       this.state = {
         loading: false,
         error: false,
         githubID: "",
+        newClient: false,
       };
     }
 
+    componentDidMount(){
+      this.isNew();
+    }
+
+    isNew(){
+      if(this.props.match.params.id === 'new'){
+        console.log('new')
+        this.setState({ newClient: true });
+      }
+    }
+
     searchOnGithub = () => {
-      this.setState({ loading: true });
-      usersStore.getGitHubUser(this.state.githubID).
-        then(() => this.setState({ loading: false, error: false }))
+      this.setState({loading: true});
+      usersStore.getGitHubUser(this.state.githubID)
+        .then(() => this.setState({ loading: false, error: false}))
         .catch(error => {
           console.log(error);
-          this.setState({ loading: false, error: true });
+          this.setState({ loading: false, error: true});
         }
-
         )
-
-    };
+    }
 
     handleChange = (e) => {
-      this.setState({ error: false });
-      usersStore.setUserField(e.target.name, e.target.value);
+      this.setState({ error: false});
+      usersStore.user[e.target.name] = e.target.value;
     }
 
     setGithubUser = (e) => {
@@ -51,7 +58,7 @@ const PersonalDataTab = observer(
         },
         {
           text: "freelancer",
-          value: "freelancer"
+          value: "freelance"
         }
       ];
       return typesOptions;
@@ -65,8 +72,8 @@ const PersonalDataTab = observer(
             <Loader inverted>Loading</Loader>
           </Dimmer>
 
-          <Header as='h3'>
-            Update your profile by searching you in GitHub
+          <Header as="h3">
+            Update the profile by searching him in GitHub
           </Header>
           <Input
             name="github"
@@ -75,8 +82,9 @@ const PersonalDataTab = observer(
             action={{ color: 'teal', icon: "search", onClick: this.searchOnGithub }}
             width={8}
             onChange={this.setGithubUser}
-            error={this.state.error} />
-          <Divider />
+            error={this.state.error}
+          />
+          <Divider/>
 
           <Form>
             <Form.Group>
@@ -182,6 +190,7 @@ const PersonalDataTab = observer(
                 placeholder="Children"
                 width={8}
                 value={usersStore.user.childrenCount}
+                defaultValue={usersStore.user.childrenCount}
                 onChange={this.handleChange}
               />
               <Form.Input
@@ -190,6 +199,7 @@ const PersonalDataTab = observer(
                 placeholder="Alarm Code"
                 width={8}
                 value={usersStore.user.alarmCode}
+                defaultValue={usersStore.user.alarmCode}
                 onChange={this.handleChange}
               />
             </Form.Group>
@@ -200,8 +210,20 @@ const PersonalDataTab = observer(
                 placeholder="Username"
                 width={8}
                 value={usersStore.user.username}
+                defaultValue={usersStore.user.username}
                 onChange={this.handleChange}
               />
+              { this.state.newClient ?
+              <Form.Input
+                name="password"
+                label="Password"
+                placeholder="Password"
+                width={8}
+                value={usersStore.user.password}
+                defaultValue={""}
+                onChange={this.handleChange}
+              />
+              : null }
             </Form.Group>
           </Form>
         </div>
@@ -210,4 +232,4 @@ const PersonalDataTab = observer(
   }
 );
 
-export default PersonalDataTab;
+export default UserDataTab;

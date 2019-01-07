@@ -2,9 +2,10 @@ import React, {Component} from "react";
 import {observer} from "mobx-react";
 import { Redirect } from "react-router-dom";
 import logo from "../../images/logo1.png";
-import {Dropdown, Menu, Icon} from "semantic-ui-react";
+import {Dropdown, Menu, Icon, Image} from "semantic-ui-react";
 import "./top-nav-bar.css";
 import authStore from "../../stores/AuthStore";
+import LogoToolbar from '../Common/LogoToolbar';
 
 const TopNavBar = observer(class TopNavBar extends Component {
 
@@ -24,16 +25,16 @@ const TopNavBar = observer(class TopNavBar extends Component {
     if (!authStore.isLoggedIn()){
       return <Redirect to={{ pathname: "/" }} push={false} />;
     }
+    const trigger = (
+      <span>
+        <Image avatar src={authStore.getAvatar()} /> {authStore.user.name} {authStore.user.surname}
+      </span>
+    )
     return (
-      <Menu size="huge">
-        <Menu.Item name="../home" onClick={this.handleItemClick}>
-          <img src={logo} alt=""/>
-          <b>Jared</b>
-        </Menu.Item>
-
+      <LogoToolbar logo={logo}>
         <Dropdown item text="User">
           <Dropdown.Menu>
-            <Dropdown.Item name="../home/users" onClick={this.handleItemClick}>
+            <Dropdown.Item name="/home/users" onClick={this.handleItemClick} >
               <Icon name='list'/>
               User List
             </Dropdown.Item>
@@ -43,7 +44,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
 
         <Dropdown item text="Client">
           <Dropdown.Menu>
-            <Dropdown.Item name="../home/clients" onClick={this.handleItemClick}>
+            <Dropdown.Item name="/home/clients" onClick={this.handleItemClick}>
               <Icon name='list'/>
               Client List
             </Dropdown.Item>
@@ -52,13 +53,13 @@ const TopNavBar = observer(class TopNavBar extends Component {
         </Dropdown>
 
         <Menu.Menu position="right">
-          <Dropdown item text={"Welcome " + authStore.user.username}>
+          <Dropdown item trigger={trigger}>
             <Dropdown.Menu>
-              <Dropdown.Item name="../home/profile" onClick={this.handleItemClick}>
+              <Dropdown.Item name="/home/profile" onClick={this.handleItemClick}>
                 <Icon name='user'/>
                 My Profile
               </Dropdown.Item>
-              <Dropdown.Item name="../home/change_password" onClick={this.handleItemClick}>
+              <Dropdown.Item name="/home/change_password" onClick={this.handleItemClick}>
                 <Icon name='lock'/>
                 Change Password
               </Dropdown.Item>
@@ -69,7 +70,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Menu>
-      </Menu>
+      </LogoToolbar>
     );
   }
 });
