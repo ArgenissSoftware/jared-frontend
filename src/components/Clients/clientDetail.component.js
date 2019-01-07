@@ -7,21 +7,45 @@ import {
   Segment,
   Container,
   Divider,
-  Header
+  Header,
+  Dropdown
 } from "semantic-ui-react";
 import ClientsStore from "../../stores/ClientsStore";
 import ErrorMessage from "../ErrorMessage/error-message";
+import userStore from "../../stores/UserStore";
 
 const ClientDetailComponent = observer(
   class ClientDetailComponent extends Component {
     constructor(props) {
       super(props);
-      this.state= { errorText: ""};
+      this.state= { errorText: "", users: [] };
+      this.setUsersList();
     }
 
-    handleChange(e) {
-      ClientsStore.client[e.target.name] = e.target.value;
+    setUsersList= async () => {
+      await userStore.getUsersList()
+      .then(() => {
+        let usersList = [];
+        userStore.userList.forEach(user => {
+          usersList.push({ key: user.name, value: user._id, text: user.name });
+        });
+        this.setState({ users: usersList });
+      })
+      .catch((error) =>{
+        console.log(error);
+      })
     }
+
+    handleChange(e, event) {
+      if(event.type === 'dropdown'){
+          ClientsStore.client[event.name] = event.value;
+        console.log(ClientsStore.client[event.name]);
+      }else{
+      ClientsStore.client[e.target.name] = e.target.value;
+      console.log(ClientsStore.client[e.target.name]);      
+      }
+    }
+
     toggle = () => ClientsStore.client.active = !ClientsStore.client.active;
 
 
@@ -94,10 +118,22 @@ const ClientDetailComponent = observer(
                       <Form.Checkbox
                         name="active"
                         label="Active"
-                        checked = {ClientsStore.client.active}
+                        checked={ClientsStore.client.active}
                         defaultValue={ClientsStore.client.active}
                         onChange={this.toggle}
                       />
+                      </Form.Group>
+                      <Form.Group>
+                        <Dropdown
+                          type="dropdown"
+                          name="employees"
+                          label="Developers"
+                          placeholder='Developers'
+                          defaultValue={ClientsStore.client.employees}
+                          onChange={this.handleChange}
+                          fluid multiple search selection 
+                          options={this.state.users}
+                        />
                       </Form.Group>
                   </Form>
                 </Segment>

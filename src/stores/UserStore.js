@@ -73,9 +73,6 @@ class UserStore {
   async updateUser() {
     this.setError('');
     await UsersService.update(this.user)
-
-
-
   }
 
   /**
@@ -107,6 +104,14 @@ class UserStore {
       this.user.githubID = githubID;
     })
 
+  }
+
+  finishRelation(userId, clientId){
+
+  }
+
+  newRelation(userId, clientId){
+    
   }
 
   parseData() {
