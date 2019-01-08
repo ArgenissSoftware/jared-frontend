@@ -3,24 +3,22 @@ import { observer } from "mobx-react";
 import "./clients-tab.css";
 import { List, Dropdown, Button } from "semantic-ui-react";
 import ClientsStore from "../../stores/ClientsStore";
-import UserStore from "../../stores/UserStore";
-
-let selectedClientID;
+import userStore from "../../stores/UserStore";
+import authStore from "../../stores/AuthStore";
 
 const ClientsTab = observer(
   class ClientsTab extends Component {
     constructor(props) {
       super(props);
-      ClientsStore.getClientsList();
+      userStore.getUserClientsList(authStore.user._id);
     }
 
     save(e, { value }) {
-      UserStore.clients.push(value);
+      userStore.clients.push(value);
     }
 
     async GoToDetail(id) {
       await ClientsStore.getClient(id);
-
       this.props.history.push("clients/" + id);
     }
 
@@ -39,7 +37,7 @@ const ClientsTab = observer(
     addClient() { }
 
     render() {
-      const options = ClientsStore.clients.map(({ _id, name }) => ({
+      const options = userStore.clients.map(({ _id, name }) => ({
         value: _id,
         text: name
       }));
@@ -58,7 +56,7 @@ const ClientsTab = observer(
 
           <div className="ui container aligned">
             <List divided relaxed>
-              {ClientsStore.clients.map(client =>
+              {userStore.clients.map(client =>
                 this.getRenderedClientsList(client.name, client._id)
               )}
             </List>

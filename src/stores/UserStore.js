@@ -124,11 +124,25 @@ class UserStore {
 
   }
 
+  /**
+   * get clients assigned to User
+   */
+  async getUserClientsList(id){
+    return UsersService.getUserClientsList(id)
+    .then((response) => {
+      this.clients = response.data.data.clients;
+      // return response.data;
+    }
+    ).catch(function (error) {
+      console.log(error);
+    });
+  }
+
   parseData() {
     this.user.birthday = this.user.birthday ? moment(this.user.birthday).format("YYYY-MM-DD") : "";
     this.user.visa = this.user.visa ? moment(this.user.visa).format("YYYY-MM-DD") : "";
     this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).format("YYYY-MM-DD") : "";
-    this.clients = this.user.clients ? this.user.clients : [];
+    // this.clients = this.user.clients ? this.user.clients : [];
   }
 
 }
@@ -143,6 +157,7 @@ decorate(UserStore, {
   userList: observable,
   setUserField: action,
   getUserById: action,
+  getUserClientsList: action,
   setError: action
 })
 

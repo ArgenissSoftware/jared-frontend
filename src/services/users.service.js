@@ -34,6 +34,13 @@ class UsersService extends CrudService {
         .post(this.URL, obj);
     }
 
+        /** request for get all the clients assigned to user */
+    getUserClientsList(id){
+        return api
+            .get(this.URL + "/" + id + "/clients")
+    }
+    
+
     /**
      * disable user
      * @param {string} param
