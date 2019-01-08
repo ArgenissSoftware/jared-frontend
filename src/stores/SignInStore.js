@@ -1,4 +1,4 @@
-import { extendObservable } from "mobx";
+import { extendObservable, set } from "mobx";
 
 class SignInStore {
   constructor() {
@@ -6,6 +6,10 @@ class SignInStore {
       username: "",
       password: ""
     });
+  }
+
+  set(name, value) {
+    this[name] = value;
   }
 
   clear(){

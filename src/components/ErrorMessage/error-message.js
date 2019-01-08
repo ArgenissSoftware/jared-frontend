@@ -1,22 +1,43 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Message } from 'semantic-ui-react'
 
-class ErrorMessage extends Component {
+class ErrorMessage extends PureComponent {
+
+  state = {
+    visible: true
+  }
 
   handleDismiss = (e) => {
     this.setState({ visible: false });
   }
 
   render() {
-    let msgjson = this.props.message || {errors:[]};
+    if (!this.state.visible) return null;
+    let msg = this.props.message || 'Ooops!!!';
+
+    if (typeof msg === 'string' || msg instanceof String) {
+      return (
+        <Message
+          onDismiss={this.handleDismiss}
+          negative
+        >
+          <Message.Header>Please check this error</Message.Header>
+          <Message.Content>{msg}</Message.Content>
+        </Message>
+      );
+    }
+
     return (
-      <Message negative>
+      <Message
+        onDismiss={this.handleDismiss}
+        negative
+      >
         <Message.Header>Please check this errors</Message.Header>
-        <ul>
-        {msgjson['errors'].map( json => {
-          return <li>{json['message']}</li>
-        })}
-        </ul>
+        <Message.List>
+          {msg['errors'].map( json => {
+            return <Message.Item>{json['message']}</Message.Item>
+          })}
+        </Message.List>
       </Message>
       );
     }

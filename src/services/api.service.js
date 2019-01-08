@@ -2,33 +2,31 @@ import axios from "axios";
 import authStore from "../stores/AuthStore";
 
 class ApiService{
-    
-    constructor() {    }
-    
-    getHeaders() {
-        return {
-            headers: {
-                "Authorization": "Bearer " + authStore.token,
-                "Content-Type": "application/json"
-            }
-        }
-    }
 
-    get(url){
-        return axios.get(url, this.getHeaders());
+  getHeaders() {
+    return {
+      headers: {
+        "Authorization": "Bearer " + authStore.token,
+        "Content-Type": "application/json"
+      }
     }
+  }
 
-    post(url, obj){
-        return axios.post(url, obj, this.getHeaders());
-    }
+  get(url){
+    return axios.get(url, this.getHeaders());
+  }
 
-    put(url, obj){
-        return axios.put(url, obj, this.getHeaders());
-    }
-    
-    delete(url){
-        return axios.delete(url, this.getHeaders());
-    }
+  post(url, obj){
+    return axios.post(url, obj, this.getHeaders());
+  }
+
+  put(url, obj){
+    return axios.put(url, obj, this.getHeaders());
+  }
+
+  delete(url){
+    return axios.delete(url, this.getHeaders());
+  }
 
 }
 

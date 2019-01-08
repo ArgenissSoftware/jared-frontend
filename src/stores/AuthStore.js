@@ -1,6 +1,7 @@
 import { extendObservable } from "mobx";
 import AuthService from "../services/auth.service"
 import signInStore from "./SignInStore";
+import { md5 } from '../services/util.service';
 
 /**
  * Auth Store
@@ -25,13 +26,12 @@ class AuthStore {
 
   async login(data) {
     const response = await AuthService.login(data)
-    signInStore.navigate = true;
     signInStore.clear();
     this.setUserAuth(response.data.data);
     return response.data;
   }
 
-  async register(data){    
+  async register(data){
     const response = await AuthService.register(data)
     return response;
   }
@@ -44,8 +44,13 @@ class AuthStore {
   }
 
   isLoggedIn() {
-    console.log('logged ', (this.token && this.user) ? 'si' : 'no')
     return this.token && this.user;
+  }
+
+  getAvatar(query) {
+    const formattedEmail = ('' + this.user.email).trim().toLowerCase();
+    let hash = md5(formattedEmail);
+    return `https://www.gravatar.com/avatar/${hash}.jpg?${query}`;
   }
 
   clearAuth() {

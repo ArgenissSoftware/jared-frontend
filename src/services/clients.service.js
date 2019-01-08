@@ -1,10 +1,9 @@
 import CrudService from "./crud.services";
 
 class ClientsService extends CrudService {
-
-    constructor() {
-        super("/clients");
-    }
+  constructor() {
+    super("/clients");
+  }
 }
 
 const clientsService = new ClientsService();
