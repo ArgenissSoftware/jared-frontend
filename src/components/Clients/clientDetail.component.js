@@ -29,35 +29,54 @@ const ClientDetailComponent = observer(
       .then(() => {
         let usersList = [];
         userStore.userList.forEach(user => {
-          usersList.push({ key: user.name, value: user._id, text: user.name });
+          usersList.push({ key: user.name, value: user._id, text: user.name });          
         });
         this.setState({ users: usersList });
       })
-      .catch((error) =>{
+      .catch((error) => {
         console.log(error);
       })
     }
 
-    handleChange(e, event) {
-      if(event.type === 'dropdown'){
-          ClientsStore.client[event.name] = event.value;
-        console.log(ClientsStore.client[event.name]);
-      }else{
-      ClientsStore.client[e.target.name] = e.target.value;
-      console.log(ClientsStore.client[e.target.name]);      
+    handleChange = (e, data) => {
+      if(data.type === 'dropdown') {
+          this.checkChange(data);
+          clientsStore.client.employees = data.value;
+      } else {
+        clientsStore.client[e.target.name] = e.target.value;
       }
     }
 
-    toggle = () => ClientsStore.client.active = !ClientsStore.client.active;
+    async checkChange(data) {
+      let oldEmployees = clientsStore.oldEmployees;
+      if(oldEmployees.length > data.value.length) {
+        //Remove a relation with the user
+        let find = false;
+        let index = 0;
+        while(index <= oldEmployees.length-1 && !find){
+          let userId = oldEmployees[index];
+          if(data.value.indexOf(userId) == -1){
+            find = true;
+            await clientsStore.removeRelation(userId);
+          }
+          index++;
+        }
+      } else {
+        //Add a relation with the user
+        await clientsStore.addRelation(data.value[data.value.length-1]);
+      }
+    }
 
-    setTitle(){
+    toggle = () => clientsStore.client.active = !clientsStore.client.active;
+
+    async setTitle() {
       const id = this.props.match.params.id;
       if (id  === 'new') {
         this.title = "NEW CLIENT";
       } else {
         this.title = "CLIENT DETAILS";
         // TODO: add loading state
-        clientsStore.getClient(id);
+        await clientsStore.getClient(id);
       }
     }
 
@@ -153,7 +172,7 @@ const ClientDetailComponent = observer(
                           name="employees"
                           label="Developers"
                           placeholder='Developers'
-                          defaultValue={ClientsStore.client.employees}
+                          value={clientsStore.client.employees}
                           onChange={this.handleChange}
                           fluid multiple search selection 
                           options={this.state.users}

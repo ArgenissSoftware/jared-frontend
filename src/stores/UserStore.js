@@ -121,15 +121,6 @@ class UserStore {
       }
       this.user.githubID = githubID;
     })
-
-  }
-
-  finishRelation(userId, clientId){
-
-  }
-
-  newRelation(userId, clientId){
-    
   }
 
   parseData() {

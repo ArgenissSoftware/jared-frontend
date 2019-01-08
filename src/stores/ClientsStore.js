@@ -31,7 +31,7 @@ class ClientsStore {
     }
   }
 
-  clearClient(){
+  clearClient() {
     this.client = {};
   }
 
@@ -45,37 +45,25 @@ class ClientsStore {
   }
 
   async update() {
-    if(this.oldEmployees === this.client.employees){
     await clientsService.update(this.client);
-    }else{
-      this.checkEmployees();
+  }
+
+  async removeRelation(userId) {
+    try {
+      const response = await clientsService.removeRelation(userId, this.client._id);
+      this.oldEmployees = response.data.data.employees;
+    } catch(err) {
+      console.log(err);
     }
   }
 
-  async checkEmployees(){
-    let newEmployees = this.client.employees;
-    this.oldEmployees.array.forEach(userId => {
-      let index = 0;
-      let find = false
-      while (index > newEmployees.length-1 && !find) {
-        if(userId === newEmployees[index]){
-          find = true;
-          newEmployees = newEmployees.splice(index,1); //Remove it because in this variable we need only the new employees for this client
-        }
-      }
-      if(!find){ //If the developer don't work anymore with this client
-        userStore.finishRelation(userId, this.client._id);
-      }
-    });
-    if(newEmployees){
-    this.setNewRelations(newEmployees);
+  async addRelation(userId) {
+    try {
+      const response = await clientsService.addRelation(userId, this.client._id);
+      this.oldEmployees = response.data.data.employees;
+    } catch(err) {
+      console.log(err);
     }
-  }
-
-  setNewRelations(employees){
-    employees.forEach(userId => {
-      userStore.newRelation(userId, this.client._id);
-    });
   }
 
 }
