@@ -49,11 +49,16 @@ const ClientDetailComponent = observer(
     }
 
     async checkChange(data) {
-
+      console.log("Clientstore: "+ clientsStore.client.employees.length);
+      console.log("Value: "+data.value.length);
+      
       if(clientsStore.client.employees.length > data.value.length) {
+        console.log("Borrando");
+        
         const diff = _.difference(clientsStore.client.employees, data.value);
         await clientsStore.removeRelation(diff[0]);
       } else {
+        console.log("agregando");
         //Add a relation with the user
         await clientsStore.addRelation(data.value[data.value.length-1]);
       }

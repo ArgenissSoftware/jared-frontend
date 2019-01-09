@@ -7,13 +7,13 @@ class ClientsService extends CrudService {
   }
 
   removeRelation(userId, clientId){
-    const endpoint = "/" + clientId + "/developer/" + userId;
-    return api.post(this.URL + endpoint, userId);
+    const endpoint = "/" + clientId + "/assign/developer/" + userId;
+    return api.delete(this.URL + endpoint, userId);
   }
 
   addRelation(userId, clientId){
-    const endpoint = "/" + clientId + "/developer/" + userId;
-    return api.delete(this.URL + endpoint, userId);
+    const endpoint = "/" + clientId + "/assign/developer/" + userId;
+    return api.post(this.URL + endpoint, userId);
   }
 
 }

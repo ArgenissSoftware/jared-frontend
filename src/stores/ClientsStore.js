@@ -4,7 +4,6 @@ import {
   observable
 } from "mobx";
 import clientsService from "../services/clients.service";
-import userStore from "./UserStore";
 
 class ClientsStore {
   clients = [];
