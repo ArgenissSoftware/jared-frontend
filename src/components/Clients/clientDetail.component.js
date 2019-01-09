@@ -13,12 +13,13 @@ import {
 import clientsStore from "../../stores/ClientsStore";
 import ErrorMessage from "../ErrorMessage/error-message";
 import userStore from "../../stores/UserStore";
+import _ from 'lodash';
 
 const ClientDetailComponent = observer(
   class ClientDetailComponent extends Component {
+    state = { errorObj: null, users: [] };
     constructor(props) {
       super(props);
-      this.state= { errorObj: null, users: [] };
       this.setTitle();
       this.setUsersList();
       clientsStore.clearClient();
@@ -29,7 +30,7 @@ const ClientDetailComponent = observer(
       .then(() => {
         let usersList = [];
         userStore.userList.forEach(user => {
-          usersList.push({ key: user.name, value: user._id, text: user.name });          
+          usersList.push({ key: user.name, value: user._id, text: user.name });
         });
         this.setState({ users: usersList });
       })
@@ -41,26 +42,17 @@ const ClientDetailComponent = observer(
     handleChange = (e, data) => {
       if(data.type === 'dropdown') {
           this.checkChange(data);
-          clientsStore.client.employees = data.value;
+          //clientsStore.client.employees = data.value;
       } else {
         clientsStore.client[e.target.name] = e.target.value;
       }
     }
 
     async checkChange(data) {
-      let oldEmployees = clientsStore.oldEmployees;
-      if(oldEmployees.length > data.value.length) {
-        //Remove a relation with the user
-        let find = false;
-        let index = 0;
-        while(index <= oldEmployees.length-1 && !find){
-          let userId = oldEmployees[index];
-          if(data.value.indexOf(userId) == -1){
-            find = true;
-            await clientsStore.removeRelation(userId);
-          }
-          index++;
-        }
+
+      if(clientsStore.client.employees.length > data.value.length) {
+        const diff = _.difference(clientsStore.client.employees, data.value);
+        await clientsStore.removeRelation(diff[0]);
       } else {
         //Add a relation with the user
         await clientsStore.addRelation(data.value[data.value.length-1]);
@@ -172,9 +164,9 @@ const ClientDetailComponent = observer(
                           name="employees"
                           label="Developers"
                           placeholder='Developers'
-                          value={clientsStore.client.employees}
+                          value={clientsStore.client.employees && clientsStore.client.employees.slice()}
                           onChange={this.handleChange}
-                          fluid multiple search selection 
+                          fluid multiple search selection
                           options={this.state.users}
                         />
                       </Form.Group>

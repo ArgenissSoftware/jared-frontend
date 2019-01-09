@@ -1,16 +1,14 @@
-import { extendObservable } from "mobx";
+import {
+  decorate,
+  action,
+  observable
+} from "mobx";
 import clientsService from "../services/clients.service";
 import userStore from "./UserStore";
 
 class ClientsStore {
-  constructor() {
-    extendObservable(this, {
-      clients: [],
-      client: {},
-      oldEmployees: []
-    });
-
-  }
+  clients = [];
+  client = {employees: []};
 
   async getClientsList() {
     try {
@@ -25,7 +23,6 @@ class ClientsStore {
     try {
       const response = await clientsService.get(id);
       this.client = response.data.data;
-      this.oldEmployees = this.client.employees;
     } catch (err) {
       console.error(err);
     }
@@ -50,23 +47,40 @@ class ClientsStore {
 
   async removeRelation(userId) {
     try {
+
+      var index = this.client.employees.indexOf(userId);
+
+      if (index > -1) {
+        this.client.employees.splice(index, 1);
+      }
       const response = await clientsService.removeRelation(userId, this.client._id);
-      this.oldEmployees = response.data.data.employees;
+
     } catch(err) {
+      // in case of failure will add the user again
+      if (index > -1 ) {
+        this.client.employees.push(userId);
+      }
       console.log(err);
     }
   }
 
   async addRelation(userId) {
     try {
+      this.client.employees.push(userId);
       const response = await clientsService.addRelation(userId, this.client._id);
-      this.oldEmployees = response.data.data.employees;
     } catch(err) {
       console.log(err);
     }
   }
-
 }
+
+decorate(ClientsStore, {
+  client: observable,
+  clients: observable,
+  getClientsList: action,
+  addRelation: action,
+  removeRelation: action
+})
 
 let clientsStore = new ClientsStore();
 
