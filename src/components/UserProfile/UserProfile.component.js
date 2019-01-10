@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Button, Message, Header, Form } from "semantic-ui-react";
+import { 
+  Button, 
+  Message, 
+  Header, 
+  Form 
+} from "semantic-ui-react";
 import { observer } from "mobx-react";
 
 import UserProfileTabs from "../../components/UserTabs/user-profile-tabs";

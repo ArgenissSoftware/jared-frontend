@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import "./clients-tab.css";
-import { List, Dropdown, Button } from "semantic-ui-react";
+import { 
+  List, 
+  Dropdown, 
+  Button,
+  Grid,
+  Segment,
+  Container,
+  Divider
+} from "semantic-ui-react";
 import ClientsStore from "../../stores/ClientsStore";
 import UserStore from "../../stores/UserStore";
 
@@ -46,23 +54,32 @@ const ClientsTab = observer(
 
       return (
         <div className="ui container">
-          <Dropdown
-            placeholder="Add a new client"
-            selection
-            search
-            options={options}
-            onChange={this.save}
-          />
+        <Container>
+          <Segment>
+            <Grid>
+              <Grid.Row centered>
+                <Dropdown
+                  placeholder="Add a new client"
+                  selection
+                  search
+                  options={options}
+                  onChange={this.save}
+                />
+               <Button onClick={() => this.addClient()}>ADD</Button>
+              </Grid.Row>
+            </Grid>
 
-          <Button onClick={() => this.addClient()}>ADD</Button>
-
-          <div className="ui container aligned">
-            <List divided relaxed>
-              {ClientsStore.clients.map(client =>
+            <Divider />
+            <div className="ui container aligned">
+              <List divided relaxed>
+                {ClientsStore.clients.map(client =>
                 this.getRenderedClientsList(client.name, client._id)
-              )}
-            </List>
-          </div>
+                )}
+              </List>
+            </div>
+            </Segment>
+        </Container>
+
         </div>
       );
     }
