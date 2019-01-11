@@ -52,7 +52,7 @@ class ClientsStore {
       if (index > -1) {
         this.client.employees.splice(index, 1);
       }
-      const response = await clientsService.removeRelation(userId, this.client._id);
+      await clientsService.removeRelation(userId, this.client._id, "/assign/developer/");
 
     } catch(err) {
       // in case of failure will add the user again
@@ -66,7 +66,7 @@ class ClientsStore {
   async addRelation(userId) {
     try {
       this.client.employees.push(userId);
-      const response = await clientsService.addRelation(userId, this.client._id);
+      await clientsService.addRelation(this.client._id, userId, "/assign/developer/");
     } catch(err) {
       console.log(err);
     }

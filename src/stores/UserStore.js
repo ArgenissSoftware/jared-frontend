@@ -6,6 +6,7 @@ import {
 import moment from "moment";
 import UsersService from "../services/users.service"
 import authStore from "./AuthStore";
+import usersService from "../services/users.service";
 
 /**
  * User Store
@@ -121,6 +122,33 @@ class UserStore {
       }
       this.user.githubID = githubID;
     })
+  }
+
+  async removeRelation(clientId) {
+    try {
+
+      var index = this.user.clients.indexOf(clientId);
+
+      if (index > -1) {
+        this.user.clients.splice(index, 1);
+      }
+      await usersService.removeRelation(this.user._id, clientId, "/assign/client/");
+
+    } catch(err) {
+      // in case of failure will add the user again
+      if (index > -1 ) {
+        this.user.clients.push(clientId);
+      }
+      console.log(err);
+    }
+  }
+
+  async addRelation(clientId) {
+    try {
+      await usersService.addRelation(this.user._id, clientId, "/assign/client/");
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   parseData() {

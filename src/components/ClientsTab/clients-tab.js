@@ -10,24 +10,37 @@ import {
   Container,
   Divider
 } from "semantic-ui-react";
-import ClientsStore from "../../stores/ClientsStore";
-import UserStore from "../../stores/UserStore";
+import clientsStore from "../../stores/ClientsStore";
+import userStore from "../../stores/UserStore";
+import _ from 'lodash';
 
-let selectedClientID;
 
 const ClientsTab = observer(
-  class ClientsTab extends Component {
+  class ClientsTab extends Component {    
     constructor(props) {
       super(props);
-      ClientsStore.getClientsList();
+      this.state = { options: [] };
+      this.setOptions();
     }
 
-    save(e, { value }) {
-      UserStore.clients.push(value);
+    async setOptions() {
+      await clientsStore.getClientsList();
+      const diff = _.difference(clientsStore.clients, userStore.user.clients)
+        .map(({ _id, name }) => {
+          return { value: _id, text: name };
+        });
+        console.log("Diferencia: "+diff);
+        console.log(userStore.user._id);
+        
+      this.setState({ options: diff });
+    }
+
+    handleChange(e, { value }) {      
+      userStore.clients.push(value);
     }
 
     async GoToDetail(id) {
-      await ClientsStore.getClient(id);
+      await clientsStore.getClient(id);
 
       this.props.history.push("clients/" + id);
     }
@@ -35,23 +48,31 @@ const ClientsTab = observer(
     getRenderedClientsList(clientName, clientID) {
       return (
         <List.Item key={clientName}>
-          <List.Icon name="user" size="large" verticalAlign="middle" />
-          <List.Content onClick={() => this.GoToDetail(clientID)}>
-            <List.Header as="a">{clientName}</List.Header>
-            <List.Description as="a">Project Description</List.Description>
-          </List.Content>
+        <List.Content floated='right' >
+          <Button color='red' onClick={() => this.deleteClient(clientID)}>Delete</Button>
+        </List.Content>
+        <List.Icon name="user" size="large"/>
+        <List.Content onClick={() => this.GoToDetail(clientID)}>
+          <List.Header as="a">{clientName}</List.Header>
+          <List.Description as="a">Project Description</List.Description>
+        </List.Content>
         </List.Item>
       );
     }
 
-    addClient() { }
+    async addClient() { 
+      console.log(userStore.clients[userStore.clients.length-1]);
+      
+      await userStore.addRelation(userStore.clients[userStore.clients.length-1]);
+    }
+
+    async deleteClient(clientId) {
+      await userStore.removeRelation(clientId);
+    }
+
+    
 
     render() {
-      const options = ClientsStore.clients.map(({ _id, name }) => ({
-        value: _id,
-        text: name
-      }));
-
       return (
         <div className="ui container">
         <Container>
@@ -62,8 +83,8 @@ const ClientsTab = observer(
                   placeholder="Add a new client"
                   selection
                   search
-                  options={options}
-                  onChange={this.save}
+                  options={this.state.options}
+                  onChange={this.handleChange}
                 />
                <Button onClick={() => this.addClient()}>ADD</Button>
               </Grid.Row>
@@ -71,11 +92,15 @@ const ClientsTab = observer(
 
             <Divider />
             <div className="ui container aligned">
-              <List divided relaxed>
-                {ClientsStore.clients.map(client =>
-                this.getRenderedClientsList(client.name, client._id)
-                )}
-              </List>
+              { userStore.user.clients ? (
+                <List divided relaxed verticalAlign='middle'>
+                  {userStore.user.clients.map(client =>
+                    this.getRenderedClientsList(client.name, client._id)
+                  )}
+                </List> 
+                ) : null
+              }
+              
             </div>
             </Segment>
         </Container>
