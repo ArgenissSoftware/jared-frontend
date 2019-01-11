@@ -8,7 +8,8 @@ import {
   Container,
   Divider,
   Header,
-  Dropdown
+  Dropdown,
+  List
 } from "semantic-ui-react";
 import clientsStore from "../../stores/ClientsStore";
 import ErrorMessage from "../ErrorMessage/error-message";
@@ -17,42 +18,30 @@ import _ from 'lodash';
 
 const ClientDetailComponent = observer(
   class ClientDetailComponent extends Component {
-    state = { errorObj: null, users: [] };
+    state = { errorObj: null,
+              options: [],
+              selected: {}
+            };
     constructor(props) {
       super(props);
       this.setTitle();
-      this.setUsersList();
+      this.setOptions();
       clientsStore.clearClient();
     }
 
-    setUsersList= async () => {
-      await userStore.getUsersList()
-      .then(() => {
-        let usersList = [];
-        userStore.userList.forEach(user => {
-          usersList.push({ key: user.name, value: user._id, text: user.name });
-        });
-        this.setState({ users: usersList });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    async setOptions() {
+      await userStore.getUsersList();
+      const users = userStore.userList.map(({ _id, name }) => {
+        return { value: _id, text: name };
+      });
+      this.setState({ options: users });
     }
 
     handleChange = (e, data) => {
       if(data.type === 'dropdown') {
-          this.checkChange(data);
+        this.setState({ selected: data.value });
       } else {
         clientsStore.client[e.target.name] = e.target.value;
-      }
-    }
-
-    async checkChange(data) {
-      if(clientsStore.client.employees.length > data.value.length) {        
-        const diff = _.difference(clientsStore.client.employees, data.value);
-        await clientsStore.removeRelation(diff[0]);
-      } else {
-        await clientsStore.addRelation(data.value[data.value.length-1]);
       }
     }
 
@@ -85,6 +74,41 @@ const ClientDetailComponent = observer(
           this.setState({ errorObj: error.response.data });
         });
       }
+    }
+
+    addDeveloper = async () => {
+      if( _.find(clientsStore.client.employees, (client) => {
+        return client._id === this.state.selected;
+        })) {
+          this.setState({ errorObj: "The client is already working with this developer" });
+      } else {
+        const client = _.find(userStore.userList, (user) => {
+          return user._id === this.state.selected;
+        });      
+        await clientsStore.addRelation(client);
+      }
+    }
+
+    async deleteDeveloper(userId) {
+      const user = _.find(userStore.userList, (user) => {
+        return user._id === userId;
+      }); 
+      await clientsStore.removeRelation(user);
+    }
+
+    getRenderedUsersList(userName, userId) {
+      return (
+        <List.Item key={userName}>
+        <List.Content floated='right' >
+          <Button color='red' onClick={() => this.deleteDeveloper(userId)}>Delete</Button>
+        </List.Content>
+        <List.Icon name="user" size="large"/>
+        <List.Content>
+          <List.Header as="a">{userName}</List.Header>
+          <List.Description as="a">Project Description</List.Description>
+        </List.Content>
+        </List.Item>
+      );
     }
 
     render() {
@@ -156,16 +180,36 @@ const ClientDetailComponent = observer(
                       />
                       </Form.Group>
                       <Form.Group>
-                        <Dropdown
-                          type="dropdown"
-                          name="employees"
-                          label="Developers"
-                          placeholder='Developers'
-                          value={clientsStore.client.employees && clientsStore.client.employees.slice()}
-                          onChange={this.handleChange}
-                          fluid multiple search selection
-                          options={this.state.users}
-                        />
+                        <Container>
+                          <Segment>
+                            <Grid>
+                              <Grid.Row centered>
+                                <Dropdown
+                                  type='dropdown'
+                                  placeholder="Add a new Developer"
+                                  selection
+                                  search
+                                  value={this.state.selected}
+                                  options={this.state.options}
+                                  onChange={this.handleChange}
+                                />
+                              <Button onClick={() => this.addDeveloper()}>ADD</Button>
+                              </Grid.Row>
+                            </Grid>
+
+                            <Divider />
+                            <div className="ui container aligned">
+                              { clientsStore.client.employees ? (
+                                <List divided verticalAlign='middle'>
+                                  {clientsStore.client.employees.map(user =>
+                                    this.getRenderedUsersList(user.name, user._id)
+                                  )}
+                                </List> 
+                                ) : null
+                              }
+                            </div>
+                            </Segment>
+                        </Container>
                       </Form.Group>
                   </Form>
                 </Segment>

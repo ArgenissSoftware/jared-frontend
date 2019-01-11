@@ -7,6 +7,7 @@ import moment from "moment";
 import UsersService from "../services/users.service"
 import authStore from "./AuthStore";
 import usersService from "../services/users.service";
+import _ from 'lodash';
 
 /**
  * User Store
@@ -124,29 +125,35 @@ class UserStore {
     })
   }
 
-  async removeRelation(clientId) {
+  async removeRelation(client) {
     try {
-
-      var index = this.user.clients.indexOf(clientId);
+      _.remove(this.user.clients, (cli) => {
+        return cli._id == client._id
+      });      
+      var index = this.user.clients.indexOf(client._id);
 
       if (index > -1) {
         this.user.clients.splice(index, 1);
       }
-      await usersService.removeRelation(this.user._id, clientId, "/assign/client/");
+      await usersService.removeRelation(this.user._id, client._id, "/assign/client/");
 
     } catch(err) {
       // in case of failure will add the user again
       if (index > -1 ) {
-        this.user.clients.push(clientId);
+        this.user.clients.push(client);
       }
       console.log(err);
     }
   }
 
-  async addRelation(clientId) {
+  async addRelation(client) {
     try {
-      await usersService.addRelation(this.user._id, clientId, "/assign/client/");
+      this.user.clients.push(client);
+      await usersService.addRelation(this.user._id, client._id, "/assign/client/");
     } catch(err) {
+      _.remove(this.user.clients, (cli) => {
+        return cli._id == client._id
+      });   
       console.log(err);
     }
   }
