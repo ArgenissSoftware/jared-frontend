@@ -3,12 +3,12 @@ import { observer } from "mobx-react";
 import "./clients-tab.css";
 import { 
   List, 
-  Dropdown, 
   Button,
   Grid,
   Segment,
   Container,
-  Divider
+  Divider,
+  Form
 } from "semantic-ui-react";
 import ErrorMessage from "../ErrorMessage/error-message";
 import clientsStore from "../../stores/ClientsStore";
@@ -45,7 +45,7 @@ const ClientsTab = observer(
       return (
         <List.Item key={clientName}>
         <List.Content floated='right' >
-          <Button color='red' onClick={() => this.deleteClient(clientId)}>Delete</Button>
+          <Button  circular icon='delete' onClick={() => this.deleteClient(clientId)}></Button>
         </List.Content>
         <List.Icon name="user" size="large"/>
         <List.Content onClick={() => this.GoToDetail(clientId)}>
@@ -89,36 +89,41 @@ const ClientsTab = observer(
           <ErrorMessage message = { this.state.errorObj } />
           ) : null}
         <Container>
-          <Segment>
-            <Grid>
-              <Grid.Row centered>
-                <Dropdown
-                  placeholder="Add a new client"
-                  selection
-                  search
-                  value={this.state.selected}
-                  options={this.state.options}
-                  onChange={this.handleChange}
-                />
-               <Button onClick={() => this.addClient()}>ADD</Button>
+          <Grid>
+            <Grid.Row centered>
+              <Segment>
+                <Form>
+                  <Form.Group>
+                    <Form.Dropdown
+                      placeholder="Add a new client"
+                      selection
+                      search
+                      value={this.state.selected}
+                      options={this.state.options}
+                      onChange={this.handleChange}
+                    />
+                    <Button onClick={() => this.addClient()}>ADD</Button>
+                    </Form.Group>
+                    <Grid>
+                      <Grid.Row centered>
+                      <Divider />
+                        <Form.Group>
+                          { userStore.user.clients ? (
+                            <List divided relaxed verticalAlign='middle'>
+                              {userStore.user.clients.map(client =>
+                                this.getRenderedClientsList(client.name, client._id)
+                              )}
+                            </List> 
+                            ) : null
+                          }
+                        </Form.Group>
+                      </Grid.Row>
+                    </Grid>
+                  </Form>
+                </Segment>
               </Grid.Row>
             </Grid>
-
-            <Divider />
-            <div className="ui container aligned">
-              { userStore.user.clients ? (
-                <List divided relaxed verticalAlign='middle'>
-                  {userStore.user.clients.map(client =>
-                    this.getRenderedClientsList(client.name, client._id)
-                  )}
-                </List> 
-                ) : null
-              }
-              
-            </div>
-            </Segment>
-        </Container>
-
+          </Container>
         </div>
       );
     }

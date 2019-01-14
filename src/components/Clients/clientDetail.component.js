@@ -8,7 +8,6 @@ import {
   Container,
   Divider,
   Header,
-  Dropdown,
   List
 } from "semantic-ui-react";
 import clientsStore from "../../stores/ClientsStore";
@@ -100,7 +99,7 @@ const ClientDetailComponent = observer(
       return (
         <List.Item key={userName}>
         <List.Content floated='right' >
-          <Button color='red' onClick={() => this.deleteDeveloper(userId)}>Delete</Button>
+          <Button circular icon='delete' onClick={() => this.deleteDeveloper(userId)}></Button>
         </List.Content>
         <List.Icon name="user" size="large"/>
         <List.Content>
@@ -180,42 +179,37 @@ const ClientDetailComponent = observer(
                       />
                       </Form.Group>
                       <Form.Group>
-                        <Container>
-                          <Segment>
-                            <Grid>
-                              <Grid.Row centered>
-                                <Dropdown
-                                  type='dropdown'
-                                  placeholder="Add a new Developer"
-                                  selection
-                                  search
-                                  value={this.state.selected}
-                                  options={this.state.options}
-                                  onChange={this.handleChange}
-                                />
-                              <Button onClick={() => this.addDeveloper()}>ADD</Button>
-                              </Grid.Row>
-                            </Grid>
-
-                            <Divider />
-                            <div className="ui container aligned">
+                      <Form.Dropdown
+                        type='dropdown'
+                        placeholder="Add a new Developer"
+                        selection
+                        search
+                        value={this.state.selected}
+                        options={this.state.options}
+                        onChange={this.handleChange}
+                      />
+                      <Button onClick={() => this.addDeveloper()}>ADD</Button>
+                      </Form.Group>
+                      <Divider/>
+                        <Grid>
+                          <Grid.Row centered>
+                            <Form.Group >
                               { clientsStore.client.employees ? (
                                 <List divided verticalAlign='middle'>
-                                  {clientsStore.client.employees.map(user =>
-                                    this.getRenderedUsersList(user.name, user._id)
-                                  )}
+                                {clientsStore.client.employees.map(user =>
+                                  this.getRenderedUsersList(user.name, user._id)
+                                )}
                                 </List> 
-                                ) : null
+                              ) : null
                               }
-                            </div>
-                            </Segment>
-                        </Container>
-                      </Form.Group>
-                  </Form>
-                </Segment>
-              </Grid.Row>
-            </Grid>
-            <div className="ui container center aligned">
+                            </Form.Group>
+                          </Grid.Row>
+                        </Grid>
+                      </Form>
+                    </Segment>
+                  </Grid.Row>
+                </Grid>
+              <div className="ui container center aligned">
               <Button onClick={() => this.save('/home/clients')}>Save</Button>
             </div>
           </Container>
