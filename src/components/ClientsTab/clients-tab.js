@@ -15,7 +15,6 @@ import clientsStore from "../../stores/ClientsStore";
 import userStore from "../../stores/UserStore";
 import _ from 'lodash';
 
-
 const ClientsTab = observer(
   class ClientsTab extends Component {    
     constructor(props) {
