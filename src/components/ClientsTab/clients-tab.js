@@ -109,9 +109,9 @@ const ClientsTab = observer(
                         <Form.Group>
                           { userStore.user.clients ? (
                             <List divided relaxed verticalAlign='middle'>
-                              {userStore.user.clients.map(client =>
+                              { userStore.user.clients.map(client =>
                                 this.getRenderedClientsList(client.name, client._id)
-                              )}
+                              ) }
                             </List> 
                             ) : null
                           }
