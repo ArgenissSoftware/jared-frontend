@@ -38,11 +38,11 @@ const ContactTab = observer(
             </Form.Group>
             <Form.Group>
               <Form.Input
-                name="cellPhone"
-                label="Cell phone"
-                placeholder="Cell phone"
+                name="cellphone"
+                label="Cell Phone"
+                placeholder="Cell Phone"
                 width={8}
-                defaultValue={UserStore.user.cellPhone}
+                defaultValue={UserStore.user.cellphone}
                 onChange={this.handleChange}
               />
               <Form.Input
