@@ -9,11 +9,14 @@ import _ from 'lodash';
 class ClientsStore {
   clients = [];
   client = {employees: []};
+  clientCount = 0;
+  pageSize = 2;
 
-  async getClientsList() {
+  async getClientsList(pageNum) {
     try {
-      const response = await clientsService.getList(1);
-      this.clients = response.data.data;
+      const response = await clientsService.getList(pageNum);
+      this.clients = response.data.data[0].data;
+      this.clientCount = response.data.data[0].count;
     } catch (err) {
       console.error(err);
     }
@@ -89,6 +92,8 @@ class ClientsStore {
 decorate(ClientsStore, {
   client: observable,
   clients: observable,
+  clientCount: observable,
+  pageSize: observable,
   getClientsList: action,
   addRelation: action,
   removeRelation: action

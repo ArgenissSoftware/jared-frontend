@@ -4,15 +4,19 @@ import {
   Button, 
   List, 
   Header, 
-  Divider 
+  Divider,
+  Pagination,
+  Container,
+  Grid
 } from "semantic-ui-react";
 import clientsStore from "../../stores/ClientsStore";
+import _ from 'lodash';
 
 const ClientListComponent = observer(
   class ClientListComponent extends Component {
     constructor(props) {
       super(props);
-      clientsStore.getClientsList();
+      clientsStore.getClientsList(1);
       this.addClient = this.addClient.bind(this);
     }
 
@@ -36,6 +40,10 @@ const ClientListComponent = observer(
       this.props.history.push("clients/" + id);
     }
 
+    handlePageChange(e, data) {
+      clientsStore.getClientsList(_.ceil(data.activePage));
+    }
+
     render() {
       return (
         <div className="ui container aligned">
@@ -47,6 +55,21 @@ const ClientListComponent = observer(
               this.getRenderedClientsList(client)
             )}
           </List>
+          <Container>
+            <Grid>
+              <Grid.Row centered>
+               <Pagination
+                  defaultActivePage={1}
+                  firstItem={null}
+                  lastItem={null}
+                  pointing
+                  secondary
+                  totalPages={clientsStore.clientCount / clientsStore.pageSize}
+                  onPageChange={this.handlePageChange}
+                />
+              </Grid.Row>
+            </Grid>
+          </Container>
         </div>
       );
     }

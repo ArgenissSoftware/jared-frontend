@@ -5,7 +5,9 @@ import {
   Header, 
   Divider, 
   Button,
-  Pagination
+  Pagination,
+  Container,
+  Grid
 } from "semantic-ui-react";
 import userStore from "../../stores/UserStore";
 import _ from 'lodash';
@@ -55,17 +57,21 @@ const UserListComponent = observer(
                   this.getRenderedUserList(user.username, user.email, user._id)
               )}
           </List>
-          <Pagination
-            defaultActivePage={1}
-            firstItem={null}
-            lastItem={null}
-            pointing
-            secondary
-            totalPages={userStore.userCount/userStore.pageSize}
-            onPageChange={this.handlePageChange}
-          >
-            
-          </Pagination>
+          <Container>
+            <Grid>
+              <Grid.Row centered>
+               <Pagination
+                  defaultActivePage={1}
+                  firstItem={null}
+                  lastItem={null}
+                  pointing
+                  secondary
+                  totalPages={userStore.userCount / userStore.pageSize}
+                  onPageChange={this.handlePageChange}
+                />
+              </Grid.Row>
+            </Grid>
+          </Container>
         </div>
       );
     }

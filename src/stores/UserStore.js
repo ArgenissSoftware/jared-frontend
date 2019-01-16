@@ -21,7 +21,7 @@ class UserStore {
   clients = [];
   userList = [];
   userCount = 0;
-  pageSize = 5;
+  pageSize = 2;
 
   /**
    * Set user field
@@ -102,10 +102,10 @@ class UserStore {
    */
   async getUsersList(pageNum) {
     return UsersService.getList(pageNum)
-      .then((response) => {        
-        this.userList = response.data.data[0];
-        this.userCount = response.data.data[1];        
-        return response.data.data[0];
+      .then((response) => {
+        this.userList = response.data.data[0].data;
+        this.userCount = response.data.data[0].count;        
+        return response.data.data[0].data;
       }
       ).catch(function (error) {
         console.log(error);
