@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { List, Header, Divider, Button } from "semantic-ui-react";
+import {
+  List,
+  Header, 
+  Divider, 
+  Button,
+  Pagination
+} from "semantic-ui-react";
 import userStore from "../../stores/UserStore";
+import _ from "Lodash";
 
 const UserListComponent = observer(
   class UserListComponent extends Component {
@@ -10,7 +17,7 @@ const UserListComponent = observer(
     }
 
     componentDidMount() {
-      userStore.getUsersList();
+      userStore.getUsersList(1);
     }
 
     getRenderedUserList(name, email, id) {
@@ -33,6 +40,10 @@ const UserListComponent = observer(
       this.props.history.push("users/" + id);
     }
 
+    handlePageChange(e, data) {
+      userStore.getUsersList(_.ceil(data.activePage));      
+    }
+
     render() {
         return (
         <div className="ui container aligned">
@@ -44,6 +55,17 @@ const UserListComponent = observer(
                   this.getRenderedUserList(user.username, user.email, user._id)
               )}
           </List>
+          <Pagination
+            defaultActivePage={1}
+            firstItem={null}
+            lastItem={null}
+            pointing
+            secondary
+            totalPages={userStore.userCount/userStore.pageSize}
+            onPageChange={this.handlePageChange}
+          >
+            
+          </Pagination>
         </div>
       );
     }

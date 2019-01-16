@@ -7,8 +7,8 @@ class CrudService extends BaseService {
     super(url);
   }
   /** request for all records */
-  getList() {
-    return api.get(this.URL);
+  getList(pageNum) {
+    return api.get(this.URL + "/page/" + pageNum);
   }
   /** request for a record by Id */
   get(id) {

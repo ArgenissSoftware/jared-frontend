@@ -18,6 +18,8 @@ class UserStore {
   newPassword2 = '';
   clients = [];
   userList = [];
+  userCount = 0;
+  pageSize = 5;
 
   /**
    * Set user field
@@ -96,11 +98,12 @@ class UserStore {
   /**
    * get all users
    */
-  async getUsersList() {
-    return UsersService.getList()
-      .then((response) => {
-        this.userList = response.data.data;
-        return response.data;
+  async getUsersList(pageNum) {
+    return UsersService.getList(pageNum)
+      .then((response) => {        
+        this.userList = response.data.data[0];
+        this.userCount = response.data.data[1];        
+        return response.data.data[0];
       }
       ).catch(function (error) {
         console.log(error);
@@ -121,7 +124,6 @@ class UserStore {
       }
       this.user.githubID = githubID;
     })
-
   }
 
   parseData() {
@@ -140,6 +142,8 @@ decorate(UserStore, {
   newPassword: observable,
   newPassword2: observable,
   clients: observable,
+  userCount: observable,
+  pageSize: observable,
   userList: observable,
   setUserField: action,
   getUserById: action,
