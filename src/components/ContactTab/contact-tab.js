@@ -48,7 +48,7 @@ const ContactTab = observer(
                         name="cellPhone"
                         label="Cell phone"
                         placeholder="Cell phone"
-                        defaultValue={UserStore.user.cellPhone}
+                        defaultValue={UserStore.user.cellphone}
                         onChange={this.handleChange}
                       />
                       <Form.Input
@@ -80,7 +80,6 @@ const ContactTab = observer(
               </Grid.Row>
             </Grid>
           </Container>
-         
         </div>
       );
     }
