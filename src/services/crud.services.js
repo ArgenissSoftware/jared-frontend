@@ -18,9 +18,19 @@ class CrudService extends BaseService {
   add(obj) {
     return api.post(this.URL, obj);
   }
-  /** reques for update a record */
+  /** request for update a record */
   update(obj) {
     return api.put(this.URL + "/" + obj._id, obj);
+  }
+  /** request for add a new relation */
+  addRelation(firstId, secondId, param){
+    const endpoint = "/" + firstId + param + secondId;
+    return api.post(this.URL + endpoint);
+  }
+  /** request for delete a relation */
+  removeRelation(firstId, secondId, param){
+    const endpoint = "/" + firstId + param + secondId;
+    return api.delete(this.URL + endpoint);
   }
 }
 

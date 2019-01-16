@@ -8,7 +8,7 @@ import {
   Pagination
 } from "semantic-ui-react";
 import userStore from "../../stores/UserStore";
-import _ from "Lodash";
+import _ from 'lodash';
 
 const UserListComponent = observer(
   class UserListComponent extends Component {

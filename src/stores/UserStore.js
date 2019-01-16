@@ -6,6 +6,8 @@ import {
 import moment from "moment";
 import UsersService from "../services/users.service"
 import authStore from "./AuthStore";
+import usersService from "../services/users.service";
+import _ from 'lodash';
 
 /**
  * User Store
@@ -126,10 +128,43 @@ class UserStore {
     })
   }
 
-  parseData() {
-    this.user.birthday = this.user.birthday ? moment(this.user.birthday).format("YYYY-MM-DD") : "";
-    this.user.visa = this.user.visa ? moment(this.user.visa).format("YYYY-MM-DD") : "";
-    this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).format("YYYY-MM-DD") : "";
+  async removeRelation(client) {
+    try {
+      _.remove(this.user.clients, (cli) => {
+        return cli._id == client._id
+      });      
+      var index = this.user.clients.indexOf(client._id);
+
+      if (index > -1) {
+        this.user.clients.splice(index, 1);
+      }
+      await usersService.removeRelation(this.user._id, client._id, "/assign/client/");
+
+    } catch(err) {
+      // in case of failure will add the user again
+      if (index > -1 ) {
+        this.user.clients.push(client);
+      }
+      console.log(err);
+    }
+  }
+
+  async addRelation(client) {
+    try {
+      this.user.clients.push(client);
+      await usersService.addRelation(this.user._id, client._id, "/assign/client/");
+    } catch(err) {
+      _.remove(this.user.clients, (cli) => {
+        return cli._id == client._id
+      });   
+      console.log(err);
+    }
+  }
+
+  parseData() {    
+    this.user.birthday = this.user.birthday ? moment(this.user.birthday).add(1,'day').format("YYYY-MM-DD") : "";
+    this.user.visa = this.user.visa ? moment(this.user.visa).add(1,'day').format("YYYY-MM-DD") : "";
+    this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).add(1,'day').format("YYYY-MM-DD") : "";
     this.clients = this.user.clients ? this.user.clients : [];
   }
 

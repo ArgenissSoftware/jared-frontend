@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { Button, Message } from "semantic-ui-react";
+import { 
+  Button, 
+  Message 
+} from "semantic-ui-react";
 import { observer } from "mobx-react";
 
 import ProfileTabs from "../../components/ProfileTabs/profile-tabs";
