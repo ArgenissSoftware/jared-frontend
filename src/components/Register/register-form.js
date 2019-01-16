@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { Redirect } from "react-router-dom";
-import {
-  Link
-} from "react-router-dom";
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Link } from "react-router-dom";
+import { 
+  Button, 
+  Form, 
+  Grid, 
+  Header, 
+  Image, 
+  Message, 
+  Segment 
+} from 'semantic-ui-react'
 import "./register-form.css";
 import authStore from "../../stores/AuthStore";
 import userStore from "../../stores/UserStore";

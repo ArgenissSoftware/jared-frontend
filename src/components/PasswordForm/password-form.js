@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Form, Segment, Container, Grid } from "semantic-ui-react";
+import { 
+  Form, 
+  Segment, 
+  Container, 
+  Grid 
+} from "semantic-ui-react";
 import "./password-form.css";
 import { observer } from "mobx-react";
 import UserStore from "../../stores/UserStore";
