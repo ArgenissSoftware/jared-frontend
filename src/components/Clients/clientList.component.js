@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { Button, List, Header, Divider } from "semantic-ui-react";
+import { 
+  Button, 
+  List, 
+  Header, 
+  Divider 
+} from "semantic-ui-react";
 import clientsStore from "../../stores/ClientsStore";
 
 const ClientListComponent = observer(

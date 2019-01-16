@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Form, Segment, Container, Grid } from "semantic-ui-react";
+import { 
+  Form, 
+  Segment, 
+  Container, 
+  Grid 
+} from "semantic-ui-react";
 import "./forgot-password-form.css";
 import { observer } from "mobx-react";
 import ProfileService from "../../services/profile.service"

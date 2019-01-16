@@ -7,34 +7,53 @@ import {
   Segment,
   Container,
   Divider,
-  Header
+  Header,
+  List
 } from "semantic-ui-react";
 import clientsStore from "../../stores/ClientsStore";
 import ErrorMessage from "../ErrorMessage/error-message";
+import userStore from "../../stores/UserStore";
+import _ from 'lodash';
 
 const ClientDetailComponent = observer(
   class ClientDetailComponent extends Component {
+    state = { errorObj: null,
+              options: [],
+              selected: {}
+            };
     constructor(props) {
       super(props);
       this.setTitle();
-      this.state= { errorObj: null };
+      this.setOptions();
       clientsStore.clearClient();
     }
 
-    handleChange(e) {
-      clientsStore.client[e.target.name] = e.target.value;
+    async setOptions() {
+      await userStore.getUsersList();
+      const users = userStore.userList.map(({ _id, name }) => {
+        return { value: _id, text: name };
+      });
+      this.setState({ options: users });
+    }
+
+    handleChange = (e, data) => {
+      if(data.type === 'dropdown') {
+        this.setState({ selected: data.value });
+      } else {
+        clientsStore.client[e.target.name] = e.target.value;
+      }
     }
 
     toggle = () => clientsStore.client.active = !clientsStore.client.active;
 
-    setTitle(){
+    async setTitle() {
       const id = this.props.match.params.id;
       if (id  === 'new') {
         this.title = "NEW CLIENT";
       } else {
         this.title = "CLIENT DETAILS";
         // TODO: add loading state
-        clientsStore.getClient(id);
+        await clientsStore.getClient(id);
       }
     }
 
@@ -54,6 +73,41 @@ const ClientDetailComponent = observer(
           this.setState({ errorObj: error.response.data });
         });
       }
+    }
+
+    addDeveloper = async () => {
+      if( _.find(clientsStore.client.employees, (client) => {
+        return client._id === this.state.selected;
+        })) {
+          this.setState({ errorObj: "The client is already working with this developer" });
+      } else {
+        const client = _.find(userStore.userList, (user) => {
+          return user._id === this.state.selected;
+        });      
+        await clientsStore.addRelation(client);
+      }
+    }
+
+    async deleteDeveloper(userId) {
+      const user = _.find(userStore.userList, (user) => {
+        return user._id === userId;
+      }); 
+      await clientsStore.removeRelation(user);
+    }
+
+    getRenderedUsersList(userName, userId) {
+      return (
+        <List.Item key={userName}>
+        <List.Content floated='right' >
+          <Button circular icon='delete' onClick={() => this.deleteDeveloper(userId)}></Button>
+        </List.Content>
+        <List.Icon name="user" size="large"/>
+        <List.Content>
+          <List.Header as="a">{userName}</List.Header>
+          <List.Description as="a">Project Description</List.Description>
+        </List.Content>
+        </List.Item>
+      );
     }
 
     render() {
@@ -124,11 +178,38 @@ const ClientDetailComponent = observer(
                         onChange={this.toggle}
                       />
                       </Form.Group>
-                  </Form>
-                </Segment>
-              </Grid.Row>
-            </Grid>
-            <div className="ui container center aligned">
+                      <Form.Group>
+                      <Form.Dropdown
+                        type='dropdown'
+                        placeholder="Add a new Developer"
+                        selection
+                        search
+                        value={this.state.selected}
+                        options={this.state.options}
+                        onChange={this.handleChange}
+                      />
+                      <Button onClick={() => this.addDeveloper()}>ADD</Button>
+                      </Form.Group>
+                      <Divider/>
+                        <Grid>
+                          <Grid.Row centered>
+                            <Form.Group >
+                              { clientsStore.client.employees ? (
+                                <List divided verticalAlign='middle'>
+                                {clientsStore.client.employees.map(user =>
+                                  this.getRenderedUsersList(user.name, user._id)
+                                )}
+                                </List> 
+                              ) : null
+                              }
+                            </Form.Group>
+                          </Grid.Row>
+                        </Grid>
+                      </Form>
+                    </Segment>
+                  </Grid.Row>
+                </Grid>
+              <div className="ui container center aligned">
               <Button onClick={() => this.save('/home/clients')}>Save</Button>
             </div>
           </Container>

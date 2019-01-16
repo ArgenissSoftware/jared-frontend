@@ -1,8 +1,13 @@
-import React, {Component} from "react";
-import {observer} from "mobx-react";
+import React, { Component } from "react";
+import { observer } from "mobx-react";
 import { Redirect } from "react-router-dom";
 import logo from "../../images/logo1.png";
-import {Dropdown, Menu, Icon, Image} from "semantic-ui-react";
+import { 
+  Dropdown, 
+  Menu, 
+  Icon, 
+  Image
+} from "semantic-ui-react";
 import "./top-nav-bar.css";
 import authStore from "../../stores/AuthStore";
 import LogoToolbar from '../Common/LogoToolbar';
