@@ -124,10 +124,10 @@ class UserStore {
 
   }
 
-  parseData() {
-    this.user.birthday = this.user.birthday ? moment(this.user.birthday).format("YYYY-MM-DD") : "";
-    this.user.visa = this.user.visa ? moment(this.user.visa).format("YYYY-MM-DD") : "";
-    this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).format("YYYY-MM-DD") : "";
+  parseData() {    
+    this.user.birthday = this.user.birthday ? moment(this.user.birthday).add(1,'day').format("YYYY-MM-DD") : "";
+    this.user.visa = this.user.visa ? moment(this.user.visa).add(1,'day').format("YYYY-MM-DD") : "";
+    this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).add(1,'day').format("YYYY-MM-DD") : "";
     this.clients = this.user.clients ? this.user.clients : [];
   }
 
