@@ -40,7 +40,16 @@ const ClientDetailComponent = observer(
       if(data.type === 'dropdown') {
         this.setState({ selected: data.value });
       } else {
-        clientsStore.client[e.target.name] = e.target.value;
+        
+        if(e.target.value.trim() !== ''){
+          e.target.name !== 'address' ? 
+              clientsStore.client[e.target.name] = e.target.value.trim():
+              clientsStore.client[e.target.name] = e.target.value;
+        }else{
+          if(clientsStore.client[e.target.name] !== undefined){
+            delete clientsStore.client[e.target.name]
+          }
+        }
       }
     }
 
