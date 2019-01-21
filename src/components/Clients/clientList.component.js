@@ -7,6 +7,7 @@ import {
   Divider 
 } from "semantic-ui-react";
 import clientsStore from "../../stores/ClientsStore";
+import ClientCard from "../ClientCard/clientCard.component"
 
 const ClientListComponent = observer(
   class ClientListComponent extends Component {
@@ -16,24 +17,8 @@ const ClientListComponent = observer(
       this.addClient = this.addClient.bind(this);
     }
 
-    getRenderedClientsList(client) {
-      return (
-        <List.Item key={client.id}>
-          <List.Icon name="user" size="large" verticalAlign="middle" />
-          <List.Content onClick={() => this.goToDetail(client._id)}>
-            <List.Header as="a">{client.name}</List.Header>
-            <List.Description as="a">Project Description</List.Description>
-          </List.Content>
-        </List.Item>
-      );
-    }
-
     addClient() {
       this.props.history.push('/home/clients/new');
-    }
-
-    goToDetail(id) {
-      this.props.history.push("clients/" + id);
     }
 
     render() {
@@ -44,7 +29,10 @@ const ClientListComponent = observer(
           <Button onClick={() => this.addClient()}>NEW CLIENT</Button>
           <List divided relaxed>
             {clientsStore.clients.map(client =>
-              this.getRenderedClientsList(client)
+              <ClientCard key={client._id.toString()} 
+                          name = {client.name}
+                          _id = {client._id}
+                          history = {this.props.history}/>
             )}
           </List>
         </div>

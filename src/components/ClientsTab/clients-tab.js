@@ -13,9 +13,10 @@ import {
 import ErrorMessage from "../ErrorMessage/error-message";
 import clientsStore from "../../stores/ClientsStore";
 import userStore from "../../stores/UserStore";
+import ClientCard from "../ClientCard/clientCard.component"
 import _ from 'lodash';
 
-const ClientsTab = observer(
+  const ClientsTab = observer(
   class ClientsTab extends Component {    
     constructor(props) {
       super(props);
@@ -40,35 +41,20 @@ const ClientsTab = observer(
       this.props.history.push("clients/" + id);
     }
 
-    getRenderedClientsList(clientName, clientId) {
-      return (
-        <List.Item key={clientName}>
-        <List.Content floated='right' >
-          <Button  circular icon='delete' onClick={() => this.deleteClient(clientId)}></Button>
-        </List.Content>
-        <List.Icon name="user" size="large"/>
-        <List.Content onClick={() => this.GoToDetail(clientId)}>
-          <List.Header as="a">{clientName}</List.Header>
-          <List.Description as="a">Project Description</List.Description>
-        </List.Content>
-        </List.Item>
-      );
-    }
-
     handleChange = (e, data) => {
       this.setState({ selected: data.value });
     }
 
     async addClient() {
       if( _.find(userStore.user.clients, (client) => {
-        return client._id === this.state.selected;
+        return client === this.state.selected;
         })) {
           this.setState({ errorObj: "The developer is already working with this client" });
       } else {
         const client = _.find(clientsStore.clients, (client) => {
           return client._id === this.state.selected;
         });      
-        await userStore.addRelation(client);
+        await userStore.addRelation(client._id);
       }
     }
 
@@ -79,6 +65,25 @@ const ClientsTab = observer(
       await userStore.removeRelation(client);
     }
 
+    getClientList = () => {
+      return (
+        userStore.user.clients ? (
+          <List divided relaxed verticalAlign='middle'>
+            {userStore.user.clients.map(clientId => {
+              let client = _.find(clientsStore.clients, function (c) {
+                return c._id == clientId
+              });
+              return (
+                <ClientCard key={client._id.toString()}
+                            name={client.name}
+                            _id={client._id}
+                            deleteClient={this.deleteClient} />);
+            })
+            }
+          </List>
+        ) : null
+      )
+    }
     
 
     render() {
@@ -107,14 +112,7 @@ const ClientsTab = observer(
                       <Grid.Row centered>
                       <Divider />
                         <Form.Group>
-                          { userStore.user.clients ? (
-                            <List divided relaxed verticalAlign='middle'>
-                              { userStore.user.clients.map(client =>
-                                this.getRenderedClientsList(client.name, client._id)
-                              ) }
-                            </List> 
-                            ) : null
-                          }
+                          { this.getClientList() }
                         </Form.Group>
                       </Grid.Row>
                     </Grid>
