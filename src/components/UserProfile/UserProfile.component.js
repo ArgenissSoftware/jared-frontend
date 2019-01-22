@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { 
-  Button, 
-  Message, 
-  Header, 
-  Form 
+import {
+  Button,
+  Message,
+  Header,
+  Form
 } from "semantic-ui-react";
 import { observer } from "mobx-react";
 
@@ -63,7 +63,7 @@ export default observer(
       if (id === 'new'){
           this.setState({ newClient: true, title: "Create User"});
       } else {
-          this.setState({ title: "Update User"});
+          this.setState({ title: "User:"});
           // TODO: add loading state
           await userStore.getUserById(id);
       }
@@ -80,7 +80,7 @@ export default observer(
             <ErrorMessage message = { this.state.errorObj }/>
             ) : null
           }
-          <Header as="h3" icon="user" content={this.state.title} />
+          <Header as="h3" icon="user" content={this.state.title+ ' ' + userStore.user.name + ' ' + userStore.user.surname  } />
           <UserProfileTabs history={this.props.history} match={this.props.match}/>
           <Form>
             <Button positive onClick={this.save}>Save</Button>
