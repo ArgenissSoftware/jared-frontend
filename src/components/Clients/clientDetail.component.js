@@ -40,9 +40,9 @@ const ClientDetailComponent = observer(
       if(data.type === 'dropdown') {
         this.setState({ selected: data.value });
       } else {
-        
+
         if(e.target.value.trim() !== ''){
-          e.target.name !== 'address' ? 
+          e.target.name !== 'address' ?
               clientsStore.client[e.target.name] = e.target.value.trim():
               clientsStore.client[e.target.name] = e.target.value;
         }else{
@@ -92,7 +92,7 @@ const ClientDetailComponent = observer(
       } else {
         const client = _.find(userStore.userList, (user) => {
           return user._id === this.state.selected;
-        });      
+        });
         await clientsStore.addRelation(client);
       }
     }
@@ -100,7 +100,7 @@ const ClientDetailComponent = observer(
     async deleteDeveloper(userId) {
       const user = _.find(userStore.userList, (user) => {
         return user._id === userId;
-      }); 
+      });
       await clientsStore.removeRelation(user);
     }
 
@@ -128,99 +128,95 @@ const ClientDetailComponent = observer(
                 <ErrorMessage message = { this.state.errorObj } />
               ) : null}
           <Container>
-            <Grid>
-              <Grid.Row centered>
-                <Segment compact>
-                  <Form>
-                    <Form.Group>
-                      <Form.Input
-                        name="name"
-                        label="Name"
-                        placeholder="Name"
-                        value={clientsStore.client.name}
-                        defaultValue={clientsStore.client.name}
-                        onChange={this.handleChange}
-                      />
-                      <Form.Input
-                        name="contactName"
-                        label="Contact Name"
-                        placeholder="Contact Name"
-                        value={clientsStore.client.contactName}
-                        defaultValue={clientsStore.client.contactName}
-                        onChange={this.handleChange}
-                      />
-                      </Form.Group>
-                      <Form.Group>
-                      <Form.Input
-                        name="email"
-                        label="Email"
-                        placeholder="Email"
-                        value={clientsStore.client.email}
-                        defaultValue={clientsStore.client.email}
-                        onChange={this.handleChange}
-                      />
-                      <Form.Input
-                        name="address"
-                        label="Address"
-                        placeholder="Address"
-                        value={clientsStore.client.address}
-                        defaultValue={clientsStore.client.address}
-                        onChange={this.handleChange}
-                      />
-                      </Form.Group>
-                      <Form.Group>
-                      <Form.Input
-                        name="url"
-                        label="URL"
-                        placeholder="URL"
-                        value={clientsStore.client.url}
-                        defaultValue={clientsStore.client.url}
-                        onChange={this.handleChange}
-                      />
-                      </Form.Group>
-                      <Form.Group>
-                      <Form.Checkbox
-                        name="active"
-                        label="Active"
-                        checked = {clientsStore.client.active}
-                        defaultValue={clientsStore.client.active}
-                        onChange={this.toggle}
-                      />
-                      </Form.Group>
-                      <Form.Group>
-                      <Form.Dropdown
-                        type='dropdown'
-                        placeholder="Add a new Developer"
-                        selection
-                        search
-                        value={this.state.selected}
-                        options={this.state.options}
-                        onChange={this.handleChange}
-                      />
-                      <Button onClick={() => this.addDeveloper()}>ADD</Button>
-                      </Form.Group>
-                      <Divider/>
-                        <Grid>
-                          <Grid.Row centered>
-                            <Form.Group >
-                              { clientsStore.client.employees ? (
-                                <List divided verticalAlign='middle'>
-                                {clientsStore.client.employees.map(user =>
-                                  this.getRenderedUsersList(user.name, user._id)
-                                )}
-                                </List> 
-                              ) : null
-                              }
-                            </Form.Group>
-                          </Grid.Row>
-                        </Grid>
-                      </Form>
-                    </Segment>
-                  </Grid.Row>
-                </Grid>
-              <div className="ui container center aligned">
-              <Button onClick={() => this.save('/home/clients')}>Save</Button>
-            </div>
+            <Segment>
+              <Form>
+                <Form.Group widths='equal'>
+                  <Form.Input
+                    name="name"
+                    label="Name"
+                    placeholder="Name"
+                    value={clientsStore.client.name}
+                    defaultValue={clientsStore.client.name}
+                    onChange={this.handleChange}
+                  />
+                  <Form.Input
+                    name="contactName"
+                    label="Contact Name"
+                    placeholder="Contact Name"
+                    value={clientsStore.client.contactName}
+                    defaultValue={clientsStore.client.contactName}
+                    onChange={this.handleChange}
+                  />
+                  </Form.Group>
+                  <Form.Group widths='equal'>
+                  <Form.Input
+                    name="email"
+                    label="Email"
+                    placeholder="Email"
+                    value={clientsStore.client.email}
+                    defaultValue={clientsStore.client.email}
+                    onChange={this.handleChange}
+                  />
+                  <Form.Input
+                    name="address"
+                    label="Address"
+                    placeholder="Address"
+                    value={clientsStore.client.address}
+                    defaultValue={clientsStore.client.address}
+                    onChange={this.handleChange}
+                  />
+                  </Form.Group>
+                  <Form.Group widths='equal'>
+                  <Form.Input
+                    name="url"
+                    label="URL"
+                    placeholder="URL"
+                    value={clientsStore.client.url}
+                    defaultValue={clientsStore.client.url}
+                    onChange={this.handleChange}
+                  />
+                  </Form.Group>
+                  <Form.Group widths='equal'>
+                  <Form.Checkbox
+                    name="active"
+                    label="Active"
+                    checked = {clientsStore.client.active}
+                    defaultValue={clientsStore.client.active}
+                    onChange={this.toggle}
+                  />
+                  </Form.Group>
+                  <Form.Group widths='equal'>
+                  <Form.Dropdown
+                    type='dropdown'
+                    placeholder="Add a new Developer"
+                    selection
+                    search
+                    value={this.state.selected}
+                    options={this.state.options}
+                    onChange={this.handleChange}
+                  />
+                  <Button onClick={() => this.addDeveloper()}>ADD</Button>
+                  </Form.Group>
+                  <Divider/>
+                    <Grid>
+                      <Grid.Row centered>
+                        <Form.Group >
+                          { clientsStore.client.employees ? (
+                            <List divided verticalAlign='middle'>
+                            {clientsStore.client.employees.map(user =>
+                              this.getRenderedUsersList(user.name, user._id)
+                            )}
+                            </List>
+                          ) : null
+                          }
+                        </Form.Group>
+                      </Grid.Row>
+                    </Grid>
+                  </Form>
+                <div className="ui container center aligned">
+                <Button onClick={() => this.save('/home/clients')}>Save</Button>
+              </div>
+            </Segment>
           </Container>
         </div>
       );
