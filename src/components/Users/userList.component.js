@@ -83,34 +83,30 @@ const UserListComponent = observer(
         <div className="ui container aligned">
           <Header as="h3" icon="user" content="USERS LIST" />
           <Container>
-          <Grid>
-            <Grid.Row>
-              <Form>
-                <Form.Group>
-                  <div>
-                    Show me <Dropdown
-                      type="dropdown"
-                      inline
-                      options={this.state.pageSizeOptions}
-                      defaultValue={this.state.pageSizeOptions[0].text}
-                      onChange={this.handleChange}
-                    /> clients per page
-                  </div>
-                  <Form.Input
-                    type="search"
-                    placeholder="Search"
-                    icon={<Icon name='search' inverted circular link />}
-                    value={userStore.user.name}
-                    defaultValue={userStore.user.name}
+            <Form>
+              <Form.Group>
+                <div>
+                  Show me <Dropdown
+                    type="dropdown"
+                    inline
+                    options={this.state.pageSizeOptions}
+                    defaultValue={this.state.pageSizeOptions[0].text}
                     onChange={this.handleChange}
-                  />
-                </Form.Group>
-              </Form>
-            </Grid.Row>
-            <Grid.Row>
-              <Button onClick={this.addUser}>New User</Button>
-            </Grid.Row>
-          </Grid>
+                  /> clients per page
+                </div>
+                <Form.Input
+                  type="search"
+                  placeholder="Search"
+                  icon={<Icon name='search' inverted circular link />}
+                  value={userStore.user.name}
+                  defaultValue={userStore.user.name}
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
+              <Form.Group widths='equal'>
+                <Button onClick={this.addUser}>New User</Button>
+              </Form.Group>
+            </Form>
           </Container>
           <Divider />
           <List divided relaxed verticalAlign='middle'>
