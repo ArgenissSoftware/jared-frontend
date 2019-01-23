@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import "./clients-tab.css";
-import { 
-  List, 
+import {
+  List,
   Button,
   Grid,
   Segment,
@@ -16,10 +16,10 @@ import userStore from "../../stores/UserStore";
 import _ from 'lodash';
 
 const ClientsTab = observer(
-  class ClientsTab extends Component {    
+  class ClientsTab extends Component {
     constructor(props) {
       super(props);
-      this.state = {  options: [], 
+      this.state = {  options: [],
                       selected: {},
                       errorObj: null
                     };
@@ -67,7 +67,7 @@ const ClientsTab = observer(
       } else {
         const client = _.find(clientsStore.clients, (client) => {
           return client._id === this.state.selected;
-        });      
+        });
         await userStore.addRelation(client);
       }
     }
@@ -75,11 +75,11 @@ const ClientsTab = observer(
     async deleteClient(clientId) {
       const client = _.find(clientsStore.clients, (client) => {
         return client._id === clientId;
-      }); 
+      });
       await userStore.removeRelation(client);
     }
 
-    
+
 
     render() {
       return (
@@ -88,40 +88,34 @@ const ClientsTab = observer(
           <ErrorMessage message = { this.state.errorObj } />
           ) : null}
         <Container>
-          <Grid>
-            <Grid.Row centered>
-              <Segment>
-                <Form>
-                  <Form.Group>
-                    <Form.Dropdown
-                      placeholder="Add a new client"
-                      selection
-                      search
-                      value={this.state.selected}
-                      options={this.state.options}
-                      onChange={this.handleChange}
-                    />
-                    <Button onClick={() => this.addClient()}>ADD</Button>
-                    </Form.Group>
-                    <Grid>
-                      <Grid.Row centered>
-                      <Divider />
-                        <Form.Group>
-                          { userStore.user.clients ? (
-                            <List divided relaxed verticalAlign='middle'>
-                              { userStore.user.clients.map(client =>
-                                this.getRenderedClientsList(client.name, client._id)
-                              ) }
-                            </List> 
-                            ) : null
-                          }
-                        </Form.Group>
-                      </Grid.Row>
-                    </Grid>
-                  </Form>
-                </Segment>
-              </Grid.Row>
-            </Grid>
+          <Form>
+            <Form.Group widths='equal'>
+              <Form.Dropdown
+                placeholder="Add a new client"
+                selection
+                search
+                value={this.state.selected}
+                options={this.state.options}
+                onChange={this.handleChange}
+              />
+              <Button onClick={() => this.addClient()}>ADD</Button>
+              </Form.Group>
+              <Grid>
+                <Grid.Row centered>
+                <Divider />
+                  <Form.Group widths='equal'>
+                    { userStore.user.clients ? (
+                      <List divided relaxed verticalAlign='middle'>
+                        { userStore.user.clients.map(client =>
+                          this.getRenderedClientsList(client.name, client._id)
+                        ) }
+                      </List>
+                      ) : null
+                    }
+                  </Form.Group>
+                </Grid.Row>
+              </Grid>
+            </Form>
           </Container>
         </div>
       );

@@ -34,12 +34,7 @@ class ClientsStore {
   }
 
   async addClient() {
-    try {
-        await clientsService.add(this.client);
-        this.getClientsList();
-    } catch (err) {
-      console.error(err);
-    }
+    await clientsService.add(this.client);
   }
 
   async update() {

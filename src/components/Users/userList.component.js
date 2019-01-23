@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { 
-  List, 
-  Header, 
-  Divider, 
-  Button 
+import {
+  List,
+  Header,
+  Divider,
+  Button
 } from "semantic-ui-react";
 import userStore from "../../stores/UserStore";
 
@@ -41,8 +41,8 @@ const UserListComponent = observer(
     render() {
         return (
         <div className="ui container aligned">
-          <Button onClick={this.addUser}>New User</Button>
           <Header as="h3" icon="user" content="USERS LIST" />
+          <Button onClick={this.addUser}>New User</Button>
           <Divider />
           <List divided relaxed verticalAlign='middle'>
               {userStore.userList.map(user =>
