@@ -20,8 +20,7 @@ class UserStore {
   newPassword2 = '';
   clients = [];
   userList = [];
-  userCount = 0;
-  pageSize = 2;
+  userCount = 0; 
 
   /**
    * Set user field
@@ -100,8 +99,8 @@ class UserStore {
   /**
    * get all users
    */
-  async getUsersList(pageNum) {
-    return UsersService.getList(pageNum)
+  async getUsersList(pageNum, pageSize, search) {
+    return UsersService.getList(pageNum, pageSize, search)
       .then((response) => {
         this.userList = response.data.data[0].data;
         this.userCount = response.data.data[0].count;        
@@ -178,7 +177,6 @@ decorate(UserStore, {
   newPassword2: observable,
   clients: observable,
   userCount: observable,
-  pageSize: observable,
   userList: observable,
   setUserField: action,
   getUserById: action,

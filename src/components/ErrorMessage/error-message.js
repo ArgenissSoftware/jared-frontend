@@ -7,10 +7,6 @@ class ErrorMessage extends PureComponent {
     visible: true
   }
 
-  handleDismiss = (e) => {
-    this.setState({ visible: false });
-  }
-
   render() {
     if (!this.state.visible) return null;
     let msg = this.props.message || 'Ooops!!!';
@@ -29,7 +25,6 @@ class ErrorMessage extends PureComponent {
 
     return (
       <Message
-        onDismiss={this.handleDismiss}
         negative
       >
         <Message.Header>Please check this errors</Message.Header>

@@ -7,7 +7,10 @@ import {
   Button,
   Pagination,
   Container,
-  Grid
+  Grid,
+  Dropdown,
+  Form,
+  Icon
 } from "semantic-ui-react";
 import userStore from "../../stores/UserStore";
 import _ from 'lodash';
@@ -16,10 +19,20 @@ const UserListComponent = observer(
   class UserListComponent extends Component {
     constructor(props) {
       super(props);
-    }
-
-    componentDidMount() {
-      userStore.getUsersList(1);
+      this.state = { 
+        search: undefined,
+        pageSize: 2,
+        pageSizeOptions: [
+          { key: 2, text: 2, value: 2 },
+          { key: 10, text: 10, value: 10 },
+          { key: 15, text: 15, value: 15 },
+          { key: 20, text: 20, value: 20 },
+          { key: 25, text: 25, value: 25 },
+          { key: 50, text: 50, value: 50 },
+          { key: 100, text: 100, value: 100 }
+          ]
+      };
+      userStore.getUsersList(1, this.state.pageSize);
     }
 
     getRenderedUserList(name, email, id) {
@@ -42,15 +55,63 @@ const UserListComponent = observer(
       this.props.history.push("users/" + id);
     }
 
-    handlePageChange(e, data) {
-      userStore.getUsersList(_.ceil(data.activePage));      
+    handleChange = async (e, data) => {
+      switch (data.type) {
+        case "search":        
+          if(data.value.length >= 3) {
+            await this.setState({ search: data.value });
+            userStore.getUsersList(1, this.state.pageSize, this.state.search);
+          } else if(data.value.length == 0) {
+            userStore.getUsersList(1, this.state.pageSize);
+            this.setState({ search: undefined });
+          }
+          break;
+        case "dropdown":
+          await this.setState({ pageSize: data.value });
+          userStore.getUsersList(1, this.state.pageSize, this.state.search);
+          break;
+        case "pagination":
+          userStore.getUsersList(_.ceil(data.activePage), this.state.pageSize);
+          break;
+        default:
+          break;
+      }
     }
 
     render() {
         return (
         <div className="ui container aligned">
-          <Button onClick={this.addUser}>New User</Button>
           <Header as="h3" icon="user" content="USERS LIST" />
+          <Container>
+          <Grid>
+            <Grid.Row>
+              <Form>
+                <Form.Group>
+                  <div>
+                    Show me <Dropdown
+                      type="dropdown"
+                      inline
+                      options={this.state.pageSizeOptions}
+                      defaultValue={this.state.pageSizeOptions[0].text}
+                      onChange={this.handleChange}
+                    /> clients per page
+                  </div>
+                  <Form.Input
+                    type="search"
+                    placeholder="Search"
+                    icon={<Icon name='search' inverted circular link />}
+                    value={userStore.user.name}
+                    defaultValue={userStore.user.name}
+                    onChange={this.handleChange}
+                  />
+                </Form.Group>
+              </Form>
+            </Grid.Row>
+            <Grid.Row>
+              <Button onClick={this.addUser}>New User</Button>
+            </Grid.Row>
+          </Grid>
+          </Container>
           <Divider />
           <List divided relaxed verticalAlign='middle'>
               {userStore.userList.map(user =>
@@ -60,14 +121,15 @@ const UserListComponent = observer(
           <Container>
             <Grid>
               <Grid.Row centered>
-               <Pagination
+                <Pagination
+                  type="pagination"
                   defaultActivePage={1}
                   firstItem={null}
                   lastItem={null}
                   pointing
                   secondary
-                  totalPages={userStore.userCount / userStore.pageSize}
-                  onPageChange={this.handlePageChange}
+                  totalPages={userStore.userCount / this.state.pageSize}
+                  onPageChange={this.handleChange}
                 />
               </Grid.Row>
             </Grid>

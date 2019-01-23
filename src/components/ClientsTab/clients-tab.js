@@ -20,14 +20,14 @@ const ClientsTab = observer(
     constructor(props) {
       super(props);
       this.state = {  options: [], 
-                      selected: {},
+                      selected: null,
                       errorObj: null
                     };
       this.setOptions();
     }
 
     async setOptions() {
-      await clientsStore.getClientsList();
+      await clientsStore.getClientsList(null, 0);
       const clients = clientsStore.clients.map(({ _id, name }) => {
         return { value: _id, text: name };
       });
@@ -60,15 +60,17 @@ const ClientsTab = observer(
     }
 
     async addClient() {
-      if( _.find(userStore.user.clients, (client) => {
-        return client._id === this.state.selected;
-        })) {
-          this.setState({ errorObj: "The developer is already working with this client" });
-      } else {
-        const client = _.find(clientsStore.clients, (client) => {
+      if(this.state.selected) {
+        if( _.find(userStore.user.clients, (client) => {
           return client._id === this.state.selected;
-        });      
-        await userStore.addRelation(client);
+          })) {
+            this.setState({ errorObj: "The developer is already working with this client" });
+        } else {
+          const client = _.find(clientsStore.clients, (client) => {
+            return client._id === this.state.selected;
+          });      
+          await userStore.addRelation(client);
+        }
       }
     }
 
@@ -97,6 +99,7 @@ const ClientsTab = observer(
                       placeholder="Add a new client"
                       selection
                       search
+                      clearable
                       value={this.state.selected}
                       options={this.state.options}
                       onChange={this.handleChange}

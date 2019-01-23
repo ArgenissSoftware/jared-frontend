@@ -10,11 +10,10 @@ class ClientsStore {
   clients = [];
   client = {employees: []};
   clientCount = 0;
-  pageSize = 2;
 
-  async getClientsList(pageNum) {
+  async getClientsList(pageNum, pageSize, search) {
     try {
-      const response = await clientsService.getList(pageNum);
+      const response = await clientsService.getList(pageNum, pageSize, search);
       this.clients = response.data.data[0].data;
       this.clientCount = response.data.data[0].count;
     } catch (err) {
@@ -93,7 +92,6 @@ decorate(ClientsStore, {
   client: observable,
   clients: observable,
   clientCount: observable,
-  pageSize: observable,
   getClientsList: action,
   addRelation: action,
   removeRelation: action

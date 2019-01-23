@@ -19,7 +19,7 @@ const ClientDetailComponent = observer(
   class ClientDetailComponent extends Component {
     state = { errorObj: null,
               options: [],
-              selected: {}
+              selected: null
             };
     constructor(props) {
       super(props);
@@ -29,7 +29,7 @@ const ClientDetailComponent = observer(
     }
 
     async setOptions() {
-      await userStore.getUsersList();
+      await userStore.getUsersList(null, 0);
       const users = userStore.userList.map(({ _id, name }) => {
         return { value: _id, text: name };
       });
@@ -75,16 +75,18 @@ const ClientDetailComponent = observer(
       }
     }
 
-    addDeveloper = async () => {
-      if( _.find(clientsStore.client.employees, (client) => {
-        return client._id === this.state.selected;
-        })) {
-          this.setState({ errorObj: "The client is already working with this developer" });
-      } else {
-        const client = _.find(userStore.userList, (user) => {
-          return user._id === this.state.selected;
-        });      
-        await clientsStore.addRelation(client);
+    addDeveloper = async () => {      
+      if(this.state.selected) {
+        if( _.find(clientsStore.client.employees, (client) => {
+          return client._id === this.state.selected;
+          })) {
+            this.setState({ errorObj: "The client is already working with this developer" });
+        } else {
+          const client = _.find(userStore.userList, (user) => {
+            return user._id === this.state.selected;
+          });      
+          await clientsStore.addRelation(client);
+        }
       }
     }
 
@@ -184,6 +186,7 @@ const ClientDetailComponent = observer(
                         placeholder="Add a new Developer"
                         selection
                         search
+                        clearable
                         value={this.state.selected}
                         options={this.state.options}
                         onChange={this.handleChange}
