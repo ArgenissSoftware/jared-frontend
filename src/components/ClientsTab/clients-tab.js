@@ -13,6 +13,7 @@ import {
 import ErrorMessage from "../ErrorMessage/error-message";
 import clientsStore from "../../stores/ClientsStore";
 import userStore from "../../stores/UserStore";
+import ClientCard from "../ClientCard/clientCard.component"
 import _ from 'lodash';
 
 const ClientsTab = observer(
@@ -40,21 +41,6 @@ const ClientsTab = observer(
       this.props.history.push("clients/" + id);
     }
 
-    getRenderedClientsList(clientName, clientId) {
-      return (
-        <List.Item key={clientName}>
-        <List.Content floated='right' >
-          <Button  circular icon='delete' onClick={() => this.deleteClient(clientId)}></Button>
-        </List.Content>
-        <List.Icon name="user" size="large"/>
-        <List.Content onClick={() => this.GoToDetail(clientId)}>
-          <List.Header as="a">{clientName}</List.Header>
-          <List.Description as="a">Project Description</List.Description>
-        </List.Content>
-        </List.Item>
-      );
-    }
-
     handleChange = (e, data) => {
       this.setState({ selected: data.value });
     }
@@ -79,43 +65,52 @@ const ClientsTab = observer(
       await userStore.removeRelation(client);
     }
 
-
+    clientList = () => {
+      return (
+        userStore.user.clients ? (
+          <List divided relaxed verticalAlign = 'middle'>
+            {userStore.clients.map(client => {
+              return (
+                <ClientCard key={client._id.toString()}
+                  name={client.name}
+                  _id={client._id}
+                  deleteClient={this.deleteClient} />);
+            })
+            }
+          </List>
+        ) : null
+      )
+    }
+    
 
     render() {
       return (
         <div className="ui container">
-        { this.state.errorObj ? (
-          <ErrorMessage message = { this.state.errorObj } />
+          { this.state.errorObj ? (
+            <ErrorMessage message = { this.state.errorObj } />
           ) : null}
-        <Container>
-          <Form>
-            <Form.Group widths='equal'>
-              <Form.Dropdown
-                placeholder="Add a new client"
-                selection
-                search
-                value={this.state.selected}
-                options={this.state.options}
-                onChange={this.handleChange}
-              />
-              <Button onClick={() => this.addClient()}>ADD</Button>
-              </Form.Group>
-              <Grid>
-                <Grid.Row centered>
-                <Divider />
-                  <Form.Group widths='equal'>
-                    { userStore.user.clients ? (
-                      <List divided relaxed verticalAlign='middle'>
-                        { userStore.user.clients.map(client =>
-                          this.getRenderedClientsList(client.name, client._id)
-                        ) }
-                      </List>
-                      ) : null
-                    }
-                  </Form.Group>
-                </Grid.Row>
-              </Grid>
-            </Form>
+          <Container>
+                  <Form>
+                    <Form.Group widths='equal'>
+                      <Form.Dropdown
+                        placeholder="Add a new client"
+                        selection
+                        search
+                        value={this.state.selected}
+                        options={this.state.options}
+                        onChange={this.handleChange}
+                      />
+                      <Button onClick={() => this.addClient()}>ADD</Button>
+                    </Form.Group>
+                    <Grid>
+                      <Grid.Row centered>
+                        <Divider />
+                        <Form.Group widths='equal'>
+                          { this.clientList() }
+                        </Form.Group>
+                      </Grid.Row>
+                    </Grid>
+                  </Form>
           </Container>
         </div>
       );
