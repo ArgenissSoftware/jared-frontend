@@ -3,12 +3,11 @@ import { Tab } from "semantic-ui-react";
 import UserDataTab from "../UserDataTab/user-data-tab";
 import ContactTab from "../ContactTab/contact-tab";
 import ClientsTab from "../ClientsTab/clients-tab";
+import RolesTab from "../RolesTab/roles-tab";
 
 export default class UserTabs extends Component {
   constructor(props) {
     super(props);
-
-
   }
 
   render(){
@@ -34,6 +33,14 @@ export default class UserTabs extends Component {
         pane: (
           <Tab.Pane key={2}>
             <ClientsTab history={this.props.history} match={this.props.match} />
+          </Tab.Pane>
+        )
+      },
+      {
+        menuItem: "Roles",
+        pane: (
+          <Tab.Pane key={3}>
+            <RolesTab history={this.props.history} match={this.props.match} />
           </Tab.Pane>
         )
       }
