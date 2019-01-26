@@ -20,7 +20,7 @@ class UserStore {
   newPassword2 = '';
   clients = [];
   userList = [];
-  userCount = 0; 
+  userCount = 0;
 
   /**
    * Set user field
@@ -102,13 +102,16 @@ class UserStore {
   async getUsersList(pageNum, pageSize, search) {
     return UsersService.getList(pageNum, pageSize, search)
       .then((response) => {
-        this.userList = response.data.data[0].data;
-        this.userCount = response.data.data[0].count;        
-        return response.data.data[0].data;
+        this.setUsers(response.data.data);
       }
       ).catch(function (error) {
         console.log(error);
       });
+  }
+
+  setUsers(data) {
+    this.userList = data.list;
+    this.userCount = data.count;
   }
 
   /**
@@ -131,7 +134,7 @@ class UserStore {
     try {
       _.remove(this.user.clients, (cli) => {
         return cli._id == client._id
-      });      
+      });
       var index = this.user.clients.indexOf(client._id);
 
       if (index > -1) {
@@ -155,12 +158,12 @@ class UserStore {
     } catch(err) {
       _.remove(this.user.clients, (cli) => {
         return cli._id == client._id
-      });   
+      });
       console.log(err);
     }
   }
 
-  parseData() {    
+  parseData() {
     this.user.birthday = this.user.birthday ? moment(this.user.birthday).add(1,'day').format("YYYY-MM-DD") : "";
     this.user.visa = this.user.visa ? moment(this.user.visa).add(1,'day').format("YYYY-MM-DD") : "";
     this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).add(1,'day').format("YYYY-MM-DD") : "";
@@ -179,6 +182,7 @@ decorate(UserStore, {
   userCount: observable,
   userList: observable,
   setUserField: action,
+  setUsers: action,
   getUserById: action,
   setError: action
 })

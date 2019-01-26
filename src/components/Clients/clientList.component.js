@@ -1,39 +1,41 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { 
-  Button, 
-  List, 
-  Header, 
+import {
+  Button,
+  List,
+  Header,
   Divider,
   Pagination,
   Container,
   Grid,
-  Dropdown,
   Form,
   Icon
 } from "semantic-ui-react";
 import clientsStore from "../../stores/ClientsStore";
+import PageSizeSelector from '../Common/PageSizeSelector';
 import _ from 'lodash';
 
 const ClientListComponent = observer(
   class ClientListComponent extends Component {
+
+    pageSizeOptions = [
+      { key: 2, text: 2, value: 2 },
+      { key: 10, text: 10, value: 10 },
+      { key: 15, text: 15, value: 15 },
+      { key: 20, text: 20, value: 20 },
+      { key: 25, text: 25, value: 25 },
+      { key: 50, text: 50, value: 50 },
+      { key: 100, text: 100, value: 100 }
+    ];
+
+    state = {
+      search: undefined,
+      pageSize: 10,
+    };
+
     constructor(props) {
       super(props);
-      this.state = { 
-        search: undefined,
-        pageSize: 2,
-        pageSizeOptions: [
-          { key: 2, text: 2, value: 2 },
-          { key: 10, text: 10, value: 10 },
-          { key: 15, text: 15, value: 15 },
-          { key: 20, text: 20, value: 20 },
-          { key: 25, text: 25, value: 25 },
-          { key: 50, text: 50, value: 50 },
-          { key: 100, text: 100, value: 100 }
-          ]
-      };
       clientsStore.getClientsList(1, this.state.pageSize);
-      this.addClient = this.addClient.bind(this);
     }
 
     getRenderedClientsList(client) {
@@ -48,7 +50,7 @@ const ClientListComponent = observer(
       );
     }
 
-    addClient() {
+    addClient = () => {
       this.props.history.push('/home/clients/new');
     }
 
@@ -56,65 +58,62 @@ const ClientListComponent = observer(
       this.props.history.push("clients/" + id);
     }
 
-    handleChange = async (e, data) => {
-      switch (data.type) {
-        case "search":
-          if(data.value.length >= 3) {
-            await this.setState({ search: data.value });
-            clientsStore.getClientsList(1, this.state.pageSize, this.state.search);  
-          } else if(data.value.length == 0) {
-            clientsStore.getClientsList(1, this.state.pageSize);  
-            this.setState({ search: undefined });
-          }
-          break;
-        case "dropdown":     
-          await this.setState({ pageSize: data.value }); 
-          clientsStore.getClientsList(1, this.state.pageSize, this.state.search);  
-          break;
-        case "pagination":
-          clientsStore.getClientsList(_.ceil(data.activePage), this.state.pageSize);  
-          break;
-        default:        
-          break;
-      }      
+    /**
+     * Search
+     */
+    search = async(e, data) => {
+      if(data.value.length >= 3) {
+        await this.setState({ search: data.value });
+        clientsStore.getClientsList(1, this.state.pageSize, this.state.search);
+      } else if(data.value.length == 0) {
+        clientsStore.getClientsList(1, this.state.pageSize);
+        this.setState({ search: undefined });
+      }
     }
 
+    /**
+     * Page change
+     */
+    loadPage = (e, data) => {
+      clientsStore.getClientsList(data.activePage, this.state.pageSize);
+    }
+
+    /**
+     * Change page size
+     */
+    changePageSize = (e, data) => {
+      this.setState({ pageSize: data.value });
+      clientsStore.getClientsList(1, data.value, this.state.search);
+    }
+
+    /**
+     * Render
+     */
     render() {
+      console.log('render', clientsStore.clients)
       return (
         <div className="ui container aligned">
           <Header as="h3" icon="user" content="CLIENTS LIST" />
           <Divider />
-          <Container>
-            <Grid>
-              <Grid.Row>
+          <Grid columns={2}>
+            <Grid.Row>
+              <Grid.Column>
                 <Form>
                   <Form.Group>
-                    <div>
-                      Show me <Dropdown 
-                          type="dropdown"
-                          inline
-                          options={this.state.pageSizeOptions} 
-                          defaultValue={this.state.pageSizeOptions[0].text}
-                          onChange={this.handleChange}
-                        /> clients per page
-                    </div>
                     <Form.Input
                       type="search"
                       placeholder="Search"
                       icon={<Icon name='search' inverted circular link />}
-                      value={clientsStore.client.name}
-                      defaultValue={clientsStore.client.name}
-                      onChange={this.handleChange}
+                      onChange={this.search}
                     />
                   </Form.Group>
                 </Form>
-              </Grid.Row>
-              <Grid.Row>
+              </Grid.Column>
+              <Grid.Column>
                 <Button onClick={() => this.addClient()}>NEW CLIENT</Button>
-              </Grid.Row>
-            </Grid>
-          </Container>
-          <Divider/>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
           <List divided relaxed>
             {clientsStore.clients.map(client =>
               this.getRenderedClientsList(client)
@@ -122,8 +121,15 @@ const ClientListComponent = observer(
           </List>
           <Container>
             <Grid>
+              <Grid.Row>
+                <PageSizeSelector
+                  pageSizeOptions={this.pageSizeOptions}
+                  pageSize={this.state.pageSize}
+                  onChange={this.changePageSize}
+                />
+              </Grid.Row>
               <Grid.Row centered>
-               <Pagination
+                <Pagination
                   type="pagination"
                   defaultActivePage={1}
                   firstItem={null}
@@ -131,7 +137,7 @@ const ClientListComponent = observer(
                   pointing
                   secondary
                   totalPages={clientsStore.clientCount / this.state.pageSize}
-                  onPageChange={this.handleChange}
+                  onPageChange={this.loadPage}
                 />
               </Grid.Row>
             </Grid>

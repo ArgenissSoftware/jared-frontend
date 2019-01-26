@@ -14,11 +14,15 @@ class ClientsStore {
   async getClientsList(pageNum, pageSize, search) {
     try {
       const response = await clientsService.getList(pageNum, pageSize, search);
-      this.clients = response.data.data[0].data;
-      this.clientCount = response.data.data[0].count;
+      this.setClients(response.data.data);
     } catch (err) {
       console.error(err);
     }
+  }
+
+  setClients(data) {
+    this.clients = data.list;
+    this.clientCount = data.count;
   }
 
   async getClient(id) {
@@ -88,6 +92,8 @@ decorate(ClientsStore, {
   clients: observable,
   clientCount: observable,
   getClientsList: action,
+  setClients: action,
+  addClient: action,
   addRelation: action,
   removeRelation: action
 })

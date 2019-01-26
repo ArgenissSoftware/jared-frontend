@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import {
   List,
-  Header, 
-  Divider, 
+  Header,
+  Divider,
   Button,
   Pagination,
   Container,
@@ -13,26 +13,59 @@ import {
   Icon
 } from "semantic-ui-react";
 import userStore from "../../stores/UserStore";
+import PageSizeSelector from '../Common/PageSizeSelector';
 import _ from 'lodash';
 
 const UserListComponent = observer(
   class UserListComponent extends Component {
+
+    pageSizeOptions = [
+      { key: 2, text: 2, value: 2 },
+      { key: 10, text: 10, value: 10 },
+      { key: 15, text: 15, value: 15 },
+      { key: 20, text: 20, value: 20 },
+      { key: 25, text: 25, value: 25 },
+      { key: 50, text: 50, value: 50 },
+      { key: 100, text: 100, value: 100 }
+    ];
+
+    state = {
+      search: '',
+      pageSize: 10,
+    };
+
     constructor(props) {
       super(props);
-      this.state = { 
-        search: undefined,
-        pageSize: 2,
-        pageSizeOptions: [
-          { key: 2, text: 2, value: 2 },
-          { key: 10, text: 10, value: 10 },
-          { key: 15, text: 15, value: 15 },
-          { key: 20, text: 20, value: 20 },
-          { key: 25, text: 25, value: 25 },
-          { key: 50, text: 50, value: 50 },
-          { key: 100, text: 100, value: 100 }
-          ]
-      };
       userStore.getUsersList(1, this.state.pageSize);
+    }
+
+    /**
+     * Search
+     */
+    search = async(e, data) => {
+      if(data.value.length >= 3) {
+        await this.setState({ search: data.value });
+        userStore.getUsersList(1, this.state.pageSize, this.state.search);
+      } else if(data.value.length == 0) {
+        userStore.getUsersList(1, this.state.pageSize);
+        this.setState({ search: undefined });
+      }
+    }
+
+    /**
+     * Page change
+     */
+    loadPage = (e, data) => {
+      console.log(data)
+      userStore.getUsersList(data.activePage, this.state.pageSize, this.state.search);
+    }
+
+    /**
+     * Change page size
+     */
+    changePageSize = (e, data) => {
+      this.setState({ pageSize: data.value });
+      userStore.getUsersList(1, data.value, this.state.search);
     }
 
     getRenderedUserList(name, email, id) {
@@ -55,60 +88,30 @@ const UserListComponent = observer(
       this.props.history.push("users/" + id);
     }
 
-    handleChange = async (e, data) => {
-      switch (data.type) {
-        case "search":        
-          if(data.value.length >= 3) {
-            await this.setState({ search: data.value });
-            userStore.getUsersList(1, this.state.pageSize, this.state.search);
-          } else if(data.value.length == 0) {
-            userStore.getUsersList(1, this.state.pageSize);
-            this.setState({ search: undefined });
-          }
-          break;
-        case "dropdown":
-          await this.setState({ pageSize: data.value });
-          userStore.getUsersList(1, this.state.pageSize, this.state.search);
-          break;
-        case "pagination":
-          userStore.getUsersList(_.ceil(data.activePage), this.state.pageSize);
-          break;
-        default:
-          break;
-      }
-    }
-
     render() {
         return (
         <div className="ui container aligned">
           <Header as="h3" icon="user" content="USERS LIST" />
-          <Container>
-            <Form>
-              <Form.Group>
-                <div>
-                  Show me <Dropdown
-                    type="dropdown"
-                    inline
-                    options={this.state.pageSizeOptions}
-                    defaultValue={this.state.pageSizeOptions[0].text}
-                    onChange={this.handleChange}
-                  /> clients per page
-                </div>
-                <Form.Input
-                  type="search"
-                  placeholder="Search"
-                  icon={<Icon name='search' inverted circular link />}
-                  value={userStore.user.name}
-                  defaultValue={userStore.user.name}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Form.Group widths='equal'>
-                <Button onClick={this.addUser}>New User</Button>
-              </Form.Group>
-            </Form>
-          </Container>
           <Divider />
+          <Grid columns={2}>
+            <Grid.Row>
+              <Grid.Column>
+                <Form>
+                  <Form.Group>
+                    <Form.Input
+                      type="search"
+                      placeholder="Search"
+                      icon={<Icon name='search' inverted circular link />}
+                      onChange={this.search}
+                    />
+                  </Form.Group>
+                </Form>
+              </Grid.Column>
+              <Grid.Column>
+                <Button onClick={() => this.addUser()}>NEW USER</Button>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
           <List divided relaxed verticalAlign='middle'>
               {userStore.userList.map(user =>
                   this.getRenderedUserList(user.username, user.email, user._id)
@@ -116,6 +119,13 @@ const UserListComponent = observer(
           </List>
           <Container>
             <Grid>
+              <Grid.Row>
+                <PageSizeSelector
+                  pageSizeOptions={this.pageSizeOptions}
+                  pageSize={this.state.pageSize}
+                  onChange={this.changePageSize}
+                />
+              </Grid.Row>
               <Grid.Row centered>
                 <Pagination
                   type="pagination"
@@ -125,7 +135,7 @@ const UserListComponent = observer(
                   pointing
                   secondary
                   totalPages={userStore.userCount / this.state.pageSize}
-                  onPageChange={this.handleChange}
+                  onPageChange={this.loadPage}
                 />
               </Grid.Row>
             </Grid>

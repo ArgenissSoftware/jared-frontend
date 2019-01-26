@@ -8,7 +8,9 @@ class CrudService extends BaseService {
   }
   /** request for all records */
   getList(pageNum, pageSize, search) {
-    return api.get(this.URL + "/page/" + pageNum + "/size/" + pageSize + "/search/" + search);
+    let endpoint = `${this.URL}/page/${pageNum}/size/${pageSize}`;
+    if (search) endpoint += `?search=${search}`;
+    return api.get(endpoint);
   }
   /** request for a record by Id */
   get(id) {
