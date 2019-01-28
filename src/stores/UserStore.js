@@ -134,7 +134,7 @@ class UserStore {
     try {
       _.remove(this.user.clients, (cli) => {
         return cli._id == client._id
-      });
+      });      
       var index = this.user.clients.indexOf(client._id);
 
       if (index > -1) {
@@ -158,12 +158,32 @@ class UserStore {
     } catch(err) {
       _.remove(this.user.clients, (cli) => {
         return cli._id == client._id
-      });
+      });   
       console.log(err);
     }
   }
 
-  parseData() {
+  /**
+   * Add role to user
+   * @param {string} newRole
+   */
+  addUserRole(newRole){
+    if (this.user.roles.indexOf(newRole) === -1){
+      this.user.roles.push(newRole)
+    }
+  }
+  
+  /**
+   * Remove role from user
+   * @param {string} role
+   */
+  deleteUserRole(role){
+    var i = this.user.roles.indexOf(role)
+    this.user.roles.splice(i, 1);
+    let a = 2;
+  }
+
+  parseData() {    
     this.user.birthday = this.user.birthday ? moment(this.user.birthday).add(1,'day').format("YYYY-MM-DD") : "";
     this.user.visa = this.user.visa ? moment(this.user.visa).add(1,'day').format("YYYY-MM-DD") : "";
     this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).add(1,'day').format("YYYY-MM-DD") : "";
@@ -184,7 +204,9 @@ decorate(UserStore, {
   setUserField: action,
   setUsers: action,
   getUserById: action,
-  setError: action
+  setError: action,
+  addUserRole: action,
+  deleteUserRole: action
 })
 
 let userStore = new UserStore();
