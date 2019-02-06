@@ -11,10 +11,12 @@ import {
 import "./top-nav-bar.css";
 import authStore from "../../stores/AuthStore";
 import LogoToolbar from '../Common/LogoToolbar';
+import {AdminAuth} from "../../RolesAuth";
 
-const TopNavBar = observer(class TopNavBar extends Component {
-
-  /**
+const TopNavBar = observer(
+  class TopNavBar extends Component {
+    
+    /**
    * Nav
    */
   handleItemClick = (e, {name}) => this.props.history.push(name);
@@ -25,7 +27,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
     authStore.clearAuth();
     this.props.history.push(name);
   }
-
+  
   render() {
     if (!authStore.isLoggedIn()){
       return <Redirect to={{ pathname: "/" }} push={false} />;
@@ -37,16 +39,16 @@ const TopNavBar = observer(class TopNavBar extends Component {
     )
     return (
       <LogoToolbar logo={logo}>
-        <Dropdown item text="User">
-          <Dropdown.Menu>
-            <Dropdown.Item name="/home/users" onClick={this.handleItemClick} >
-              <Icon name='list'/>
-              User List
-            </Dropdown.Item>
-
-          </Dropdown.Menu>
-        </Dropdown>
-
+        {AdminAuth( 
+            <Dropdown item text="User">
+              <Dropdown.Menu>
+                <Dropdown.Item name="/home/users" onClick={this.handleItemClick} >
+                  <Icon name='list'/>
+                  User List
+                  </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+        )} 
         <Dropdown item text="Client">
           <Dropdown.Menu>
             <Dropdown.Item name="/home/clients" onClick={this.handleItemClick}>

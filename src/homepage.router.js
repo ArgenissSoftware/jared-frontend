@@ -7,6 +7,7 @@ import ChangePasswordComponent from "./components/ChangePassword/changePassword.
 import UserListComponent from "./components/Users/userList.component";
 import ClientDetailComponent from "./components/Clients/clientDetail.component";
 import UserProfileComponent from "./components/UserProfile/UserProfile.component";
+import {AdminAuth} from "./RolesAuth";
 
 class HomepageRouter extends Component {
     render() {
@@ -28,11 +29,11 @@ class HomepageRouter extends Component {
                 <Route
                     exact
                     path='/home/users'
-                    render={(props) => <UserListComponent {...props}/>}/>
+                    component ={AdminAuth(UserListComponent)}/>
 
                 <Route
                     path='/home/users/:id'
-                    render={(props) => <UserProfileComponent {...props}/>}/>
+                    component= {AdminAuth(UserProfileComponent)} />
 
                 <Route
                     exact
@@ -42,7 +43,7 @@ class HomepageRouter extends Component {
                 <Route
                     exact
                     path='/home/clients/:id'
-                    render={(props) => <ClientDetailComponent {...props}/>}/>
+                    component= { AdminAuth(ClientDetailComponent)} />
 
             </Switch>
         )

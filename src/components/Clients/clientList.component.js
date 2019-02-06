@@ -14,6 +14,7 @@ import {
 import clientsStore from "../../stores/ClientsStore";
 import PageSizeSelector from '../Common/PageSizeSelector';
 import _ from 'lodash';
+import { AdminAuth } from "../../RolesAuth";
 
 const ClientListComponent = observer(
   class ClientListComponent extends Component {
@@ -39,13 +40,22 @@ const ClientListComponent = observer(
     }
 
     getRenderedClientsList(client) {
+      const HeaderAndDescitption = (
+        <div>
+          <List.Header as="a">{client.name}</List.Header>
+          <List.Description as="a">Project Description</List.Description>
+        </div>)
+      let content = AdminAuth(
+        <List.Content onClick={() => this.goToDetail(client._id)}>
+          {HeaderAndDescitption}
+        </List.Content>)
+      if (content === undefined) {
+        content = (<List.Content> {HeaderAndDescitption} </List.Content>)
+      }
       return (
-        <List.Item key={client.id}>
+        <List.Item key={client._id.toString()}>
           <List.Icon name="user" size="large" verticalAlign="middle" />
-          <List.Content onClick={() => this.goToDetail(client._id)}>
-            <List.Header as="a">{client.name}</List.Header>
-            <List.Description as="a">Project Description</List.Description>
-          </List.Content>
+          {content}
         </List.Item>
       );
     }
@@ -110,7 +120,9 @@ const ClientListComponent = observer(
                 </Form>
               </Grid.Column>
               <Grid.Column>
-                <Button onClick={() => this.addClient()}>NEW CLIENT</Button>
+                {AdminAuth(
+                  <Button onClick={() => this.addClient()}>NEW CLIENT</Button>
+                 )}
               </Grid.Column>
             </Grid.Row>
           </Grid>
