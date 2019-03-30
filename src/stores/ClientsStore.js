@@ -6,9 +6,11 @@ import {
 import clientsService from "../services/clients.service";
 import _ from 'lodash';
 
+const defaultClient = {employees: [], active: true};
+
 class ClientsStore {
   clients = [];
-  client = {employees: []};
+  client = defaultClient;
   clientCount = 0;
 
   async getClientsList(pageNum, pageSize, search) {
@@ -35,8 +37,12 @@ class ClientsStore {
     }
   }
 
+  setClientData(name, value) {
+    this.client[name] = value;
+  }
+
   clearClient() {
-    this.client = {};
+    this.client = defaultClient;
   }
 
   async addClient() {
@@ -95,6 +101,7 @@ decorate(ClientsStore, {
   setClients: action,
   addClient: action,
   addRelation: action,
+  setClientData: action,
   removeRelation: action
 })
 
