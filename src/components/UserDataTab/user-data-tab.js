@@ -65,7 +65,7 @@ const UserDataTab = observer(
           value: "hired"
         },
         {
-          text: "freelancer",
+          text: "freelance",
           value: "freelance"
         }
       ];

@@ -59,8 +59,8 @@ const PersonalDataTab = observer(
           value: "hired"
         },
         {
-          text: "freelancer",
-          value: "freelancer"
+          text: "freelance",
+          value: "freelance"
         }
       ];
       return typesOptions;

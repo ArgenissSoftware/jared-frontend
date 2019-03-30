@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { 
-  Button, 
-  Form, 
-  Grid, 
-  Header, 
-  Image, 
-  Message, 
-  Segment 
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Segment
 } from 'semantic-ui-react'
 import {
   Link,
@@ -98,9 +98,9 @@ const LoginForm = observer(
                   </Button>
                 </Segment>
               </Form>
-              <Message>
+              {/* <Message>
                 New to us? <Link to={'/register'}>Sign Up</Link>
-              </Message>
+              </Message> */}
               <Message>
                   Forgot your password?&nbsp;
                   <a href="/forgot_password">

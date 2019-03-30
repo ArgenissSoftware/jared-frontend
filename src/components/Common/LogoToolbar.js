@@ -8,6 +8,11 @@ import config from '../../config';
 class LogoToolbar extends PureComponent {
 
   /**
+   * Nav
+   */
+  handleItemClick = (e, {name}) => this.props.history.push(name);
+
+  /**
    * render
    */
   render() {

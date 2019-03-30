@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { Redirect } from "react-router-dom";
 import logo from "../../images/logo1.png";
-import { 
-  Dropdown, 
-  Menu, 
-  Icon, 
+import {
+  Dropdown,
+  Menu,
+  Icon,
   Image
 } from "semantic-ui-react";
 import "./top-nav-bar.css";
@@ -36,7 +36,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
       </span>
     )
     return (
-      <LogoToolbar logo={logo}>
+      <LogoToolbar logo={logo} history={this.props.history}>
         <Dropdown item text="User">
           <Dropdown.Menu>
             <Dropdown.Item name="/home/users" onClick={this.handleItemClick} >
