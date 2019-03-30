@@ -5,7 +5,7 @@ import Axios from "axios";
 class UsersService extends CrudService {
 
     constructor() {
-        super("/users");
+      super("/users");
     }
 
     /**
@@ -13,8 +13,8 @@ class UsersService extends CrudService {
      *  @param {string} param
      */
     getByEmail(param) {
-        return api
-            .get(this.URL + "/email/" + param);
+      return api
+        .get(this.URL + "/email/" + param);
     }
 
     /**
@@ -22,15 +22,15 @@ class UsersService extends CrudService {
      * @param {string} githubID
      */
     getGitHubUser(githubID) {
-        return Axios
-            .get("https://api.github.com/users/" + githubID);
+      return Axios
+        .get("https://api.github.com/users/" + githubID);
     }
 
     /**
      * request for register a new record
      */
     add(obj) {
-        return api
+      return api
         .post(this.URL, obj);
     }
 
@@ -43,6 +43,9 @@ class UsersService extends CrudService {
         .put(this.URL + "/disable/" + param)
     }
 
+    updatePassword(id ,param) {
+      return api.put(this.URL + `/${id}/update_password`, param)
+    }
 }
 
 const usersService = new UsersService();
