@@ -14,20 +14,22 @@ import ErrorMessage from "../ErrorMessage/error-message";
 import clientsStore from "../../stores/ClientsStore";
 import userStore from "../../stores/UserStore";
 import _ from 'lodash';
+import ClientsDropdown from "../Common/ClientsDropdown";
 
 const ClientsTab = observer(
   class ClientsTab extends Component {
     constructor(props) {
       super(props);
-      this.state = {  options: [], 
-                      selected: null,
-                      errorObj: null
-                    };
+      this.state = {
+        options: [],
+        selected: null,
+        errorObj: null
+      };
       this.setOptions();
     }
 
     async setOptions() {
-      await clientsStore.getClientsList(null, 0);
+      await clientsStore.getClientsList(1, 0);
       const clients = clientsStore.clients.map(({ _id, name }) => {
         return { value: _id, text: name };
       });
@@ -55,21 +57,18 @@ const ClientsTab = observer(
       );
     }
 
-    handleChange = (e, data) => {
-      this.setState({ selected: data.value });
+    handleChange = (client) => {
+      this.setState({ selected: client });
     }
 
     async addClient() {
       if(this.state.selected) {
         if( _.find(userStore.user.clients, (client) => {
-          return client._id === this.state.selected;
+          return client._id === this.state.selected._id;
           })) {
             this.setState({ errorObj: "The developer is already working with this client" });
         } else {
-          const client = _.find(clientsStore.clients, (client) => {
-            return client._id === this.state.selected;
-          });      
-          await userStore.addRelation(client);
+          await userStore.addRelation(this.state.selected);
         }
       }
     }
@@ -81,8 +80,6 @@ const ClientsTab = observer(
       await userStore.removeRelation(client);
     }
 
-
-
     render() {
       return (
         <div className="ui container">
@@ -90,36 +87,29 @@ const ClientsTab = observer(
           <ErrorMessage message = { this.state.errorObj } />
           ) : null}
           <Container>
-                  <Form>
+            <Form>
+              <Form.Group widths='equal'>
+                <ClientsDropdown
+                  onChange={this.handleChange}
+                  placeholder="Add a new client"/>
+                <Button onClick={() => this.addClient()}>ADD</Button>
+                </Form.Group>
+                <Grid>
+                  <Grid.Row centered>
+                  <Divider />
                     <Form.Group widths='equal'>
-                      <Form.Dropdown
-                        placeholder="Add a new client"
-                        selection
-                        search
-                        clearable
-                        value={this.state.selected}
-                        options={this.state.options}
-                        onChange={this.handleChange}
-                      />
-                      <Button onClick={() => this.addClient()}>ADD</Button>
-                      </Form.Group>
-                      <Grid>
-                        <Grid.Row centered>
-                        <Divider />
-                          <Form.Group widths='equal'>
-                            { userStore.user.clients ? (
-                              <List divided relaxed verticalAlign='middle'>
-                                { userStore.user.clients.map(client =>
-                                  this.getRenderedClientsList(client.name, client._id)
-                                ) }
-                              </List> 
-                              ) : null
-                            }
-                          </Form.Group>
-                        </Grid.Row>
-                      </Grid>
-                    </Form>
-
+                      { userStore.user.clients ? (
+                        <List divided relaxed verticalAlign='middle'>
+                          { userStore.user.clients.map(client =>
+                            this.getRenderedClientsList(client.name, client._id)
+                          ) }
+                        </List>
+                        ) : null
+                      }
+                    </Form.Group>
+                  </Grid.Row>
+                </Grid>
+              </Form>
             </Container>
           </div>
       );
