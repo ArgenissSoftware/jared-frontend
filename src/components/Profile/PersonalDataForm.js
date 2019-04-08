@@ -10,12 +10,11 @@ import {
   Grid,
   Segment
 } from "semantic-ui-react";
-import "./personal-data-tab.css";
 import { observer } from "mobx-react";
 import usersStore from "../../stores/UserStore";
 
-const PersonalDataTab = observer(
-  class PersonalDataTab extends Component {
+const PersonalDataForm = observer(
+  class PersonalDataForm extends Component {
 
     constructor() {
       super();
@@ -219,4 +218,4 @@ const PersonalDataTab = observer(
   }
 );
 
-export default PersonalDataTab;
+export default PersonalDataForm;

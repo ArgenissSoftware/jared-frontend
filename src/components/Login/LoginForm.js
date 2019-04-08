@@ -16,8 +16,8 @@ import authStore from "../../stores/AuthStore";
 import signInStore from "../../stores/SignInStore";
 import logo from "../../images/logo1.png";
 import { observer } from 'mobx-react';
-import './login-form.css';
-import ErrorMessage from '../ErrorMessage/error-message';
+import './LoginForm.css';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const LoginForm = observer(
   class LoginForm extends Component {

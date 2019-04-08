@@ -16,8 +16,8 @@ import userStore from "../../stores/UserStore";
 import PageSizeSelector from '../Common/PageSizeSelector';
 import _ from 'lodash';
 
-const UserListComponent = observer(
-  class UserListComponent extends Component {
+const UsersList = observer(
+  class UsersList extends Component {
 
     pageSizeOptions = [
       { key: 2, text: 2, value: 2 },
@@ -147,4 +147,4 @@ const UserListComponent = observer(
   }
 );
 
-export default UserListComponent;
+export default UsersList;

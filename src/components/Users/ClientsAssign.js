@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import "./clients-tab.css";
 import {
   List,
   Button,
@@ -10,14 +9,14 @@ import {
   Divider,
   Form
 } from "semantic-ui-react";
-import ErrorMessage from "../ErrorMessage/error-message";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import clientsStore from "../../stores/ClientsStore";
 import userStore from "../../stores/UserStore";
 import _ from 'lodash';
 import ClientsDropdown from "../Common/ClientsDropdown";
 
-const ClientsTab = observer(
-  class ClientsTab extends Component {
+const ClientsAssign = observer(
+  class ClientsAssign extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -117,4 +116,4 @@ const ClientsTab = observer(
   }
 );
 
-export default ClientsTab;
+export default ClientsAssign;

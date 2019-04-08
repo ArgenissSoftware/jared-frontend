@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Tab } from "semantic-ui-react";
-import PersonalDataTab from "../PersonalDataTab/personal-data-tab";
-import ContactTab from "../ContactTab/contact-tab";
-import ClientsTab from "../ClientsTab/clients-tab";
+import PersonalDataForm from "./PersonalDataForm";
+import ContactForm from "../Users/ContactForm";
 
 let panes = [];
 
@@ -18,7 +17,7 @@ export default class ProfileTabs extends Component {
         menuItem: "Personal Data",
         pane: (
           <Tab.Pane key={0}>
-            <PersonalDataTab />
+            <PersonalDataForm />
           </Tab.Pane>
         )
       },
@@ -26,15 +25,7 @@ export default class ProfileTabs extends Component {
         menuItem: "Contact",
         pane: (
           <Tab.Pane key={1}>
-            <ContactTab />
-          </Tab.Pane>
-        )
-      },
-      {
-        menuItem: "Clients",
-        pane: (
-          <Tab.Pane key={2}>
-            <ClientsTab history={this.props.history} />
+            <ContactForm />
           </Tab.Pane>
         )
       }

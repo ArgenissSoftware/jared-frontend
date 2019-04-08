@@ -11,12 +11,14 @@ import {
   List
 } from "semantic-ui-react";
 import clientsStore from "../../stores/ClientsStore";
-import ErrorMessage from "../ErrorMessage/error-message";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import userStore from "../../stores/UserStore";
 import _ from 'lodash';
 
-const ClientDetailComponent = observer(
-  class ClientDetailComponent extends Component {
+const ClientEdit
+ = observer(
+  class ClientEdit
+   extends Component {
     state = { errorObj: null,
               options: [],
               selected: null
@@ -225,4 +227,5 @@ const ClientDetailComponent = observer(
   }
 );
 
-export default ClientDetailComponent;
+export default ClientEdit
+;

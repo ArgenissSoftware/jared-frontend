@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {observer} from "mobx-react";
 import "./home.page.css";
-import TopNavBar from "../../components/TopNavBar/top-nav-bar";
+import TopNavBar from "../../components/TopNavBar/TopNavBar";
 import SuccessMessage from '../../components/SuccessMessage/success-message'
 import HomepageRouter from "../../homepage.router";
 

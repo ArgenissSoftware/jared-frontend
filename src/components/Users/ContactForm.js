@@ -1,19 +1,13 @@
 import React, { Component } from "react";
 import {
   Form,
-  Grid,
-  Segment,
   Container
 } from "semantic-ui-react";
-import "./contact-tab.css";
 import { observer } from "mobx-react";
 import UserStore from "../../stores/UserStore";
 
 const ContactTab = observer(
   class ContactTab extends Component {
-    constructor(){
-      super();
-    }
 
     handleChange(e) {
       UserStore.user[e.target.name] = e.target.value;
@@ -21,7 +15,6 @@ const ContactTab = observer(
 
     render() {
       return (
-        <div className="ui container aligned">
           <Container>
             <Form>
               <Form.Group widths='equal'>
@@ -74,7 +67,6 @@ const ContactTab = observer(
               </Form.Group>
             </Form>
           </Container>
-        </div>
       );
     }
   }

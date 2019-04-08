@@ -4,7 +4,7 @@ import usersService from "../../services/users.service";
 import authStore from "../../stores/AuthStore";
 import { Message } from "semantic-ui-react";
 
-class ChangePasswordComponent extends Component {
+class ChangePassword extends Component {
 
     state = {
       error : '',
@@ -43,4 +43,4 @@ class ChangePasswordComponent extends Component {
     }
 }
 
-export default ChangePasswordComponent;
+export default ChangePassword;

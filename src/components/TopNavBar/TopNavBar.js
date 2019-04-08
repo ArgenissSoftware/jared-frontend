@@ -8,7 +8,7 @@ import {
   Icon,
   Image
 } from "semantic-ui-react";
-import "./top-nav-bar.css";
+import "./TopNavBar.css";
 import authStore from "../../stores/AuthStore";
 import LogoToolbar from '../Common/LogoToolbar';
 

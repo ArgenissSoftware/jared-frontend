@@ -4,7 +4,7 @@ import SignInStore from "./stores/SignInStore";
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import HomePage from "./pages/home/home.page";
 import ForgotPasswordPage from "./pages/forgot-password-page/forgot-password-page";
-import LoginForm from './components/Login/login-form';
+import LoginForm from './components/Login/LoginForm';
 import RegisterForm from './components/Register/register-form';
 
 class App extends Component {
