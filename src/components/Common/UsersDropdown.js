@@ -1,13 +1,13 @@
 import React, { PureComponent } from "react";
 import RecordsDropdown from "./RecordsDropdown";
-import clientsService from "../../services/clients.service";
+import usersService from "../../services/users.service";
 
-export class ClientsDropdown extends PureComponent {
+export class UsersDropdown extends PureComponent {
   render() {
     return (
       <RecordsDropdown
-        dataSource={clientsService}
-        displayProperty="name"
+        dataSource={usersService}
+        displayProperty="username"
         placeholder={this.props.placeholder}
         onChange={this.props.onChange}
       />
@@ -15,4 +15,4 @@ export class ClientsDropdown extends PureComponent {
   }
 }
 
-export default ClientsDropdown;
+export default UsersDropdown;
