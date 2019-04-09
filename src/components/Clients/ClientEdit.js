@@ -14,6 +14,7 @@ import clientsStore from "../../stores/ClientsStore";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import userStore from "../../stores/UserStore";
 import _ from 'lodash';
+import UsersDropdown from "../Common/UsersDropdown";
 
 const ClientEdit
  = observer(
@@ -39,18 +40,17 @@ const ClientEdit
     }
 
     handleChange = (e, data) => {
-      if (data.type === 'dropdown') {
-        this.setState({ selected: data.value });
+      if (e.target.value.trim() !== ''){
+          clientsStore.setClientData(e.target.name, e.target.value);
       } else {
-
-        if (e.target.value.trim() !== ''){
-            clientsStore.setClientData(e.target.name, e.target.value);
-        } else {
-          if (clientsStore.client[e.target.name] !== undefined){
-            delete clientsStore.client[e.target.name]
-          }
+        if (clientsStore.client[e.target.name] !== undefined){
+          delete clientsStore.client[e.target.name]
         }
       }
+    }
+
+    handleDeveloperChange = (user) => {
+      this.setState({ selected: user ? user._id : null });
     }
 
     toggle = () => clientsStore.client.active = !clientsStore.client.active;
@@ -188,15 +188,9 @@ const ClientEdit
                     />
                   </Form.Group>
                   <Form.Group widths='equal'>
-                    <Form.Dropdown
-                      type='dropdown'
+                    <UsersDropdown
                       placeholder="Add a new Developer"
-                      selection
-                      search
-                      clearable
-                      value={this.state.selected}
-                      options={this.state.options}
-                      onChange={this.handleChange}
+                      onChange={this.handleDeveloperChange}
                     />
                     <Button onClick={() => this.addDeveloper()}>ADD</Button>
                   </Form.Group>

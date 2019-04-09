@@ -36,6 +36,7 @@ class RecordsDropdown extends PureComponent {
         onSearchChange={this.onSearchChange}
         search
         selection
+        clearable
         options={options}
         onChange={this.onChange}
       />
