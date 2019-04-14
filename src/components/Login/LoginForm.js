@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { 
-  Button, 
-  Form, 
-  Grid, 
-  Header, 
-  Image, 
-  Message, 
-  Segment 
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Message,
+  Segment
 } from 'semantic-ui-react'
 import {
   Link,
@@ -16,8 +16,8 @@ import authStore from "../../stores/AuthStore";
 import signInStore from "../../stores/SignInStore";
 import logo from "../../images/logo1.png";
 import { observer } from 'mobx-react';
-import './login-form.css';
-import ErrorMessage from '../ErrorMessage/error-message';
+import './LoginForm.css';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const LoginForm = observer(
   class LoginForm extends Component {
@@ -98,9 +98,9 @@ const LoginForm = observer(
                   </Button>
                 </Segment>
               </Form>
-              <Message>
+              {/* <Message>
                 New to us? <Link to={'/register'}>Sign Up</Link>
-              </Message>
+              </Message> */}
               <Message>
                   Forgot your password?&nbsp;
                   <a href="/forgot_password">

@@ -11,12 +11,14 @@ import {
   List
 } from "semantic-ui-react";
 import clientsStore from "../../stores/ClientsStore";
-import ErrorMessage from "../ErrorMessage/error-message";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import userStore from "../../stores/UserStore";
 import _ from 'lodash';
 
-const ClientDetailComponent = observer(
-  class ClientDetailComponent extends Component {
+const ClientEdit
+ = observer(
+  class ClientEdit
+   extends Component {
     state = { errorObj: null,
               options: [],
               selected: null
@@ -37,16 +39,14 @@ const ClientDetailComponent = observer(
     }
 
     handleChange = (e, data) => {
-      if(data.type === 'dropdown') {
+      if (data.type === 'dropdown') {
         this.setState({ selected: data.value });
       } else {
 
-        if(e.target.value.trim() !== ''){
-          e.target.name !== 'address' ?
-              clientsStore.client[e.target.name] = e.target.value.trim():
-              clientsStore.client[e.target.name] = e.target.value;
-        }else{
-          if(clientsStore.client[e.target.name] !== undefined){
+        if (e.target.value.trim() !== ''){
+            clientsStore.setClientData(e.target.name, e.target.value);
+        } else {
+          if (clientsStore.client[e.target.name] !== undefined){
             delete clientsStore.client[e.target.name]
           }
         }
@@ -84,7 +84,7 @@ const ClientDetailComponent = observer(
       }
     }
 
-    addDeveloper = async () => {      
+    addDeveloper = async () => {
       if(this.state.selected) {
         if( _.find(clientsStore.client.employees, (client) => {
           return client._id === this.state.selected;
@@ -93,7 +93,7 @@ const ClientDetailComponent = observer(
         } else {
           const client = _.find(userStore.userList, (user) => {
             return user._id === this.state.selected;
-          });      
+          });
           await clientsStore.addRelation(client);
         }
       }
@@ -209,7 +209,7 @@ const ClientDetailComponent = observer(
                           {clientsStore.client.employees.map(user =>
                             this.getRenderedUsersList(user.name, user._id)
                           )}
-                          </List> 
+                          </List>
                         ) : null
                         }
                       </Form.Group>
@@ -227,4 +227,5 @@ const ClientDetailComponent = observer(
   }
 );
 
-export default ClientDetailComponent;
+export default ClientEdit
+;

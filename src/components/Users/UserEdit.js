@@ -7,12 +7,12 @@ import {
 } from "semantic-ui-react";
 import { observer } from "mobx-react";
 
-import UserProfileTabs from "../../components/UserTabs/user-profile-tabs";
+import UserTabs from "../Users/UserTabs";
 import userStore from "../../stores/UserStore";
-import ErrorMessage from "../ErrorMessage/error-message";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 export default observer(
-  class UserProfileComponent extends Component {
+  class UserEdit extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -81,7 +81,7 @@ export default observer(
             ) : null
           }
           <Header as="h3" icon="user" content={this.state.title+ ' ' + userStore.user.name + ' ' + userStore.user.surname  } />
-          <UserProfileTabs history={this.props.history} match={this.props.match}/>
+          <UserTabs history={this.props.history} match={this.props.match}/>
           <Form>
             <Button positive onClick={this.save}>Save</Button>
             { !this.state.newClient ? (

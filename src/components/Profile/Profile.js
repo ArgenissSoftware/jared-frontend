@@ -1,16 +1,14 @@
 import React, { Component } from "react";
-import { 
-  Button, 
-  Message 
+import {
+  Button,
+  Message
 } from "semantic-ui-react";
 import { observer } from "mobx-react";
 
-import ProfileTabs from "../../components/ProfileTabs/profile-tabs";
-import signUpStore from "../../stores/SignUpStore";
+import ProfileTabs from "./ProfileTabs";
 import userStore from "../../stores/UserStore";
 import authStore from "../../stores/AuthStore";
-import ErrorMessage from "../ErrorMessage/error-message";
-
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 
 export default observer(

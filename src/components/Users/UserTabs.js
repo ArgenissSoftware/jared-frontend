@@ -1,22 +1,25 @@
 import React, { Component } from "react";
 import { Tab } from "semantic-ui-react";
-import UserDataTab from "../UserDataTab/user-data-tab";
-import ContactTab from "../ContactTab/contact-tab";
-import ClientsTab from "../ClientsTab/clients-tab";
 import RolesTab from "../RolesTab/roles-tab";
+import UserForm from "../Users/UserForm";
+import ContactForm from "./ContactForm";
+import ClientsAssign from "../Users/ClientsAssign";
 
+/**
+ * User Tabs Component
+ */
 export default class UserTabs extends Component {
-  constructor(props) {
-    super(props);
-  }
 
+  /**
+   * Render
+   */
   render(){
     const panes = [
       {
         menuItem: "User Data",
         pane: (
           <Tab.Pane key={0}>
-            <UserDataTab history={this.props.history} match={this.props.match} />
+            <UserForm history={this.props.history} match={this.props.match} />
           </Tab.Pane>
         )
       },
@@ -24,7 +27,7 @@ export default class UserTabs extends Component {
         menuItem: "Contact",
         pane: (
           <Tab.Pane key={1}>
-            <ContactTab history={this.props.history} match={this.props.match} />
+            <ContactForm history={this.props.history} match={this.props.match} />
           </Tab.Pane>
         )
       },
@@ -32,7 +35,7 @@ export default class UserTabs extends Component {
         menuItem: "Clients",
         pane: (
           <Tab.Pane key={2}>
-            <ClientsTab history={this.props.history} match={this.props.match} />
+            <ClientsAssign history={this.props.history} match={this.props.match} />
           </Tab.Pane>
         )
       },
