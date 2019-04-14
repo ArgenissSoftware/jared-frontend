@@ -3,7 +3,7 @@ import { Form, Container, Label, Icon } from "semantic-ui-react";
 import { observer } from "mobx-react";
 import rolesStore from "../../stores/RolesStore";
 import usersStore from "../../stores/UserStore";
-import ErrorMessage from "../ErrorMessage/error-message";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 const RolesTab = observer(
   class RolesTab extends Component {
