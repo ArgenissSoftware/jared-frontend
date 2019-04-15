@@ -16,27 +16,34 @@ import userStore from "../../stores/UserStore";
 import _ from 'lodash';
 import UsersDropdown from "../Common/UsersDropdown";
 
-const ClientEdit
- = observer(
-  class ClientEdit
-   extends Component {
-    state = { errorObj: null,
-              options: [],
-              selected: null
-            };
-    constructor(props) {
-      super(props);
-      this.setTitle();
-      this.setOptions();
-      clientsStore.clearClient();
+const ClientEdit = observer(
+  class ClientEdit extends Component {
+    state = {
+      errorObj: null,
+      selected: null
+    };
+
+    componentDidMount() {
+      this.load(this.props.match.params.id);
     }
 
-    async setOptions() {
-      await userStore.getUsersList(null, 0);
-      const users = userStore.userList.map(({ _id, name }) => {
-        return { value: _id, text: name };
-      });
-      this.setState({ options: users });
+    componentDidUpdate(prevProps) {
+      const id = this.props.match.params.id;
+      if (prevProps.match.params.id !== id) {
+        this.load(id);
+      }
+    }
+
+    load(id) {
+      clientsStore.clearClient();
+
+      if (id !== 'new') {
+        clientsStore.getClient(id);
+      }
+    }
+
+    get isNew() {
+      return this.props.match.params.id === 'new'
     }
 
     handleChange = (e, data) => {
@@ -55,19 +62,8 @@ const ClientEdit
 
     toggle = () => clientsStore.client.active = !clientsStore.client.active;
 
-    async setTitle() {
-      const id = this.props.match.params.id;
-      if (id  === 'new') {
-        this.title = "NEW CLIENT";
-      } else {
-        this.title = "CLIENT DETAILS";
-        // TODO: add loading state
-        await clientsStore.getClient(id);
-      }
-    }
-
     save = async (path) => {
-      if (this.props.match.params.id === 'new') {
+      if (this.isNew) {
         clientsStore.addClient().then(() => {
           this.setState({ errorObj: "" });
           this.props.history.push(path);
@@ -124,7 +120,7 @@ const ClientEdit
     render() {
       return (
         <div className="ui container aligned">
-          <Header as="h3" icon="user" content={this.title} />
+          <Header as="h3" icon="user" content={this.isNew ? 'New client' : 'Client'} />
           <Divider />
           { this.state.errorObj ? (
                 <ErrorMessage message = { this.state.errorObj } />

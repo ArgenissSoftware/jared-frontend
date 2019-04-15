@@ -6,12 +6,16 @@ import {
 import clientsService from "../services/clients.service";
 import _ from 'lodash';
 
-const defaultClient = {employees: [], active: true};
+
 
 class ClientsStore {
   clients = [];
-  client = defaultClient;
+  client;
   clientCount = 0;
+
+  constructor() {
+    this.clearClient();
+  }
 
   async getClientsList(pageNum, pageSize, search) {
     try {
@@ -42,6 +46,15 @@ class ClientsStore {
   }
 
   clearClient() {
+    const defaultClient = {
+      "employees":[],
+      "active":true,
+      "name":"",
+      "contactName":"",
+      "address":"",
+      "email":"",
+      "url":""
+    };
     this.client = defaultClient;
   }
 

@@ -3,6 +3,7 @@ import {
   Button,
   Message,
   Header,
+  Image,
   Form
 } from "semantic-ui-react";
 import { observer } from "mobx-react";
@@ -10,26 +11,46 @@ import { observer } from "mobx-react";
 import UserTabs from "../Users/UserTabs";
 import userStore from "../../stores/UserStore";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { hasRoleShow } from "../Common/Auth";
+
+const RoleButton = hasRoleShow(Button);
 
 export default observer(
   class UserEdit extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        newClient: false,
-        title: "",
         errorObj: ""
       };
       userStore.clearUser();
     }
 
     componentDidMount() {
-      this.isNew();
+      this.load(this.props.match.params.id);
+    }
+
+    componentDidUpdate(prevProps) {
+      const id = this.props.match.params.id;
+      if (prevProps.match.params.id !== id) {
+        this.load(id);
+      }
+    }
+
+    load(id) {
+      userStore.clearUser();
+
+      if (id !== 'new') {
+        userStore.getUserById(id);
+      }
+    }
+
+    get isNew() {
+      return this.props.match.params.id === 'new'
     }
 
     save = async () => {
       this.setState({ errorObj: "" });
-      if(this.state.newClient){
+      if(this.isNew){
         userStore.add(userStore.user)
         .then(() =>{
           this.props.history.push("/home/users");
@@ -58,18 +79,8 @@ export default observer(
       });
     }
 
-    async isNew() {
-      const id = this.props.match.params.id;
-      if (id === 'new'){
-          this.setState({ newClient: true, title: "Create User"});
-      } else {
-          this.setState({ title: "User:"});
-          // TODO: add loading state
-          await userStore.getUserById(id);
-      }
-    }
-
     render() {
+      console.log('render')
       return (
         <div className="ui container center aligned">
           {(userStore.error) ? <Message negative
@@ -80,12 +91,12 @@ export default observer(
             <ErrorMessage message = { this.state.errorObj }/>
             ) : null
           }
-          <Header as="h3" icon="user" content={this.state.title+ ' ' + userStore.user.name + ' ' + userStore.user.surname  } />
+          <Header as="h3" textAlign="left" icon={<Image avatar src={userStore.getAvatar(userStore.user.email,'d=mp')} />} content={(this.isNew ? 'Create User ' : 'User ') + userStore.user.name + ' ' + userStore.user.surname  } />
           <UserTabs history={this.props.history} match={this.props.match}/>
           <Form>
-            <Button positive onClick={this.save}>Save</Button>
-            { !this.state.newClient ? (
-              <Button negative onClick={this.delete}>Delete</Button>
+            <RoleButton positive onClick={this.save} auth="Admin">Save</RoleButton>
+            { !this.isNew ? (
+              <RoleButton negative onClick={this.delete} auth="Admin">Delete</RoleButton>
               ) : null
             }
           </Form>

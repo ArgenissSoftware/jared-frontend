@@ -11,6 +11,10 @@ import {
 import "./TopNavBar.css";
 import authStore from "../../stores/AuthStore";
 import LogoToolbar from '../Common/LogoToolbar';
+import { hasRoleShow } from "../Common/Auth";
+
+const RoleDropdownItem = hasRoleShow(Dropdown.Item);
+const RoleDropdown = hasRoleShow(Dropdown);
 
 const TopNavBar = observer(class TopNavBar extends Component {
 
@@ -32,7 +36,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
     }
     const trigger = (
       <span>
-        <Image avatar src={authStore.getAvatar()} /> {authStore.user.name} {authStore.user.surname}
+        <Image avatar src={authStore.getAvatar('d=mp')} /> {authStore.user.name} {authStore.user.surname}
       </span>
     )
     return (
@@ -43,11 +47,14 @@ const TopNavBar = observer(class TopNavBar extends Component {
               <Icon name='list'/>
               User List
             </Dropdown.Item>
-
+            <RoleDropdownItem name="/home/users/new" onClick={this.handleItemClick} auth="Admin">
+              <Icon name='plus'/>
+              New user
+            </RoleDropdownItem>
           </Dropdown.Menu>
         </Dropdown>
 
-        <Dropdown item text="Client">
+        <RoleDropdown item text="Client" auth="Admin">
           <Dropdown.Menu>
             <Dropdown.Item name="/home/clients" onClick={this.handleItemClick}>
               <Icon name='list'/>
@@ -55,7 +62,7 @@ const TopNavBar = observer(class TopNavBar extends Component {
             </Dropdown.Item>
 
           </Dropdown.Menu>
-        </Dropdown>
+        </RoleDropdown>
 
         <Menu.Menu position="right">
           <Dropdown item trigger={trigger}>

@@ -7,13 +7,14 @@ import moment from "moment";
 import UsersService from "../services/users.service"
 import authStore from "./AuthStore";
 import usersService from "../services/users.service";
+import { md5 } from '../services/util.service';
 import _ from 'lodash';
 
 /**
  * User Store
  */
 class UserStore {
-  user = {};
+  user;
   error = '';
   oldPassword = '';
   newPassword = '';
@@ -21,6 +22,10 @@ class UserStore {
   clients = [];
   userList = [];
   userCount = 0;
+
+  constructor() {
+    this.clearUser();
+  }
 
   /**
    * Set user field
@@ -39,8 +44,38 @@ class UserStore {
     this.error = error;
   }
 
-  clearUser(){
-    this.user = {};
+  /**
+   * Clear user data
+   */
+  clearUser() {
+    const emptyUser = {
+      "_id":"",
+      "active":true,
+      "relation":"",
+      "alarmCode": "",
+      "clients":[],
+      "roles":[],
+      "name":"",
+      "surname":"",
+      "password":"",
+      "username":"",
+      "email":"",
+      "birthday":"",
+      "startWorkDate":"",
+      "visa":""
+    }
+    this.user = emptyUser;
+  }
+
+  /**
+   * Get user avatar image
+   * @param {string} email
+   * @param {string} query
+   */
+  getAvatar(email, query) {
+    const formattedEmail = ('' + email).trim().toLowerCase();
+    let hash = md5(formattedEmail);
+    return `https://www.gravatar.com/avatar/${hash}.jpg?${query}`;
   }
 
   /**
@@ -134,7 +169,7 @@ class UserStore {
     try {
       _.remove(this.user.clients, (cli) => {
         return cli._id == client._id
-      });      
+      });
       var index = this.user.clients.indexOf(client._id);
 
       if (index > -1) {
@@ -158,7 +193,7 @@ class UserStore {
     } catch(err) {
       _.remove(this.user.clients, (cli) => {
         return cli._id == client._id
-      });   
+      });
       console.log(err);
     }
   }
@@ -172,7 +207,7 @@ class UserStore {
       this.user.roles.push(newRole)
     }
   }
-  
+
   /**
    * Remove role from user
    * @param {string} role
@@ -183,7 +218,7 @@ class UserStore {
     let a = 2;
   }
 
-  parseData() {    
+  parseData() {
     this.user.birthday = this.user.birthday ? moment(this.user.birthday).add(1,'day').format("YYYY-MM-DD") : "";
     this.user.visa = this.user.visa ? moment(this.user.visa).add(1,'day').format("YYYY-MM-DD") : "";
     this.user.startWorkDate = this.user.startWorkDate ? moment(this.user.startWorkDate).add(1,'day').format("YYYY-MM-DD") : "";

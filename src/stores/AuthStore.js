@@ -3,6 +3,10 @@ import AuthService from "../services/auth.service"
 import signInStore from "./SignInStore";
 import { md5 } from '../services/util.service';
 
+function isString (value) {
+  return typeof value === 'string'
+}
+
 /**
  * Auth Store
  */
@@ -16,7 +20,6 @@ class AuthStore {
     } catch(e) {
       user = null;
     }
-    console.log(user)
     extendObservable(this, {
       username: "",
       token: token || "",
@@ -58,6 +61,22 @@ class AuthStore {
     this.user = null;
     localStorage.removeItem('user_token');
     localStorage.removeItem('user');
+  }
+
+  hasRole(required) {
+    if (!this.user) return false;
+
+    if (isString(required)) {
+      required = [[required]]
+    } else if (Array.isArray(required) && required.every(isString)) {
+      required = [required]
+    }
+
+    const roles = this.user.roles.map(r => r.name);
+
+    return required.some(required => {
+      return required.every(role => roles.indexOf(role) !== -1)
+    });
   }
 }
 

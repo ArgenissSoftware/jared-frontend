@@ -8,7 +8,7 @@ import {
   Pagination,
   Container,
   Grid,
-  Dropdown,
+  Image,
   Form,
   Icon
 } from "semantic-ui-react";
@@ -68,12 +68,12 @@ const UsersList = observer(
       userStore.getUsersList(1, data.value, this.state.search);
     }
 
-    getRenderedUserList(name, email, id) {
+    getRenderedUserList({username, email, _id, name, surname}) {
       return (
-        <List.Item key={name}>
-          <List.Icon name="user" size="large" verticalAlign="middle" />
-          <List.Content onClick={() => this.goToDetail(id)}>
-            <List.Header as="a">{name}</List.Header>
+        <List.Item key={username}>
+          <Image avatar src={userStore.getAvatar(email,'d=mp')} />
+          <List.Content onClick={() => this.goToDetail(_id)}>
+            <List.Header as="a" size={'medium'}>{name} {surname}</List.Header>
             <List.Description as="a">{email}</List.Description>
           </List.Content>
         </List.Item>
@@ -91,7 +91,7 @@ const UsersList = observer(
     render() {
         return (
         <div className="ui container aligned">
-          <Header as="h3" icon="user" content="USERS LIST" />
+          <Header as="h3" icon="user" content="USERS" />
           <Divider />
           <Grid columns={2}>
             <Grid.Row>
@@ -112,9 +112,9 @@ const UsersList = observer(
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <List divided relaxed verticalAlign='middle'>
+          <List divided relaxed verticalAlign='middle' size='large'>
               {userStore.userList.map(user =>
-                  this.getRenderedUserList(user.username, user.email, user._id)
+                  this.getRenderedUserList(user)
               )}
           </List>
           <Container>
