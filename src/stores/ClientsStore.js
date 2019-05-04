@@ -17,7 +17,7 @@ class ClientsStore {
     this.clearClient();
   }
 
-  async getClientsList(pageNum, pageSize, search) {
+  async getList(pageNum, pageSize, search) {
     try {
       const response = await clientsService.getList(pageNum, pageSize, search);
       this.setClients(response.data.data);
@@ -31,7 +31,7 @@ class ClientsStore {
     this.clientCount = data.count;
   }
 
-  async getClient(id) {
+  async get(id) {
     try {
       const response = await clientsService.get(id);
       this.client = response.data.data;
@@ -58,7 +58,7 @@ class ClientsStore {
     this.client = defaultClient;
   }
 
-  async addClient() {
+  async add() {
     await clientsService.add(this.client);
   }
 
@@ -110,9 +110,9 @@ decorate(ClientsStore, {
   client: observable,
   clients: observable,
   clientCount: observable,
-  getClientsList: action,
+  getList: action,
   setClients: action,
-  addClient: action,
+  add: action,
   addRelation: action,
   setClientData: action,
   removeRelation: action

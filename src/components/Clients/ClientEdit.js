@@ -64,7 +64,7 @@ const ClientEdit = observer(
 
     save = async (path) => {
       if (this.isNew) {
-        clientsStore.addClient().then(() => {
+        clientsStore.add().then(() => {
           this.setState({ errorObj: "" });
           this.props.history.push(path);
         }).catch((error) => {

@@ -102,20 +102,20 @@ class UserStore {
 
   /**
    * Get user by mail
-   * @param {string} mail
+   * @param {string} email
    */
-  async getUserData(mail) {
-    const response = await UsersService.getByEmail(mail);
+  async getByEmail(email) {
+    const response = await UsersService.getByEmail(email);
     this.user = response.data.data;
     this.parseData();
   }
 
   /**
    * Get user by id
-   * @param {mixed} mail
+   * @id {mixed} mail
    */
-  async getUserById(param) {
-    const response = await UsersService.get(param);
+  async get(id) {
+    const response = await UsersService.get(id);
     this.user = response.data.data;
     this.parseData();
   }
@@ -123,7 +123,7 @@ class UserStore {
   /**
    * Update user
    */
-  async updateUser() {
+  async update() {
     this.setError('');
     if( authStore.user._id == this.user._id ){
       authStore.user.username = this.user.username;
@@ -134,7 +134,7 @@ class UserStore {
   /**
    * get all users
    */
-  async getUsersList(pageNum, pageSize, search) {
+  async getList(pageNum, pageSize, search) {
     return UsersService.getList(pageNum, pageSize, search)
       .then((response) => {
         this.setUsers(response.data.data);
@@ -212,7 +212,7 @@ class UserStore {
    * Remove role from user
    * @param {string} role
    */
-  deleteUserRole(role){
+  removeUserRole(role){
     var i = this.user.roles.indexOf(role)
     this.user.roles.splice(i, 1);
     let a = 2;
@@ -238,10 +238,10 @@ decorate(UserStore, {
   userList: observable,
   setUserField: action,
   setUsers: action,
-  getUserById: action,
+  get: action,
   setError: action,
   addUserRole: action,
-  deleteUserRole: action
+  removeUserRole: action
 })
 
 let userStore = new UserStore();

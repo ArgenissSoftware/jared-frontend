@@ -28,7 +28,7 @@ const ClientsAssign = observer(
     }
 
     async setOptions() {
-      await clientsStore.getClientsList(1, 0);
+      await clientsStore.getList(1, 0);
       const clients = clientsStore.clients.map(({ _id, name }) => {
         return { value: _id, text: name };
       });

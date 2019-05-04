@@ -20,14 +20,14 @@ export default observer(
 
     save = async () => {
       this.setState({ errorText: "" });
-      userStore.updateUser()
+      userStore.update()
       .catch((error) => {
         this.setState({ errorText: error.response.request.responseText });
       });
     }
 
     componentDidMount() {
-      userStore.getUserById(authStore.user._id);
+      userStore.get(authStore.user._id);
     }
 
     setUser(user) {
