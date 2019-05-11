@@ -38,7 +38,7 @@ const ClientEdit = observer(
       clientsStore.clearClient();
 
       if (id !== 'new') {
-        clientsStore.getClient(id);
+        clientsStore.get(id);
       }
     }
 

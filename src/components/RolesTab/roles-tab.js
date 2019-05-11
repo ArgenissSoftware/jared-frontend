@@ -28,7 +28,7 @@ const RolesTab = observer(
     }
 
     async setOptions() {
-      await rolesStore.getRolesList();
+      await rolesStore.getList();
       let options = rolesStore.roles.map(r =>
         ({ _id: r._id, text: r.name })
       );

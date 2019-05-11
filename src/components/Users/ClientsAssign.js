@@ -36,7 +36,7 @@ const ClientsAssign = observer(
     }
 
     async GoToDetail(id) {
-      await clientsStore.getClient(id);
+      await clientsStore.get(id);
 
       this.props.history.push("clients/" + id);
     }

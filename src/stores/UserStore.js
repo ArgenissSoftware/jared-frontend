@@ -8,12 +8,12 @@ import UsersService from "../services/users.service"
 import authStore from "./AuthStore";
 import usersService from "../services/users.service";
 import { md5 } from '../services/util.service';
-import _ from 'lodash';
+import CrudStore from "./CrudStore";
 
 /**
  * User Store
  */
-class UserStore {
+class UserStore  extends CrudStore{
   user;
   error = '';
   oldPassword = '';
@@ -24,6 +24,7 @@ class UserStore {
   userCount = 0;
 
   constructor() {
+    super(usersService)
     this.clearUser();
   }
 
@@ -79,22 +80,11 @@ class UserStore {
   }
 
   /**
-   * add user
-   * @param {object} param
-   */
-  async add(param) {
-    const response = await UsersService.add(param);
-    this.user = response.data.data.user;
-    this.parseData();
-    return response;
-  }
-
-  /**
    * softdelete user
    */
   async disable() {
     const response = await UsersService.disable(this.user._id);
-    if(authStore.user._id == this.user._id){
+    if(authStore.user._id === this.user._id){
       authStore.clearAuth();
     }
     return response;
@@ -108,40 +98,6 @@ class UserStore {
     const response = await UsersService.getByEmail(email);
     this.user = response.data.data;
     this.parseData();
-  }
-
-  /**
-   * Get user by id
-   * @id {mixed} mail
-   */
-  async get(id) {
-    const response = await UsersService.get(id);
-    this.user = response.data.data;
-    this.parseData();
-  }
-
-  /**
-   * Update user
-   */
-  async update() {
-    this.setError('');
-    if( authStore.user._id == this.user._id ){
-      authStore.user.username = this.user.username;
-    }
-    await UsersService.update(this.user)
-  }
-
-  /**
-   * get all users
-   */
-  async getList(pageNum, pageSize, search) {
-    return UsersService.getList(pageNum, pageSize, search)
-      .then((response) => {
-        this.setUsers(response.data.data);
-      }
-      ).catch(function (error) {
-        console.log(error);
-      });
   }
 
   setUsers(data) {
@@ -165,39 +121,6 @@ class UserStore {
     })
   }
 
-  async removeRelation(client) {
-    try {
-      _.remove(this.user.clients, (cli) => {
-        return cli._id == client._id
-      });
-      var index = this.user.clients.indexOf(client._id);
-
-      if (index > -1) {
-        this.user.clients.splice(index, 1);
-      }
-      await usersService.removeRelation(this.user._id, client._id, "/assign/client/");
-
-    } catch(err) {
-      // in case of failure will add the user again
-      if (index > -1 ) {
-        this.user.clients.push(client);
-      }
-      console.log(err);
-    }
-  }
-
-  async addRelation(client) {
-    try {
-      this.user.clients.push(client);
-      await usersService.addRelation(this.user._id, client._id, "/assign/client/");
-    } catch(err) {
-      _.remove(this.user.clients, (cli) => {
-        return cli._id == client._id
-      });
-      console.log(err);
-    }
-  }
-
   /**
    * Add role to user
    * @param {string} newRole
@@ -215,7 +138,6 @@ class UserStore {
   removeUserRole(role){
     var i = this.user.roles.indexOf(role)
     this.user.roles.splice(i, 1);
-    let a = 2;
   }
 
   parseData() {
@@ -225,6 +147,58 @@ class UserStore {
     this.clients = this.user.clients ? this.user.clients : [];
   }
 
+  /**
+   * Crud funcions
+   */
+
+
+  /**
+   * Get user by id
+   * @id {mixed} mail
+   */
+  async get(id) {
+    const response = await super.get(id);
+    this.user = response.data.data;
+    this.parseData();
+  }
+
+  /**
+   * get all users
+   */
+  async getList(pageNum, pageSize, search) {
+    let response = await super.getList(pageNum, pageSize, search)
+    this.setUsers(response.data.data);
+  }
+
+  /**
+   * Update user
+   */
+  async update() {
+    this.setError('');
+    if( authStore.user._id === this.user._id ){
+      authStore.user.username = this.user.username;
+    }
+    await super.update(this.user)
+  }
+
+  /**
+   * add user
+   * @param {object} param
+   */
+  async add(param) {
+    const response = await super.add(param);
+    this.user = response.data.data.user;
+    this.parseData();
+  }
+
+
+  async removeRelation(client) {
+    await super.removeRelation(this.user, client, "/assign/client/", this.user.clients)
+  }
+
+  async addRelation(client) {
+    await super.addRelation(this.user._id, client._id, "/assign/client/", this.user.clients);
+  }
 }
 
 decorate(UserStore, {

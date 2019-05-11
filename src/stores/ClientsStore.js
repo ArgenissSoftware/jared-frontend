@@ -4,41 +4,23 @@ import {
   observable
 } from "mobx";
 import clientsService from "../services/clients.service";
-import _ from 'lodash';
+import CrudStore from "./CrudStore";
 
 
 
-class ClientsStore {
+class ClientsStore extends CrudStore{
   clients = [];
   client;
   clientCount = 0;
 
   constructor() {
+    super(clientsService);
     this.clearClient();
-  }
-
-  async getList(pageNum, pageSize, search) {
-    try {
-      const response = await clientsService.getList(pageNum, pageSize, search);
-      this.setClients(response.data.data);
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   setClients(data) {
     this.clients = data.list;
     this.clientCount = data.count;
-  }
-
-  async get(id) {
-    try {
-      const response = await clientsService.get(id);
-      this.client = response.data.data;
-      this.parseData();
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   setClientData(name, value) {
@@ -58,49 +40,43 @@ class ClientsStore {
     this.client = defaultClient;
   }
 
+  parseData() {
+    this.client.employees = this.client.employees ? this.client.employees : [];
+  }
+
+  /**
+   * Crud funcions
+   */
+
+  async get(id) {
+    let response = await super.get(id)
+    if (response){
+      this.client = response.data.data;
+      this.parseData();
+    }
+  }
+
+  async getList(pageNum, pageSize, search) {
+    let response = await super.getList(pageNum, pageSize, search)
+    if (response){
+      this.setClients(response.data.data);
+    }
+  }
+  
   async add() {
-    await clientsService.add(this.client);
+    await super.add(this.client);
   }
 
   async update() {
-    await clientsService.update(this.client);
+    await super.update(this.client);
   }
 
   async removeRelation(user) {
-    try {
-      _.remove(this.client.employees, (u) => {
-        return u._id == user._id;
-      });
-      var index = this.client.employees.indexOf(user._id);
-
-      if (index > -1) {
-        this.client.employees.splice(index, 1);
-      }
-      await clientsService.removeRelation(this.client._id, user._id, "/assign/developer/");
-
-    } catch(err) {
-      // in case of failure will add the user again
-      if (index > -1 ) {
-        this.client.employees.push(user);
-      }
-      console.log(err);
-    }
+    return await super.removeRelation(this.client, user, "/assign/developer/", this.client.employees);
   }
 
   async addRelation(user) {
-    try {
-      this.client.employees.push(user);
-      await clientsService.addRelation(this.client._id, user._id, "/assign/developer/");
-    } catch(err) {
-      _.remove(this.client.employees, (u) => {
-        return u._id == user._id;
-      });
-      console.log(err);
-    }
-  }
-
-  parseData() {
-    this.client.employees = this.client.employees ? this.client.employees : [];
+    return await super.addRelation(this.client, user, "/assign/developer/", this.client.employees);
   }
 }
 
