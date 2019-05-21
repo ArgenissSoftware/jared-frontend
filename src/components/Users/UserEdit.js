@@ -80,7 +80,6 @@ export default observer(
     }
 
     render() {
-      console.log('render')
       return (
         <div className="ui container center aligned">
           {(userStore.error) ? <Message negative
