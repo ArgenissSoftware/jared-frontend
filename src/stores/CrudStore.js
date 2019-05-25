@@ -18,11 +18,7 @@ class CrudStore {
    * @param {} id 
    */
   async get(id){
-    try {
-      return await this.service.get(id);
-    } catch (err) {
-      console.error(err);
-    }
+    return await this.service.get(id);
   }
 
   /**
@@ -32,11 +28,7 @@ class CrudStore {
    * @param {*} search 
    */
   async getList(pageNum, pageSize, search) {
-    try {
-      return await this.service.getList(pageNum, pageSize, search);
-    } catch (err) {
-      console.error(err);
-    }
+    return await this.service.getList(pageNum, pageSize, search);
   }
 
   /**
@@ -44,11 +36,7 @@ class CrudStore {
    * @param {*} id 
    */
   async remove(id){
-    try {
-      return await this.service.remove(id);
-    } catch (err) {
-      console.error(err);
-    }
+    return await this.service.remove(id);
   }
 
   /**
@@ -56,11 +44,7 @@ class CrudStore {
    * @param {*} obj 
    */  
   async add(obj) {
-    try {
-      return await this.service.add(obj);
-    } catch (err) {
-      console.error(err);
-    }
+    return await this.service.add(obj);
   }
   
   /**
@@ -68,11 +52,7 @@ class CrudStore {
    * @param {*} obj 
    */
   async update(obj) {
-    try {
-      return await this.service.update(obj);
-    } catch (err) {
-      console.error(err);
-    }
+    return await this.service.update(obj);
   }
 
   /**
@@ -83,17 +63,13 @@ class CrudStore {
    * @param {*} listReference 
    */
   async addRelation(firstEntity, secondEntity, endpoint, listReference){
-    try {
-      if (!secondEntity) {
-        console.error("Entity to add is undefined");
-        return;
-      }
-      listReference.push(secondEntity);
-      return await this.service.removeRelation(firstEntity._id, secondEntity._id, endpoint);
-    } catch (err) {
-      _.remove(listReference, (u) => u._id === secondEntity._id  );
-      console.error(err);
+    if (!secondEntity) {
+      console.error("Entity to add is undefined");
+      return;
     }
+    await this.service.removeRelation(firstEntity._id, secondEntity._id, endpoint);
+    listReference.push(secondEntity);
+    return listReference;
   }
 
   /**
@@ -104,17 +80,13 @@ class CrudStore {
    * @param {*} listReference 
    */
   async removeRelation(firstEntity, secondEntity, endpoint, listReference) {
-    try {
-      if (!secondEntity)  {
-        console.error("Entity to remove is undefined");
-        return;
-      }
-      _.remove(listReference, (u) => u._id === secondEntity._id );
-      return await this.service.removeRelation(firstEntity._id, secondEntity._id, endpoint);
-    } catch(err) {
-      listReference.push(secondEntity);
-      console.error(err);
+    if (!secondEntity)  {
+      console.error("Entity to remove is undefined");
+      return;
     }
+    await this.service.removeRelation(firstEntity._id, secondEntity._id, endpoint);
+    _.remove(listReference, (u) => u._id === secondEntity._id );
+    return listReference;
   }
 }
 
