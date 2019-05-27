@@ -35,7 +35,7 @@ const ClientsList = observer(
 
     constructor(props) {
       super(props);
-      clientsStore.getClientsList(1, this.state.pageSize);
+      clientsStore.getList(1, this.state.pageSize);
     }
 
     getRenderedClientsList(client) {
@@ -64,9 +64,9 @@ const ClientsList = observer(
     search = async(e, data) => {
       if(data.value.length >= 3) {
         await this.setState({ search: data.value });
-        clientsStore.getClientsList(1, this.state.pageSize, this.state.search);
+        clientsStore.getList(1, this.state.pageSize, this.state.search);
       } else if(data.value.length == 0) {
-        clientsStore.getClientsList(1, this.state.pageSize);
+        clientsStore.getList(1, this.state.pageSize);
         this.setState({ search: undefined });
       }
     }
@@ -75,7 +75,7 @@ const ClientsList = observer(
      * Page change
      */
     loadPage = (e, data) => {
-      clientsStore.getClientsList(data.activePage, this.state.pageSize);
+      clientsStore.getList(data.activePage, this.state.pageSize);
     }
 
     /**
@@ -83,7 +83,7 @@ const ClientsList = observer(
      */
     changePageSize = (e, data) => {
       this.setState({ pageSize: data.value });
-      clientsStore.getClientsList(1, data.value, this.state.search);
+      clientsStore.getList(1, data.value, this.state.search);
     }
 
     /**

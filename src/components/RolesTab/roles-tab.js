@@ -14,7 +14,7 @@ const RolesTab = observer(
         options: [],
       };
       this.handleOptions = this.handleOptions.bind(this);
-      this.deleteUserRole = this.deleteUserRole.bind(this);
+      this.removeUserRole = this.removeUserRole.bind(this);
       this.setOptions()
     }
 
@@ -28,7 +28,7 @@ const RolesTab = observer(
     }
 
     async setOptions() {
-      await rolesStore.getRolesList();
+      await rolesStore.getList();
       let options = rolesStore.roles.map(r =>
         ({ _id: r._id, text: r.name })
       );
@@ -43,11 +43,11 @@ const RolesTab = observer(
       )
     }
 
-    deleteUserRole(roleId) {
+    removeUserRole(roleId) {
       if (usersStore.user.roles.length === 1) {
         this.setState({ errorObj: "You need at least one role by user" })
       } else {
-        usersStore.deleteUserRole(roleId)
+        usersStore.removeUserRole(roleId)
       }
     }
 
@@ -55,7 +55,7 @@ const RolesTab = observer(
       return (
         <Label key={role._id.toString()}>
           {role.name}
-          <Icon name='delete' onClick={() => this.deleteUserRole(role._id)} />
+          <Icon name='delete' onClick={() => this.removeUserRole(role._id)} />
         </Label>
       )
     }

@@ -1,21 +1,21 @@
 import { decorate, action, observable } from "mobx";
 import rolesService from "../services/roles.service";
+import CrudStore from "./CrudStore";
 
-class RolesStore {
+class RolesStore extends CrudStore {
+  constructor(){
+    super(rolesService)
+  }
   roles = [];
-  async getRolesList(pageNum, pageSize) {
-    try {
-      const response = await rolesService.getList(pageNum, pageSize);
-      this.roles = response.data.data.list;
-    } catch (err) {
-      console.error(err);
-    }
+  async getList(pageNum, pageSize) {
+    const response = await super.getList(pageNum, pageSize);
+    this.roles = response.data.data.list;
   }
 }
 
 decorate(RolesStore, {
   roles: observable,
-  getRolesList: action,
+  getList: action,
 })
 
 let rolesStore = new RolesStore();

@@ -40,7 +40,7 @@ export default observer(
       userStore.clearUser();
 
       if (id !== 'new') {
-        userStore.getUserById(id);
+        userStore.get(id);
       }
     }
 
@@ -59,7 +59,7 @@ export default observer(
           this.setState({ errorObj: error.response.data });
         });
       } else {
-      userStore.updateUser()
+      userStore.update()
         .then(() => {
           this.props.history.push("/home/users");
         })

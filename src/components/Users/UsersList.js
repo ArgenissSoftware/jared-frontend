@@ -36,7 +36,7 @@ const UsersList = observer(
 
     constructor(props) {
       super(props);
-      userStore.getUsersList(1, this.state.pageSize);
+      userStore.getList(1, this.state.pageSize);
     }
 
     /**
@@ -45,9 +45,9 @@ const UsersList = observer(
     search = async(e, data) => {
       if(data.value.length >= 3) {
         await this.setState({ search: data.value });
-        userStore.getUsersList(1, this.state.pageSize, this.state.search);
+        userStore.getList(1, this.state.pageSize, this.state.search);
       } else if(data.value.length == 0) {
-        userStore.getUsersList(1, this.state.pageSize);
+        userStore.getList(1, this.state.pageSize);
         this.setState({ search: undefined });
       }
     }
@@ -57,7 +57,7 @@ const UsersList = observer(
      */
     loadPage = (e, data) => {
       console.log(data)
-      userStore.getUsersList(data.activePage, this.state.pageSize, this.state.search);
+      userStore.getList(data.activePage, this.state.pageSize, this.state.search);
     }
 
     /**
@@ -65,7 +65,7 @@ const UsersList = observer(
      */
     changePageSize = (e, data) => {
       this.setState({ pageSize: data.value });
-      userStore.getUsersList(1, data.value, this.state.search);
+      userStore.getList(1, data.value, this.state.search);
     }
 
     getRenderedUserList({username, email, _id, name, surname}) {
