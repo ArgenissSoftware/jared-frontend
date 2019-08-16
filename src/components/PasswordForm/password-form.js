@@ -8,8 +8,10 @@ import {
   Grid
 } from "semantic-ui-react";
 import "./password-form.css";
-import UserStore from "../../stores/UserStore";
 
+/**
+ * Password Form Component
+ */
 class PasswordForm extends Component {
 
   state = {

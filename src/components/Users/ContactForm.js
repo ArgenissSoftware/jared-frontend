@@ -1,75 +1,63 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Form,
   Container
 } from "semantic-ui-react";
-import { observer } from "mobx-react";
-import UserStore from "../../stores/UserStore";
+import { observer } from "mobx-react-lite";
+import FieldInput from "../Common/FieldInput";
 
-const ContactTab = observer(
-  class ContactTab extends Component {
+/**
+ * Contact Form Component
+ */
+export default observer((props) => {
+  const store = props.store;
 
-    handleChange(e) {
-      UserStore.user[e.target.name] = e.target.value;
-    }
-
-    render() {
-      return (
-          <Container>
-            <Form>
-              <Form.Group widths='equal'>
-                <Form.Input
-                  name="address"
-                  label="Address"
-                  placeholder="Address"
-                  defaultValue={UserStore.user.address}
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  name="phone"
-                  label="Phone number"
-                  placeholder="Phone number"
-                  defaultValue={UserStore.user.phone}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Form.Group widths='equal'>
-                <Form.Input
-                  name="cellPhone"
-                  label="Cell phone"
-                  placeholder="Cell phone"
-                  defaultValue={UserStore.user.cellphone}
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  name="email"
-                  label="Email address"
-                  placeholder="Email address"
-                  defaultValue={UserStore.user.email}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Form.Group widths='equal'>
-                <Form.Input
-                  name="skype"
-                  label="Skype"
-                  placeholder="Skype"
-                  defaultValue={UserStore.user.skype}
-                  onChange={this.handleChange}
-                />
-                <Form.Input
-                  name="githubID"
-                  label="Github ID"
-                  placeholder="Github ID"
-                  defaultValue={UserStore.user.githubID}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-            </Form>
-          </Container>
-      );
-    }
-  }
-);
-
-export default ContactTab;
+  return (
+    <Container>
+      <Form>
+        <Form.Group widths='equal'>
+          <FieldInput
+            name="address"
+            label="Address"
+            placeholder="Address"
+            store={store}
+          />
+          <FieldInput
+            name="phone"
+            label="Phone number"
+            placeholder="Phone number"
+            store={store}
+          />
+        </Form.Group>
+        <Form.Group widths='equal'>
+          <FieldInput
+            name="cellPhone"
+            label="Cell phone"
+            placeholder="Cell phone"
+            store={store}
+          />
+          <FieldInput
+            name="email"
+            label="Email address"
+            placeholder="Email address"
+            store={store}
+          />
+        </Form.Group>
+        <Form.Group widths='equal'>
+          <FieldInput
+            name="skype"
+            label="Skype"
+            placeholder="Skype"
+            store={store}
+          />
+          <FieldInput
+            name="githubID"
+            label="Github ID"
+            placeholder="Github ID"
+            store={store}
+          />
+        </Form.Group>
+      </Form>
+    </Container>
+  );
+});

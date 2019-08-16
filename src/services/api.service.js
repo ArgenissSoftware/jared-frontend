@@ -1,12 +1,17 @@
 import axios from "axios";
-import authStore from "../stores/AuthStore";
+import {useAuthStore} from "../stores/AuthStore";
 
-class ApiService{
+class ApiService {
+  token = '';
+
+  setToken(value) {
+    this.token = value
+  }
 
   getHeaders() {
     return {
       headers: {
-        "Authorization": "Bearer " + authStore.token,
+        "Authorization": "Bearer " + this.token,
         "Content-Type": "application/json"
       }
     }

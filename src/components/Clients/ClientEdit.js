@@ -1,221 +1,167 @@
-import React, { Component } from "react";
-import { observer } from "mobx-react";
+import React, { useEffect, useCallback } from "react";
+import { observer, useLocalStore } from 'mobx-react-lite'
 import {
   Button,
   Form,
   Grid,
   Segment,
-  Container,
   Divider,
+  Dimmer,
+  Loader,
   Header,
   List
 } from "semantic-ui-react";
-import clientsStore from "../../stores/ClientsStore";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
-import userStore from "../../stores/UserStore";
-import _ from 'lodash';
 import UsersDropdown from "../Common/UsersDropdown";
+import { createCrudStore } from "../../stores/CreateCrudStore";
+import clientsService from "../../services/clients.service";
+import { hasRoleShow } from "../Common/Auth";
+import { createRelationStore } from "../../stores/CreateRelationStore";
+import FieldInput from "../Common/FieldInput";
 
-const ClientEdit = observer(
-  class ClientEdit extends Component {
-    state = {
-      errorObj: null,
-      selected: null
-    };
+const RoleButton = hasRoleShow(Button);
 
-    componentDidMount() {
-      this.load(this.props.match.params.id);
+const defaultEntity = {
+  employees: [],
+  active: true,
+  name: '',
+  contactName: '',
+  address: '',
+  email: '',
+  url: ''
+};
+
+/**
+ * Client Edit Component
+ */
+export default observer((props) => {
+
+  const store = useLocalStore(createCrudStore(clientsService, defaultEntity));
+  const developerStore = useLocalStore(createRelationStore(store, '/assign/developer/', 'employees' ));
+
+  const isNew = props.match.params.id === 'new';
+
+  // Load entity
+  useEffect(() => {
+    if (!isNew) {
+      store.get(props.match.params.id);
+    } else {
+      store.clearEntity();
     }
+  }, [props.match.params.id]);
 
-    componentDidUpdate(prevProps) {
-      const id = this.props.match.params.id;
-      if (prevProps.match.params.id !== id) {
-        this.load(id);
-      }
+
+  const save = useCallback(async () => {
+    const path = '/home/clients';
+    if (await store.save()) {
+      props.history.push(path);
     }
+  });
 
-    load(id) {
-      clientsStore.clearClient();
-
-      if (id !== 'new') {
-        clientsStore.get(id);
-      }
+  const remove = useCallback(async() => {
+    try {
+      await store.remove();
+      props.history.push("/home/clients");
+    } catch (error) {
+      console.log("Fail to delete. Error: " + error);
     }
+  });
 
-    get isNew() {
-      return this.props.match.params.id === 'new'
-    }
-
-    handleChange = (e, data) => {
-      if (e.target.value.trim() !== ''){
-          clientsStore.setClientData(e.target.name, e.target.value);
-      } else {
-        if (clientsStore.client[e.target.name] !== undefined){
-          delete clientsStore.client[e.target.name]
-        }
-      }
-    }
-
-    handleDeveloperChange = (user) => {
-      this.setState({ selected: user ? user._id : null });
-    }
-
-    toggle = () => clientsStore.client.active = !clientsStore.client.active;
-
-    save = async (path) => {
-      if (this.isNew) {
-        clientsStore.add().then(() => {
-          this.setState({ errorObj: "" });
-          this.props.history.push(path);
-        }).catch((error) => {
-          this.setState({ errorObj: error.response.data });
-        });
-      } else {
-        clientsStore.update().then(() => {
-          this.setState({ errorObj: ""});
-          this.props.history.push(path);
-        }).catch((error) => {
-          this.setState({ errorObj: error.response.data });
-        });
-      }
-    }
-
-    addDeveloper = async () => {
-      if(this.state.selected) {
-        if( _.find(clientsStore.client.employees, (client) => {
-          return client._id === this.state.selected;
-          })) {
-            this.setState({ errorObj: "The client is already working with this developer" });
-        } else {
-          const client = _.find(userStore.userList, (user) => {
-            return user._id === this.state.selected;
-          });
-          await clientsStore.addRelation(client);
-        }
-      }
-    }
-
-    async deleteDeveloper(userId) {
-      const user = _.find(userStore.userList, (user) => {
-        return user._id === userId;
-      });
-      await clientsStore.removeRelation(user);
-    }
-
-    getRenderedUsersList(userName, userId) {
-      return (
-        <List.Item key={userName}>
-        <List.Content floated='right' >
-          <Button circular icon='delete' onClick={() => this.deleteDeveloper(userId)}></Button>
-        </List.Content>
-        <List.Icon name="user" size="large"/>
-        <List.Content>
-          <List.Header as="a">{userName}</List.Header>
-          <List.Description as="a">Project Description</List.Description>
-        </List.Content>
-        </List.Item>
-      );
-    }
-
-    render() {
-      return (
-        <div className="ui container aligned">
-          <Header as="h3" icon="user" content={this.isNew ? 'New client' : 'Client'} />
-          <Divider />
-          { this.state.errorObj ? (
-                <ErrorMessage message = { this.state.errorObj } />
-              ) : null}
-          <Container>
-            <Segment>
-              <Form>
-                <Form.Group widths='equal'>
-                  <Form.Input
-                    name="name"
-                    label="Name"
-                    placeholder="Name"
-                    value={clientsStore.client.name}
-                    defaultValue={clientsStore.client.name}
-                    onChange={this.handleChange}
-                  />
-                  <Form.Input
-                    name="contactName"
-                    label="Contact Name"
-                    placeholder="Contact Name"
-                    value={clientsStore.client.contactName}
-                    defaultValue={clientsStore.client.contactName}
-                    onChange={this.handleChange}
-                  />
-                  </Form.Group>
-                  <Form.Group widths='equal'>
-                    <Form.Input
-                      name="email"
-                      label="Email"
-                      placeholder="Email"
-                      value={clientsStore.client.email}
-                      defaultValue={clientsStore.client.email}
-                      onChange={this.handleChange}
-                    />
-                    <Form.Input
-                      name="address"
-                      label="Address"
-                      placeholder="Address"
-                      value={clientsStore.client.address}
-                      defaultValue={clientsStore.client.address}
-                      onChange={this.handleChange}
-                    />
-                  </Form.Group>
-                  <Form.Group widths='equal'>
-                    <Form.Input
-                      name="url"
-                      label="URL"
-                      placeholder="URL"
-                      value={clientsStore.client.url}
-                      defaultValue={clientsStore.client.url}
-                      onChange={this.handleChange}
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Checkbox
-                      name="active"
-                      label="Active"
-                      checked = {clientsStore.client.active}
-                      defaultValue={clientsStore.client.active}
-                      onChange={this.toggle}
-                    />
-                  </Form.Group>
-                  <Form.Group widths='equal'>
-                    <UsersDropdown
-                      placeholder="Add a new Developer"
-                      onChange={this.handleDeveloperChange}
-                    />
-                    <Button onClick={() => this.addDeveloper()}>ADD</Button>
-                  </Form.Group>
-                  <Divider/>
-                  <Grid>
-                    <Grid.Row centered>
-                      <Form.Group >
-                        { clientsStore.client.employees ? (
-                          <List divided verticalAlign='middle'>
-                          {clientsStore.client.employees.map(user =>
-                            this.getRenderedUsersList(user.name, user._id)
-                          )}
-                          </List>
-                        ) : null
-                        }
-                      </Form.Group>
-                    </Grid.Row>
-                  </Grid>
-                </Form>
-                <div className="ui container center aligned">
-                <Button onClick={() => this.save('/home/clients')}>Save</Button>
-                </div>
-              </Segment>
-            </Container>
-          </div>
-      );
-    }
-  }
-);
-
-export default ClientEdit
-;
+  return (
+    <div className="ui container aligned">
+      <Header as="h3" icon="user" content={`Clients / ${store.entity.name}`} />
+      <Divider />
+      { store.errorObj ? <ErrorMessage message = { store.errorObj } /> : null }
+      <Dimmer.Dimmable as={Segment} dimmed={store.loading}>
+        <Dimmer active={store.loading} inverted>
+          <Loader inverted>Loading</Loader>
+        </Dimmer>
+        <Form>
+          <Form.Group widths='equal'>
+            <FieldInput
+              name="name"
+              label="Name"
+              placeholder="Name"
+              store={store}
+            />
+            <FieldInput
+              name="contactName"
+              label="Contact Name"
+              placeholder="Contact Name"
+              store={store}
+            />
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <FieldInput
+              name="email"
+              label="Email"
+              placeholder="Email"
+              store={store}
+            />
+            <FieldInput
+              name="address"
+              label="Address"
+              placeholder="Address"
+              store={store}
+            />
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <FieldInput
+              name="url"
+              label="URL"
+              placeholder="URL"
+              store={store}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Checkbox
+              name="active"
+              label="Active"
+              checked = {store.entity.active}
+              value={store.entity.active}
+              onChange={store.toggleActive}
+            />
+          </Form.Group>
+          <Form.Group widths='equal'>
+            <UsersDropdown
+              placeholder="Add a new Developer"
+              onChange={developerStore.handleSelectionChange}
+            />
+            <Button onClick={() => developerStore.add()} disabled={!developerStore.selected}>ADD</Button>
+          </Form.Group>
+          <Divider/>
+          <Grid>
+            <Grid.Row centered>
+              <Form.Group >
+                { store.entity.employees ? (
+                  <List divided verticalAlign='middle'>
+                  {store.entity.employees.map(user => (
+                    <List.Item key={user.name}>
+                      <List.Content floated='right' >
+                        <Button circular icon='delete' onClick={() => developerStore.delete(user)}></Button>
+                      </List.Content>
+                      <List.Icon name="user" size="large"/>
+                      <List.Content>
+                        <List.Header as="a">{user.name} {user.surname}</List.Header>
+                        <List.Description as="a">{user.username}</List.Description>
+                      </List.Content>
+                    </List.Item>
+                  ))}
+                  </List>
+                ) : null
+                }
+              </Form.Group>
+            </Grid.Row>
+          </Grid>
+        </Form>
+        <div className="ui container center aligned">
+          <RoleButton positive onClick={save} auth="Admin">Save</RoleButton>
+          { !isNew ? (
+            <RoleButton negative onClick={remove} auth="Admin">Delete</RoleButton>
+            ) : null
+          }
+        </div>
+      </Dimmer.Dimmable>
+    </div>
+  );
+});

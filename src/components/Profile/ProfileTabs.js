@@ -17,7 +17,7 @@ export default class ProfileTabs extends Component {
         menuItem: "Personal Data",
         pane: (
           <Tab.Pane key={0}>
-            <PersonalDataForm />
+            <PersonalDataForm store={props.store}/>
           </Tab.Pane>
         )
       },
@@ -25,7 +25,7 @@ export default class ProfileTabs extends Component {
         menuItem: "Contact",
         pane: (
           <Tab.Pane key={1}>
-            <ContactForm />
+            <ContactForm store={props.store}/>
           </Tab.Pane>
         )
       }

@@ -2,6 +2,9 @@ import React, { PureComponent } from "react";
 import RecordsDropdown from "./RecordsDropdown";
 import clientsService from "../../services/clients.service";
 
+/**
+ * Client Search Dropdown
+ */
 export class ClientsDropdown extends PureComponent {
   render() {
     return (

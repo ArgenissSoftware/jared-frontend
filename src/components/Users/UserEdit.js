@@ -1,107 +1,89 @@
-import React, { Component } from "react";
+import React, { useEffect, useCallback } from "react";
 import {
   Button,
-  Message,
   Header,
+  Divider,
   Image,
   Form
 } from "semantic-ui-react";
-import { observer } from "mobx-react";
+import { observer, useLocalStore } from "mobx-react-lite";
+
 
 import UserTabs from "../Users/UserTabs";
-import userStore from "../../stores/UserStore";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { hasRoleShow } from "../Common/Auth";
+import usersService from "../../services/users.service";
+import getAvatar from "../../utils/getAvatar";
+import { createCrudStore } from "../../stores/CreateCrudStore";
 
 const RoleButton = hasRoleShow(Button);
 
-export default observer(
-  class UserEdit extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        errorObj: ""
-      };
-      userStore.clearUser();
+const defaultEntity = {
+  "active":true,
+  "relation":"",
+  "alarmCode": "",
+  "clients":[],
+  "roles":[],
+  "name":"",
+  "surname":"",
+  "password":"",
+  "username":"",
+  "email":"",
+  "birthday":"",
+  "startWorkDate":"",
+  "visa":""
+};
+
+/**
+ * User Edit Component
+ */
+export default observer((props) => {
+
+  const store = useLocalStore(createCrudStore(usersService, defaultEntity));
+
+  const isNew = props.match.params.id === 'new';
+
+  // Load entity
+  useEffect(() => {
+    if (!isNew) {
+      store.get(props.match.params.id);
+    } else {
+      store.clearEntity();
     }
+  }, [props.match.params.id]);
 
-    componentDidMount() {
-      this.load(this.props.match.params.id);
+
+  const save = useCallback(async () => {
+    const path = '/home/users';
+    if (await store.save()) {
+      props.history.push(path);
     }
+  });
 
-    componentDidUpdate(prevProps) {
-      const id = this.props.match.params.id;
-      if (prevProps.match.params.id !== id) {
-        this.load(id);
-      }
+  const remove = useCallback(async() => {
+    try {
+      await store.remove();
+      props.history.push("/home/users");
+    } catch (error) {
+      console.log("Fail to delete. Error: " + error);
     }
+  });
 
-    load(id) {
-      userStore.clearUser();
+  return (
+    <div className="ui container aligned">
+      { store.errorObj ? <ErrorMessage message = { store.errorObj } /> : null }
+      <Header as="h3" icon={<Image avatar src={getAvatar(store.entity.email,'d=mp')} size='mini' />} content={(`Users / ${store.entity.name} ${store.entity.surname}`)} />
+      <Divider />
+      <UserTabs history={props.history} match={props.match} store={store}/>
+      <Form>
+        <RoleButton positive onClick={save} auth="Admin">Save</RoleButton>
+        { !isNew ? (
+          <RoleButton negative onClick={remove} auth="Admin">Delete</RoleButton>
+          ) : null
+        }
+      </Form>
 
-      if (id !== 'new') {
-        userStore.get(id);
-      }
-    }
+    </div>
+  );
 
-    get isNew() {
-      return this.props.match.params.id === 'new'
-    }
-
-    save = async () => {
-      this.setState({ errorObj: "" });
-      if(this.isNew){
-        userStore.add(userStore.user)
-        .then(() =>{
-          this.props.history.push("/home/users");
-        })
-        .catch((error) => {
-          this.setState({ errorObj: error.response.data });
-        });
-      } else {
-      userStore.update()
-        .then(() => {
-          this.props.history.push("/home/users");
-        })
-        .catch((error) => {
-          this.setState({ errorObj: error.response.data });
-        });
-      }
-    }
-
-    delete = async() => {
-      userStore.disable()
-      .then(() => {
-        this.props.history.push("/home/users");
-      })
-      .catch((error) => {
-        console.log("Fail to delete. Error: " + error);
-      });
-    }
-
-    render() {
-      return (
-        <div className="ui container center aligned">
-          {(userStore.error) ? <Message negative
-            header="Error"
-            content={userStore.error}
-          /> : null}
-          { this.state.errorObj ? (
-            <ErrorMessage message = { this.state.errorObj }/>
-            ) : null
-          }
-          <Header as="h3" textAlign="left" icon={<Image avatar src={userStore.getAvatar(userStore.user.email,'d=mp')} />} content={(this.isNew ? 'Create User ' : 'User ') + userStore.user.name + ' ' + userStore.user.surname  } />
-          <UserTabs history={this.props.history} match={this.props.match}/>
-          <Form>
-            <RoleButton positive onClick={this.save} auth="Admin">Save</RoleButton>
-            { !this.isNew ? (
-              <RoleButton negative onClick={this.delete} auth="Admin">Delete</RoleButton>
-              ) : null
-            }
-          </Form>
-
-        </div>
-      );
-    }
-  }
-);
+});
