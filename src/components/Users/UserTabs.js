@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Tab } from "semantic-ui-react";
-import RolesTab from "../RolesTab/roles-tab";
+import RolesTab from "../RolesTab/RolesTab";
 import UserForm from "../Users/UserForm";
 import ContactForm from "./ContactForm";
 import ClientsAssign from "../Users/ClientsAssign";
@@ -19,7 +19,7 @@ export default class UserTabs extends Component {
         menuItem: "User Data",
         pane: (
           <Tab.Pane key={0}>
-            <UserForm history={this.props.history} match={this.props.match} />
+            <UserForm history={this.props.history} match={this.props.match} store={this.props.store} />
           </Tab.Pane>
         )
       },
@@ -27,7 +27,7 @@ export default class UserTabs extends Component {
         menuItem: "Contact",
         pane: (
           <Tab.Pane key={1}>
-            <ContactForm history={this.props.history} match={this.props.match} />
+            <ContactForm history={this.props.history} match={this.props.match} store={this.props.store} />
           </Tab.Pane>
         )
       },
@@ -35,7 +35,7 @@ export default class UserTabs extends Component {
         menuItem: "Clients",
         pane: (
           <Tab.Pane key={2}>
-            <ClientsAssign history={this.props.history} match={this.props.match} />
+            <ClientsAssign history={this.props.history} match={this.props.match} store={this.props.store} />
           </Tab.Pane>
         )
       },
@@ -43,16 +43,14 @@ export default class UserTabs extends Component {
         menuItem: "Roles",
         pane: (
           <Tab.Pane key={3}>
-            <RolesTab history={this.props.history} match={this.props.match} />
+            <RolesTab history={this.props.history} match={this.props.match} store={this.props.store} />
           </Tab.Pane>
         )
       }
     ];
 
     return (
-      <div className="ui container center aligned">
-        <Tab panes={panes} renderActiveOnly={false} key={panes} />
-      </div>
+      <Tab panes={panes} renderActiveOnly={false} key={panes} />
     );
   }
 }

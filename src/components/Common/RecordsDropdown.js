@@ -1,6 +1,9 @@
 import React, { PureComponent } from "react";
 import { Form } from "semantic-ui-react";
 
+/**
+ * Records Search Dropdown
+ */
 class RecordsDropdown extends PureComponent {
   state = {options: []}
 
@@ -14,6 +17,12 @@ class RecordsDropdown extends PureComponent {
       }
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.autoload) {
+      this.onSearchChange(null, {searchQuery:''});
     }
   }
 
