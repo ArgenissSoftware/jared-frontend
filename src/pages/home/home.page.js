@@ -11,9 +11,7 @@ export default function(props) {
   return (
     <div>
       <TopNavBar history={props.history}/>
-      <div className='rowC'>
-        <HomepageRouter/>
-      </div>
+      <HomepageRouter {...props}/>
     </div>
   );
 }
