@@ -16,7 +16,7 @@ export default observer((props) => {
     ...otherProps
   } = props;
 
-  const value = (props.type && props.type === 'date') ? store.entity[name].substr(0,10) : store.entity[name];
+  const value = (props.type && props.type === 'date' && store.entity[name]) ? store.entity[name].substr(0,10) : store.entity[name];
 
   return (
     <Form.Input

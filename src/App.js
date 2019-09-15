@@ -11,15 +11,13 @@ class App extends Component {
     return (
       <Router>
         <AuthStoreProvider>
-          <div>
-            <Route exact path="/" component={LoginForm}/>
-            <Route path="/home" component={HomePage}/>
-            <Route
-              exact
-              path="/forgot_password"
-              component={ForgotPasswordPage}
-            />
-          </div>
+          <Route exact path="/" component={LoginForm}/>
+          <Route path="/home" component={HomePage}/>
+          <Route
+            exact
+            path="/forgot_password"
+            component={ForgotPasswordPage}
+          />
         </AuthStoreProvider>
       </Router>
     );
