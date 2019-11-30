@@ -1,8 +1,8 @@
+// @flow
 import _ from 'lodash';
 import { runInAction } from 'mobx';
 
 /**
- * @flow
  * Create crud service
  * @param {CrudService} service
  */
@@ -33,7 +33,7 @@ export function createCrudStore(service, defaultEntity = {}) {
     },
 
     get fieldsWithErrors() {
-      if (!this.errorObj) return {};
+      if (!this.errorObj || !this.errorObj.errors) return {};
       const errors = {};
       this.errorObj.errors.forEach(e => errors[e.path[0]] = true);
       return errors;
