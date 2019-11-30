@@ -1,27 +1,36 @@
-import React, {Component} from "react";
+import React from "react";
 import "./App.css";
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import HomePage from "./pages/home/home.page";
 import ForgotPasswordPage from "./pages/forgot-password-page/forgot-password-page";
 import LoginForm from './components/Login/LoginForm';
 import { AuthStoreProvider } from "./stores/AuthStore";
+import { observer } from "mobx-react-lite";
+import PrivateRoute from "./utils/PrivateRoute";
 
-class App extends Component {
-  render() {
-    return (
-      <Router>
-        <AuthStoreProvider>
+
+
+const App = observer((props) => {
+
+
+  return (
+    <Router>
+      <AuthStoreProvider>
+        <Switch>
           <Route exact path="/" component={LoginForm}/>
-          <Route path="/home" component={HomePage}/>
+          <PrivateRoute path="/home">
+            <HomePage/>
+          </PrivateRoute>
           <Route
             exact
             path="/forgot_password"
             component={ForgotPasswordPage}
           />
-        </AuthStoreProvider>
-      </Router>
-    );
-  }
-}
+        </Switch>
+      </AuthStoreProvider>
+    </Router>
+  );
+
+});
 
 export default App;

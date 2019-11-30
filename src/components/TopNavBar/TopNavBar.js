@@ -25,9 +25,8 @@ export default observer((props) => {
 
   const handleItemClick = (e, {name}) => props.history.push(name);
 
-  const logout = (e, {name}) => {
+  const logout = (e) => {
     authStore.clearAuth();
-    props.history.push(name);
   }
 
   if (!authStore.isLoggedIn){

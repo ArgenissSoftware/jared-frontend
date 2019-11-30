@@ -1,8 +1,12 @@
 import axios from "axios";
-import {useAuthStore} from "../stores/AuthStore";
 
 class ApiService {
   token = '';
+  authStore = null;
+
+  setAuthStore = (store) => {
+    this.authStore = store;
+  }
 
   setToken(value) {
     this.token = value
@@ -17,20 +21,48 @@ class ApiService {
     }
   }
 
-  get(url){
-    return axios.get(url, this.getHeaders());
+  async get(url) {
+    try {
+      return await axios.get(url, this.getHeaders());
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        this.authStore.clearAuth();
+      }
+      throw error;
+    }
   }
 
-  post(url, obj){
-    return axios.post(url, obj, this.getHeaders());
+  async post(url, obj) {
+    try {
+      return axios.post(url, obj, this.getHeaders());
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        this.authStore.clearAuth();
+      }
+      throw error;
+    }
   }
 
-  put(url, obj){
-    return axios.put(url, obj, this.getHeaders());
+  put(url, obj) {
+    try {
+      return axios.put(url, obj, this.getHeaders());
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        this.authStore.clearAuth();
+      }
+      throw error;
+    }
   }
 
-  delete(url){
-    return axios.delete(url, this.getHeaders());
+  delete(url) {
+    try {
+      return axios.delete(url, this.getHeaders());
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        this.authStore.clearAuth();
+      }
+      throw error;
+    }
   }
 
 }

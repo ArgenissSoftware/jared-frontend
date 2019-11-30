@@ -68,6 +68,7 @@ const createStore = () => {
 
 export const AuthStoreProvider = ({ children }) => {
   const store = useLocalStore(createStore)
+  api.setAuthStore(store);
   return <storeContext.Provider value={store}>{children}</storeContext.Provider>
 }
 
