@@ -1,6 +1,8 @@
 import React, { useCallback } from "react";
 import {
   Button,
+  Menu,
+  Icon
 } from "semantic-ui-react";
 import _ from 'lodash';
 import clientsService from "../../services/clients.service";
@@ -17,11 +19,17 @@ export default function(props) {
     props.history.push('clients/new');
   });
 
+  const newButton = (
+    <Menu.Item onClick={add} name="New User">
+      <Button primary icon labelPosition='right'><Icon name='plus' /> New Client</Button>
+    </Menu.Item>
+  );
+
   return (
     <EntityList
       title="Clients"
       service={clientsService}
-      toolbar={ <Button onClick={add}>New Client</Button> }
+      toolbar={newButton}
       renderItem={(client) => <ClientListItem client={client} history={props.history}/>}
     />
   );

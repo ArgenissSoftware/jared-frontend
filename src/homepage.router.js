@@ -24,41 +24,41 @@ export default class HomepageRouter extends Component {
               <Route
                 exact
                 path='/home'
-                render={(props) => <div className="page container"><Home/></div>}
+                render={(props) => <div className="page"><Home/></div>}
               />
 
               <Route
                 exact
                 path='/home/profile'
-                render={(props) => <div className="page container"><Profile {...props}/></div>}
+                render={(props) => <div className="page"><Profile {...props}/></div>}
               />
               <Route
                 exact
                 path='/home/clients'
-                render={(props) => <div className="page container"><ClientsList {...props}/></div>}
+                render={(props) => <div className="page"><ClientsList {...props}/></div>}
               />
 
               <Route
                 exact
                 path='/home/users'
-                render={(props) => <div className="page container"><UsersList {...props}/></div>}
+                render={(props) => <div className="page"><UsersList {...props}/></div>}
               />
 
               <Route
                 path='/home/users/:id'
-                render={(props) => <div className="page container"><UserEdit {...props}/></div>}
+                render={(props) => <div className="page"><UserEdit {...props}/></div>}
               />
 
               <Route
                 exact
                 path='/home/change_password'
-                render={(props) => <div className="page container"><ChangePassword {...props}/></div>}
+                render={(props) => <div className="page"><ChangePassword {...props}/></div>}
               />
 
               <Route
                 exact
                 path='/home/clients/:id'
-                render={(props) => <div className="page container"><ClientEdit {...props}/></div>}
+                render={(props) => <div className="page"><ClientEdit {...props}/></div>}
               />
 
             </Switch>

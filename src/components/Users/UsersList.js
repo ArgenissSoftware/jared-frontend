@@ -1,6 +1,8 @@
 import React from "react";
 import {
+  Menu,
   Button,
+  Icon
 } from "semantic-ui-react";
 
 import usersService from "../../services/users.service";
@@ -17,11 +19,17 @@ export default function(props) {
     props.history.push('users/new');
   }
 
+  const newButton = (
+    <Menu.Item onClick={add} name="New User">
+      <Button primary icon labelPosition='right'><Icon name='plus' /> New User</Button>
+    </Menu.Item>
+  );
+
   return (
     <EntityList
       title="Users"
       service={usersService}
-      toolbar={ <Button onClick={add}>New User</Button> }
+      toolbar={newButton}
       renderItem={(user) => (<UserListItem user={user} history={props.history}/>)}
     />
   );

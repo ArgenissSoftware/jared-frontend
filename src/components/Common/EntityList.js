@@ -3,14 +3,13 @@ import { observer, useLocalStore } from "mobx-react-lite";
 import {
   List,
   Header,
-  Divider,
+  Segment,
   Dimmer,
   Loader,
   Pagination,
-  Container,
-  Grid,
-  Form,
-  Icon
+  Placeholder,
+  Menu,
+  Input,
 } from "semantic-ui-react";
 
 import PageSizeSelector from './PageSizeSelector';
@@ -27,58 +26,57 @@ export default observer((props) => {
     store.loadPage();
   }, []);
 
+  const body = (store.list.length === 0 && store.loading) ? (
+    <Placeholder>
+      <Placeholder.Header image>
+        <Placeholder.Line />
+        <Placeholder.Line />
+      </Placeholder.Header>
+    </Placeholder>
+    ) : store.list.map( props.renderItem );
+
   return (
     <div className="ui container aligned">
       <Header as="h3" icon="user" content={props.title} />
-      <Divider />
-      <Dimmer active={store.loading} inverted>
-        <Loader inverted>Loading</Loader>
-      </Dimmer>
-      <Grid columns={2}>
-        <Grid.Row>
-          <Grid.Column>
-            <Form>
-              <Form.Group>
-                <Form.Input
-                  type="search"
-                  placeholder="Search"
-                  icon={<Icon name='search' inverted circular link />}
-                  onChange={store.setSearch}
-                />
-              </Form.Group>
-            </Form>
-          </Grid.Column>
-          <Grid.Column>
-            {props.toolbar}
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-      <List divided relaxed verticalAlign='middle' size='large'>
-        {store.list.map( props.renderItem )}
-      </List>
-      <Container>
-        <Grid>
-          <Grid.Row>
-            <PageSizeSelector
-              pageSizeOptions={store.pageSizeOptions}
-              pageSize={store.pageSize}
-              onChange={store.setPageSize}
-            />
-          </Grid.Row>
-          <Grid.Row centered>
-            <Pagination
-              type="pagination"
-              activePage={store.page}
-              firstItem={null}
-              lastItem={null}
-              pointing
-              secondary
-              totalPages={store.count / store.pageSize}
-              onPageChange={store.setPage}
-            />
-          </Grid.Row>
-        </Grid>
-      </Container>
+
+      <Segment.Group>
+        <Menu attached="top">
+          {props.toolbar}
+          <Menu.Menu position='right'>
+            <Menu.Item>
+              <Input icon='search' placeholder='Search...' onChange={store.setSearch} />
+            </Menu.Item>
+          </Menu.Menu>
+        </Menu>
+        <Segment attached color="blue" >
+          <List divided relaxed verticalAlign='middle' size='large'>
+            {store.loading && <Dimmer active={store.loading} inverted>
+              <Loader inverted>Loading</Loader>
+            </Dimmer>}
+
+            {body}
+          </List>
+        </Segment>
+        <Segment attached textAlign='right' basic>
+          <PageSizeSelector
+            pageSizeOptions={store.pageSizeOptions}
+            pageSize={store.pageSize}
+            onChange={store.setPageSize}
+          />
+        </Segment>
+        <Segment attached textAlign='center'>
+          <Pagination
+            type="pagination"
+            activePage={store.page}
+            firstItem={null}
+            lastItem={null}
+            pointing
+            secondary
+            totalPages={store.count / store.pageSize}
+            onPageChange={store.setPage}
+          />
+        </Segment>
+      </Segment.Group>
     </div>
   );
 });
