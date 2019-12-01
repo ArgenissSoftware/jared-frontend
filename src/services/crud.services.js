@@ -3,9 +3,6 @@ import api from "./api.service"
 
 class CrudService extends BaseService {
 
-  constructor(url) {
-    super(url);
-  }
   /** request for all records */
   getList(pageNum, pageSize, search) {
     let endpoint = `${this.URL}/page/${pageNum}/size/${pageSize}`;
