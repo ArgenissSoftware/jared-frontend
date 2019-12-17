@@ -31,9 +31,9 @@ export default observer((props) => {
         </Form.Group>
         <Form.Group widths='equal'>
           <FieldInput
-            name="cellPhone"
+            name="cellphone"
             label="Cell phone"
-            placeholder="Cell phone"
+            placeholder="cellphone"
             store={store}
           />
           <FieldInput
