@@ -6,19 +6,26 @@ import ClientListItem from "../Clients/ClientListItem";
 import { useAuthStore } from "../../stores/AuthStore";
 
 /**
- * Clients List Component
+ *MyClients List Component
  * @param {Object} props
  */
 export default function(props) {
 
   const authStore = useAuthStore();
 
+  const myClients = 
+    client => { 
+      if(client.employees.includes(authStore.user._id)){
+  return <ClientListItem client={client} history={props.history}/>}
+   }
+  
+
+
   return (
       <EntityList
         title="My Clients"
-       service={clientsService}
-      renderItem={(client) => (client.employees.includes(authStore.user._id)) ?  <ClientListItem client={client} history={props.history}/> : null}
-              
+        service={clientsService}
+        renderItem={(client) => myClients(client)}              
     />
   );
 };
