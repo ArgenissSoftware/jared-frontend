@@ -8,6 +8,5 @@ class MyClientsService extends CrudService {
 }
 
 const myClientsService = new MyClientsService();
-console.log(myClientsService.URL);
   
 export default myClientsService;
