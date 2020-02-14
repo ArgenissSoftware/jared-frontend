@@ -10,6 +10,7 @@ import UsersList from "./components/Users/UsersList";
 import ClientEdit from "./components/Clients/ClientEdit";
 import UserEdit from "./components/Users/UserEdit";
 import MyClientsList from "./components/Users/MyClientsList";
+import WorkedHours from "./components/workedHours/WorkedHours";
 
 export default class HomepageRouter extends Component {
   render() {
@@ -60,6 +61,12 @@ export default class HomepageRouter extends Component {
                 exact
                 path='/home/myclientslist'
                 render={(props) => <div className="page"><MyClientsList {...props}/></div>}
+              />
+
+              <Route
+              exact
+              path='/home/workedHours'
+              render={(props) => <div className="page"><WorkedHours {...props}/></div>}
               />
 
               <Route
