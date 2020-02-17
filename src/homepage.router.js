@@ -9,11 +9,7 @@ import ChangePassword from "./components/ChangePassword/ChangePassword";
 import UsersList from "./components/Users/UsersList";
 import ClientEdit from "./components/Clients/ClientEdit";
 import UserEdit from "./components/Users/UserEdit";
-<<<<<<< HEAD
-=======
-import MyClientsList from "./components/Users/MyClientsList";
 import WorkedHours from "./components/workedHours/WorkedHours";
->>>>>>> 44d2931... worked hours feature alpha
 
 export default class HomepageRouter extends Component {
   render() {
@@ -62,21 +58,12 @@ export default class HomepageRouter extends Component {
 
               <Route
                 exact
-<<<<<<< HEAD
-=======
-                path='/home/myclientslist'
-                render={(props) => <div className="page"><MyClientsList {...props}/></div>}
-              />
-
-              <Route
-              exact
               path='/home/workedHours'
               render={(props) => <div className="page"><WorkedHours {...props}/></div>}
               />
 
               <Route
                 exact
->>>>>>> 44d2931... worked hours feature alpha
                 path='/home/clients/:id'
                 render={(props) => <div className="page"><ClientEdit {...props}/></div>}
               />

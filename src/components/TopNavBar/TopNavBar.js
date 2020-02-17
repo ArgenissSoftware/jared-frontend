@@ -49,19 +49,12 @@ export default observer((props) => {
             <Icon name='plus'/>
             New user
           </RoleDropdownItem>
-<<<<<<< HEAD
-=======
 
-          <RoleDropdownItem name="/home/myclientslist" onClick={handleItemClick} auth="Developer">
-            <Icon name='list'/>
-            My clients list
-          </RoleDropdownItem>
 
           <RoleDropdownItem name="/home/workedHours" onClick={handleItemClick}>
           <Icon name='plus'/>
           Add worked hours
           </RoleDropdownItem>
->>>>>>> 44d2931... worked hours feature alpha
         </Dropdown.Menu>
       </Dropdown>
 
