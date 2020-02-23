@@ -49,6 +49,10 @@ export default observer((props) => {
             <Icon name='plus'/>
             New user
           </RoleDropdownItem>
+          <RoleDropdownItem name="/home/myclientslist" onClick={handleItemClick} auth="Developer">
+            <Icon name='list'/>
+            My clients list
+          </RoleDropdownItem>
         </Dropdown.Menu>
       </Dropdown>
 

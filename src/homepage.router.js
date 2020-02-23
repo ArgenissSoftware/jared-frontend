@@ -9,6 +9,7 @@ import ChangePassword from "./components/ChangePassword/ChangePassword";
 import UsersList from "./components/Users/UsersList";
 import ClientEdit from "./components/Clients/ClientEdit";
 import UserEdit from "./components/Users/UserEdit";
+import MyClientsList from "./components/Users/MyClientsList";
 
 export default class HomepageRouter extends Component {
   render() {
@@ -53,6 +54,12 @@ export default class HomepageRouter extends Component {
                 exact
                 path='/home/change_password'
                 render={(props) => <div className="page"><ChangePassword {...props}/></div>}
+              />
+
+              <Route
+                exact
+                path='/home/myclientslist'
+                render={(props) => <div className="page"><MyClientsList {...props}/></div>}
               />
 
               <Route
