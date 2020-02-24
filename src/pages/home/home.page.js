@@ -12,7 +12,7 @@ export default withRouter(function(props) {
   return (
     <div>
       <TopNavBar history={props.history}/>
-      <HomepageRouter {...props}/>
+      <HomepageRouter {...props} history={props.history}/>
     </div>
   );
 })

@@ -19,7 +19,7 @@ const App = observer((props) => {
         <Switch>
           <Route exact path="/" component={LoginForm}/>
           <PrivateRoute path="/home">
-            <HomePage/>
+            <HomePage history={props.history}/>
           </PrivateRoute>
           <Route
             exact

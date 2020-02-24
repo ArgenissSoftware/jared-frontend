@@ -25,7 +25,7 @@ export default class HomepageRouter extends Component {
               <Route
                 exact
                 path='/home'
-                render={(props) => <div className="page"><Home/></div>}
+                render={(props) => <div className="page"><Home {...props}/></div>}
               />
 
               <Route
