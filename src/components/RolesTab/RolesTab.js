@@ -27,7 +27,7 @@ export default observer((props) => {
 
   useEffect(() => {
     rolesStore.loadPage();
-  }, []);
+  }, [rolesStore]);
 
   return (
     <div className="ui container aligned">

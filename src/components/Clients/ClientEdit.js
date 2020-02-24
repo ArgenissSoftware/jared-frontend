@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import { observer, useLocalStore } from 'mobx-react-lite'
 import {
-  Button,
   Form,
   Grid,
   Segment,
@@ -9,7 +8,9 @@ import {
   Dimmer,
   Loader,
   Header,
-  List
+  List,
+  Button,
+  Icon
 } from "semantic-ui-react";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import UsersDropdown from "../Common/UsersDropdown";
@@ -18,8 +19,9 @@ import clientsService from "../../services/clients.service";
 import { hasRoleShow } from "../Common/Auth";
 import { createRelationStore } from "../../stores/CreateRelationStore";
 import FieldInput from "../Common/FieldInput";
+import ActionButton from "../Common/ActionButton";
 
-const RoleButton = hasRoleShow(Button);
+const RoleButton = hasRoleShow(ActionButton);
 
 const defaultEntity = {
   employees: [],
@@ -43,12 +45,13 @@ export default observer((props) => {
 
   // Load entity
   useEffect(() => {
-    if (!isNew) {
+    // if is new
+    if (props.match.params.id !== 'new') {
       store.get(props.match.params.id);
     } else {
       store.clearEntity();
     }
-  }, [props.match.params.id]);
+  }, [props.match.params.id, store]);
 
 
   const save = useCallback(async () => {
@@ -56,7 +59,7 @@ export default observer((props) => {
     if (await store.save()) {
       props.history.push(path);
     }
-  });
+  }, [store, props.history]);
 
   const remove = useCallback(async() => {
     try {
@@ -65,7 +68,7 @@ export default observer((props) => {
     } catch (error) {
       console.log("Fail to delete. Error: " + error);
     }
-  });
+  }, [store, props.history]);
 
   return (
     <div className="ui container aligned">
@@ -155,9 +158,9 @@ export default observer((props) => {
           </Grid>
         </Form>
         <div className="ui container center aligned">
-          <RoleButton positive onClick={save} auth="Admin">Save</RoleButton>
+          <RoleButton icon color='teal' labelPosition='right' onClick={save} auth="Admin" store={store} >Save <Icon name='save' /></RoleButton>
           { !isNew ? (
-            <RoleButton negative onClick={remove} auth="Admin">Delete</RoleButton>
+            <RoleButton icon onClick={remove} auth="Admin" store={store} >Delete <Icon name='delete' /></RoleButton>
             ) : null
           }
         </div>

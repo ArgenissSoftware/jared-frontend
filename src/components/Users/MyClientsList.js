@@ -5,16 +5,19 @@ import ClientListItem from "../Clients/ClientListItem";
 import myClientsService from "../../services/myClients.service";
 
 /**
- *MyClients List Component
+ * MyClients List Component
  * @param {Object} props
  */
 export default function(props) {
 
+  /**
+   * Render
+   */
   return (
-      <EntityList
-        title="My Clients"
-        service={myClientsService}
-        renderItem={(client) =>  <ClientListItem client={client} history={props.history}/> }              
+    <EntityList
+      title="My Clients"
+      service={myClientsService}
+      renderItem={(client) =>  <ClientListItem client={client} history={props.history}/> }
     />
   );
 };

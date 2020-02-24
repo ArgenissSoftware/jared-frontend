@@ -58,7 +58,7 @@ export default observer((props) => {
     if (await store.save()) {
       props.history.push(path);
     }
-  });
+  }, [store, props.history]);
 
   const remove = useCallback(async() => {
     try {
@@ -67,7 +67,7 @@ export default observer((props) => {
     } catch (error) {
       console.log("Fail to delete. Error: " + error);
     }
-  });
+  }, [store, props.history]);
 
   return (
     <div className="ui container aligned">
