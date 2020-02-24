@@ -15,6 +15,7 @@ import { useAuthStore } from "../../stores/AuthStore";
 
 const RoleDropdownItem = hasRoleShow(Dropdown.Item);
 const RoleDropdown = hasRoleShow(Dropdown);
+const RoleMenuItem = hasRoleShow(Menu.Item);
 
 /**
  * Top Nav Bar Component
@@ -29,9 +30,11 @@ export default observer((props) => {
     authStore.clearAuth();
   }
 
+  // if you are not logged in redirect back to login
   if (!authStore.isLoggedIn){
     return <Redirect to={{ pathname: "/" }} push={false} />;
   }
+
   const trigger = (
     <span>
       <Image avatar src={authStore.getAvatar('d=mp')} /> {authStore.user.name} {authStore.user.surname}
@@ -39,7 +42,8 @@ export default observer((props) => {
   )
   return (
     <LogoToolbar logo={logo} history={props.history}>
-      <Dropdown item text="User">
+      <RoleMenuItem name="/home/myclientslist" onClick={handleItemClick} auth="Developer">My clients</RoleMenuItem>
+      <RoleDropdown item text="User" auth="Admin">
         <Dropdown.Menu>
           <Dropdown.Item name="/home/users" onClick={handleItemClick} >
             <Icon name='list'/>
@@ -49,12 +53,8 @@ export default observer((props) => {
             <Icon name='plus'/>
             New user
           </RoleDropdownItem>
-          <RoleDropdownItem name="/home/myclientslist" onClick={handleItemClick} auth="Developer">
-            <Icon name='list'/>
-            My clients list
-          </RoleDropdownItem>
         </Dropdown.Menu>
-      </Dropdown>
+      </RoleDropdown>
 
       <RoleDropdown item text="Client" auth="Admin">
         <Dropdown.Menu>
