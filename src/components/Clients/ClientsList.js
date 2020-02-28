@@ -17,7 +17,7 @@ export default function(props) {
 
   const add = useCallback(() => {
     props.history.push('clients/new');
-  });
+  }, [props.history]);
 
   const newButton = (
     <Menu.Item onClick={add} name="New User">

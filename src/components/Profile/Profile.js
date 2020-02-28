@@ -21,9 +21,7 @@ export default observer((props) => {
   // Load entity
   useEffect(() => {
     store.get(authStore.user._id);
-  }, []);
-
-
+  }, [store, authStore]);
 
   return (
     <div className="ui container center aligned">

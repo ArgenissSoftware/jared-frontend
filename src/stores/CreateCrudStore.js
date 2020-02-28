@@ -10,6 +10,7 @@ export function createCrudStore(service, defaultEntity = {}) {
   return () => ({
     entity: defaultEntity,
     loading: false,
+    running: false,
     errorObj: null,
 
     setError(error) {
@@ -30,6 +31,10 @@ export function createCrudStore(service, defaultEntity = {}) {
 
     setEntityProperty(name, value) {
       this.entity[name] = value;
+    },
+
+    setRunning(value) {
+      this.running = value;
     },
 
     get fieldsWithErrors() {
@@ -77,8 +82,12 @@ export function createCrudStore(service, defaultEntity = {}) {
       return await service.update(this.entity);
     },
 
+    /**
+     * Save data
+     */
     async save() {
       try {
+        this.setRunning(true);
         if (this.entity._id) {
           return await service.update(this.entity);
         } else {
@@ -87,6 +96,8 @@ export function createCrudStore(service, defaultEntity = {}) {
       } catch (error) {
         this.setError(error.response.data);
         return false;
+      } finally {
+        this.setRunning(false);
       }
     },
 

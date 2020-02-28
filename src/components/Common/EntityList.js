@@ -24,7 +24,7 @@ export default observer((props) => {
 
   useEffect(() => {
     store.loadPage();
-  }, []);
+  }, [store]);
 
   const body = (store.list.length === 0 && store.loading) ? (
     <Placeholder>
