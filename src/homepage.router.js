@@ -61,6 +61,8 @@ export default class HomepageRouter extends Component {
                 exact
               path='/home/workedHours'
               render={(props) => <div className="page"><WorkedHours {...props}/></div>}
+              />
+              <Route
                 path='/home/myclientslist'
                 render={(props) => <div className="page"><MyClientsList {...props}/></div>}
               />

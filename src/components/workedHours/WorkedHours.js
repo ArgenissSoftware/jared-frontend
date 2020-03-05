@@ -17,29 +17,7 @@ export default observer((props) => {
 
   const authStore = useAuthStore();
   let selectedDate = moment('2015/11');
-  let arrayofcards = [];
-
-  //filling the array of cards with the selectedDate
-  for (let i = 0; i < selectedDate.daysInMonth(); i++) {
-    arrayofcards.push(<div className="card">
-      <div className="content">
-        <div className="header">{selectedDate.format('dddd')} {selectedDate.date()}</div>
-        <div className="description">
-          {selectedDate.date()}
-        </div>
-        <div className="body"> W H I placeholder </div>
-
-      </div>
-      <div className="ui bottom attached button">
-        <i className="add icon" />
-        {selectedDate.date()}
-      </div>
-    </div>)
-    if (selectedDate.date() < selectedDate.daysInMonth())
-      selectedDate.add(1, 'day');
-  }
-
-
+  
   const localStore = useLocalStore(() => ({
     list: [],
     setList(value) {
@@ -48,13 +26,34 @@ export default observer((props) => {
     async getList() {
       const response = await WorkedHoursService.getHours(authStore.user._id, '5de7ba685a461b008ca4da09', selectedDate.year(), selectedDate.month());
       let auxArray = [];
+
+      let auxIndex = 0;
+      let auxBoolean = false;
+
       selectedDate.startOf('month');
       for (let i = 0; i < selectedDate.daysInMonth(); i++) {
-       if(selectedDate.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') === response.data.data.list[i].day)
-
-        selectedDate.add(1, 'day');
+        for (let j = 0; j < response.data.data.list.length; j++) {
+          if (selectedDate.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') === response.data.data.list[j].day) {
+            auxBoolean = true;
+            auxIndex = j;
+            break;
+          }
+        }
+        if (auxBoolean) {
+          auxArray.push(response.data.data.list[auxIndex]);
+        } else {
+          auxArray.push({
+            day: selectedDate.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+            hours: 0,
+            clientId: '',
+            userId: ''
+          });
+        }
+        auxBoolean = false;
+        if (selectedDate.date() < selectedDate.daysInMonth())
+          selectedDate.add(1, 'day');
       }
-      this.setList(response.data.data.list);
+      this.setList(auxArray);
     }
   }));
 
@@ -65,23 +64,31 @@ export default observer((props) => {
 
 
   return (
-
     <div className="ui container aligned">
-      <Header as="h3" icon="clock outline" content={`Worked Hours of ${selectedDate.format('MMMM')}`} />
+      <Header as="h3" icon="clock outline" content={`Worked Hours of ${selectedDate.format('MMMM')} ${selectedDate.year()}`} />
       <Segment.Group>
         <Segment attached color="blue" >
           <div className="ui container center aligned">
-            <div className="ui seven cards ">
-              {arrayofcards.map(x => x)}
+            <div className="ui seven cards">
+              {localStore.list.map(whitem => {
+                return(
+                <div className="card">
+                <div className="content">
+                  <div className="header">{new moment(whitem.day).add('hour',3).format('dddd')} </div>
+                  <div className="description">{new moment(whitem.day).add('hour',3).date()}</div>
+                  <div className="body">                                    
+                          <WorkedHourItem item={whitem} />
+                  </div>
+                </div>
+                 
+                </div>
+              )
+              })}
             </div>
           </div>
         </Segment>
-      </Segment.Group> { localStore.list.map( (x)=>  
-      <div>
-      <WorkedHourItem item={x}/> + {selectedDate.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')}
-       </div>)} 
-      
+      </Segment.Group>
     </div>
-   
   );
 });
+

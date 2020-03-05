@@ -7,15 +7,15 @@ class WorkedHoursService extends BaseService {
     super("/workedHours");
   }
 
-addHours(reg) {
-return api
-.post(this.URL, reg);
-}
+  addHours(reg) {
+    return api
+      .post(this.URL, reg);
+  }
 
-getHours(userId, clientId, year, month) {
-  return api
-  .get(`${this.URL}/user/${userId}/client/${clientId}/year/${year}/month/${month}`);
-}
+  getHours(userId, clientId, year, month) {
+    return api
+      .get(`${this.URL}/user/${userId}/client/${clientId}/year/${year}/month/${month}`);
+  }
 
 }
 

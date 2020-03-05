@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import { List } from "semantic-ui-react"; 
+import { List, Segment } from "semantic-ui-react"; 
 /**
  * Worked Hour Item
  */
@@ -7,12 +7,30 @@ import { List } from "semantic-ui-react";
  export default function(props) {
   const whItem = props.item;
   
+  function updateHours(newHours) {
+    console.log(newHours);
+  } 
+
   return (
-      <List.Item key={whItem._id}>
+    <div>
+      <Segment.Group>
+        <Segment attached color="blue">
+          <List.Item key={whItem._id}>
           <List.Content> 
-            <List.Header as="a" size={'medium'}> Day: {whItem.day.slice(0,9)}</List.Header>
-            <List.Description as="a">{whItem.clientId} Hours: {whItem.hours}</List.Description>
+        Hours:   <div class="ui fluid input" >
+                    <input name="hourInput" type="number" min="0" value={whItem.hours} onChange={() => {updateHours('x')}}/>                
+                 </div>
+            
           </List.Content>
         </List.Item>
+        </Segment>
+        
+      </Segment.Group>
+      
+    </div>
   )};
 //onClick={useCallback(() => props.history.push("workedhours/" + whItem._id))}
+//<i className="refresh icon" />
+//<div className="ui bottom attached button" onClick={ () => updateHours()}>            
+//                  update
+//            </div>

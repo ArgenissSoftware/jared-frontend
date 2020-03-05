@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import _ from 'lodash';
 import EntityList from "../Common/EntityList";
-import ClientListItem from "../Clients/ClientListItem";
+import MyClientListItem from "../Clients/MyClientListItem";
 import myClientsService from "../../services/myClients.service";
 
 /**
@@ -17,7 +17,7 @@ export default function(props) {
     <EntityList
       title="My Clients"
       service={myClientsService}
-      renderItem={(client) =>  <ClientListItem client={client} history={props.history}/> }
+      renderItem={(client) =>  <MyClientListItem client={client} history={props.history}/> }
     />
   );
 };
