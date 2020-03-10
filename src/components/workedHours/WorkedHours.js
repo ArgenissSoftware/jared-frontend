@@ -6,7 +6,7 @@ import { useAuthStore } from "../../stores/AuthStore";
 import { Segment, List, Header } from "semantic-ui-react";
 import WorkedHourItem from "./WorkedHourItem";
 import moment from "moment";
-
+import "moment-timezone";
 /**
  *worked hour List Component
  * @param {Object} props
@@ -17,6 +17,8 @@ export default observer((props) => {
 
   const authStore = useAuthStore();
   let selectedDate = moment('2015/11');
+
+  
   
   const localStore = useLocalStore(() => ({
     list: [],
@@ -65,7 +67,7 @@ export default observer((props) => {
 
   return (
     <div className="ui container aligned">
-      <Header as="h3" icon="clock outline" content={`Worked Hours of ${selectedDate.format('MMMM')} ${selectedDate.year()}`} />
+      <Header as="h3" icon="clock outline" content={`Worked Hours of ${selectedDate.format('MMMM')} ${selectedDate.year()}  `} />
       <Segment.Group>
         <Segment attached color="blue" >
           <div className="ui container center aligned">
