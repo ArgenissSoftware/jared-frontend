@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useCallback } from "./node_modules/react";
 import "./WorkedHourItem.css";
-import { Card, Form, Input } from "semantic-ui-react";
-import { observer } from "mobx-react-lite";
-import moment from "moment-timezone";
+import { Card, Form, Input } from "./node_modules/semantic-ui-react";
+import { observer } from "./node_modules/mobx-react-lite";
+import moment from "./node_modules/moment-timezone";
 
 /**
  * Worked Hour Item
@@ -28,7 +28,7 @@ import moment from "moment-timezone";
       </Card.Content>
         {editable && (
           <Card.Content extra>
-          <Form>
+            <Form>
               <Form.Field
                 fluid
                 control={Input}

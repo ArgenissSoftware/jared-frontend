@@ -1,11 +1,11 @@
-import React, { useEffect, useCallback } from "react";
-import _ from "lodash";
-import moment from "moment-timezone";
+import React, { useEffect, useCallback } from "./node_modules/react";
+import _ from "./node_modules/lodash";
+import moment from "./node_modules/moment-timezone";
 
-import { useLocalStore, observer } from "mobx-react-lite";
+import { useLocalStore, observer } from "./node_modules/mobx-react-lite";
 import WorkedHoursService from "../../services/workedHours.service";
 import { useAuthStore } from "../../stores/AuthStore";
-import { Segment, Header } from "semantic-ui-react";
+import { Segment, Header } from "./node_modules/semantic-ui-react";
 import WorkedHourItem from "./WorkedHourItem";
 import MonthSelector from "../Common/MonthSelector";
 import clientsService from "../../services/clients.service";
