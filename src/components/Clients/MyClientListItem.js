@@ -8,10 +8,14 @@ import {
  */
 export default function(props) {
   const client = props.client;
+  const onClick = useCallback(
+    () => props.history.push(`/home/clients/${props.client._id}/workedHours/`, {name: props.client.name}),
+    [props.client, props.history]
+  );
   return (
-    <List.Item key={client.id}>
+    <List.Item>
       <List.Icon name="user" size="large" verticalAlign="middle" />
-      <List.Content onClick={useCallback(() => props.history.push("workedHours/"))}>
+      <List.Content onClick={onClick}>
         <List.Header as="a">{client.name}</List.Header>
         <List.Description as="a">Project Description</List.Description>
       </List.Content>

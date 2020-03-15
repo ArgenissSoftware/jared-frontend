@@ -22,7 +22,6 @@ export default class HomepageRouter extends Component {
             timeout={300}
           >
             <Switch location={this.props.location}>
-
               <Route
                 exact
                 path='/home'
@@ -38,6 +37,12 @@ export default class HomepageRouter extends Component {
                 exact
                 path='/home/clients'
                 render={(props) => <div className="page"><ClientsList {...props}/></div>}
+              />
+
+              <Route
+                exact
+                path='/home/clients/:id/workedHours'
+                render={(props) => <div className="page"><WorkedHours {...props}/></div>}
               />
 
               <Route
@@ -58,12 +63,7 @@ export default class HomepageRouter extends Component {
               />
 
               <Route
-                exact
-              path='/home/workedHours'
-              render={(props) => <div className="page"><WorkedHours {...props}/></div>}
-              />
-              <Route
-                path='/home/myclientslist'
+                path='/home/myclients'
                 render={(props) => <div className="page"><MyClientsList {...props}/></div>}
               />
 

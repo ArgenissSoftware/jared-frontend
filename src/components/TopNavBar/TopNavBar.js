@@ -42,7 +42,7 @@ export default observer((props) => {
   )
   return (
     <LogoToolbar logo={logo} history={props.history}>
-      <RoleMenuItem name="/home/myclientslist" onClick={handleItemClick} auth="Developer">My clients</RoleMenuItem>
+      <RoleMenuItem name="/home/myclients" onClick={handleItemClick} auth="Developer">My clients</RoleMenuItem>
       <RoleDropdown item text="User" auth="Admin">
         <Dropdown.Menu>
           <Dropdown.Item name="/home/users" onClick={handleItemClick} >

@@ -30,7 +30,7 @@ export default function(props) {
       title="Clients"
       service={clientsService}
       toolbar={newButton}
-      renderItem={(client) => <ClientListItem client={client} history={props.history}/>}
+      renderItem={(client) => <ClientListItem client={client} history={props.history} key={client._id} />}
     />
   );
 };

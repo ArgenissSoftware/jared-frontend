@@ -4,17 +4,17 @@ import BaseService from './base.service';
 class WorkedHoursService extends BaseService {
 
   constructor() {
-    super("/workedHours");
+    super("/");
   }
 
-  addHours(reg) {
+  setHour(userId, clientId, day, hours) {
     return api
-      .post(this.URL, reg);
+      .post(`${this.URL}clients/${clientId}/hours/user/${userId}`, {hours, day});
   }
 
   getHours(userId, clientId, year, month) {
     return api
-      .get(`${this.URL}/user/${userId}/client/${clientId}/year/${year}/month/${month}`);
+      .get(`${this.URL}clients/${clientId}/hours/user/${userId}/year/${year}/month/${month}`);
   }
 
 }
