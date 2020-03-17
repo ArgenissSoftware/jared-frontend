@@ -1,10 +1,10 @@
-import React, { useCallback } from "./node_modules/react";
+import React, { useCallback } from "react";
 import "./WorkedHourItem.css";
-import { Card, Form, Input } from "./node_modules/semantic-ui-react";
-import { observer } from "./node_modules/mobx-react-lite";
-import moment from "./node_modules/moment-timezone";
+import { Card, Form, Input } from "semantic-ui-react";
+import { observer } from "mobx-react-lite";
+import moment from "moment-timezone";
 
-/**
+/**s
  * Worked Hour Item
  */
  export default observer( (props) => {

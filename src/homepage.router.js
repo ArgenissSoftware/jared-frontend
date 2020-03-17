@@ -9,7 +9,7 @@ import ChangePassword from "./components/ChangePassword/ChangePassword";
 import UsersList from "./components/Users/UsersList";
 import ClientEdit from "./components/Clients/ClientEdit";
 import UserEdit from "./components/Users/UserEdit";
-import WorkedHours from "./components/workedHours/WorkedHours";
+import WorkedHours from "./components/WorkedHours/WorkedHours";
 import MyClientsList from "./components/Users/MyClientsList";
 
 export default class HomepageRouter extends Component {
