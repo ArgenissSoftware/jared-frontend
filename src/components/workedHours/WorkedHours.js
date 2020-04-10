@@ -58,7 +58,7 @@ export default observer((props) => {
       try {
         this.setItemError(this.list[item.day], false);
         this.list[item.day].hours = item.hours;
-        await WorkedHoursService.setHour(authStore.user._id, clientId, item.day, item.hours);
+        await WorkedHoursService.setHour(props.match.params.userId || authStore.user._id, clientId, item.day, item.hours);
       } catch (error) {
         if (error.response && error.response.data.status === 422 && error.response.data) {
           this.setItemError(this.list[item.day], error.response.data.errors[0].message);
@@ -80,7 +80,7 @@ export default observer((props) => {
       this.setLoaading(true);
 
       try {
-        const response = await WorkedHoursService.getHours(authStore.user._id, clientId, localStore.year, localStore.month);
+        const response = await WorkedHoursService.getHours( props.match.params.userId || authStore.user._id, clientId, localStore.year, localStore.month);
         const result = {};
         const dayOffset = localStore.date.day();
 

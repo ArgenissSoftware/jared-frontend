@@ -9,7 +9,7 @@ import ChangePassword from "./components/ChangePassword/ChangePassword";
 import UsersList from "./components/Users/UsersList";
 import ClientEdit from "./components/Clients/ClientEdit";
 import UserEdit from "./components/Users/UserEdit";
-import WorkedHours from "./components/WorkedHours/WorkedHours";
+import WorkedHours from "./components/workedHours/WorkedHours";
 import MyClientsList from "./components/Users/MyClientsList";
 
 export default class HomepageRouter extends Component {
@@ -45,6 +45,13 @@ export default class HomepageRouter extends Component {
                 render={(props) => <div className="page"><WorkedHours {...props}/></div>}
               />
 
+              
+               <Route
+                exact
+                path='/home/clients/:id/workedHours/:userId'
+                render={(props) => <div className="page"><WorkedHours {...props}/></div>}
+              />
+              
               <Route
                 exact
                 path='/home/users'

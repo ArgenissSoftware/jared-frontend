@@ -142,6 +142,7 @@ export default observer((props) => {
                     <List.Item key={user.name}>
                       <List.Content floated='right' >
                         <Button circular icon='delete' onClick={() => developerStore.delete(user)}></Button>
+                        <Button circular icon='clock outline' onClick={() => props.history.push(`/home/clients/${store.entity._id}/workedHours/${user._id}`)}></Button>
                       </List.Content>
                       <List.Icon name="user" size="large"/>
                       <List.Content>
