@@ -12,6 +12,8 @@ import { observer, useLocalStore } from "mobx-react-lite";
 import usersService from "../../services/users.service";
 import { runInAction } from "mobx";
 
+import FieldInput from "../Common/FieldInput";
+
 const typesOptions = [
   {
     text: "hired",
@@ -73,123 +75,109 @@ export default observer((props) => {
         <Divider/>
         <Form>
           <Form.Group widths='equal'>
-            <Form.Input
+            <FieldInput
               name="name"
               label="First name"
               placeholder="First name"
-              value={store.entity.name}
-              onChange={store.setEntityFromEvent}
+              store={store}
 
             />
-            <Form.Input
+            <FieldInput
               name="surname"
               label="Last name"
               placeholder="Last name"
-              value={store.entity.surname}
-              onChange={store.setEntityFromEvent}
+              store={store}
             />
           </Form.Group>
           <Form.Group widths='equal'>
-            <Form.Input
+            <FieldInput
               name="birthday"
               label="Date of birth"
               placeholder="Date of birth"
-              value={store.entity.birthday}
-              onChange={store.setEntityFromEvent}
+              store={store}
               type="date"
             />
-            <Form.Input
+            <FieldInput
               name="cuil"
               label="CUIL"
               placeholder="CUIL"
-              value={store.entity.cuil}
-              onChange={store.setEntityFromEvent}
+              store={store}
             />
           </Form.Group>
           <Form.Group widths='equal'>
-            <Form.Input
+            <FieldInput
               name="passport"
               label="Passport"
               placeholder="Passport"
-              value={store.entity.passport}
-              onChange={store.setEntityFromEvent}
+              store={store}
             />
-            <Form.Input
+            <FieldInput
               name="visa"
               label="US VISA"
               placeholder="US VISA"
-              value={store.entity.visa}
-              onChange={store.setEntityFromEvent}
+              store={store}
               type="date"
             />
           </Form.Group>
           <Form.Group widths='equal'>
-            <Form.Input
+            <FieldInput
               name="startWorkDate"
               label="Start date"
               placeholder="Start date"
-              value={store.entity.startWorkDate}
-              onChange={store.setEntityFromEvent}
+              store={store}
               type="date"
             />
             <Form.Dropdown
               name="relation"
               label="Status"
               placeholder="Status"
-              onChange={store.setEntityFromEvent}
               fluid
               selection
               options={typesOptions}
-              value={store.entity.relation}
+              store={store}
             />
           </Form.Group>
           <Form.Group widths='equal'>
-            <Form.Input
+            <FieldInput
               name="career"
               label="Career"
               placeholder="Career"
-              value={store.entity.career}
-              onChange={store.setEntityFromEvent}
+              store={store}
             />
-            <Form.Input
+            <FieldInput
               name="status"
               label="Career status"
               placeholder="Career status"
-              value={store.entity.status}
-              onChange={store.setEntityFromEvent}
+              store={store}
             />
           </Form.Group>
           <Form.Group widths='equal'>
-            <Form.Input
+            <FieldInput
               name="childrenCount"
               label="Children"
               placeholder="Children"
-              value={store.entity.childrenCount}
-              onChange={store.setEntityFromEvent}
+              store={store}
             />
-            <Form.Input
+            <FieldInput
               name="alarmCode"
               label="Alarm Code"
               placeholder="Alarm Code"
-              value={store.entity.alarmCode}
-              onChange={store.setEntityFromEvent}
+              store={store}
             />
           </Form.Group>
           <Form.Group widths='equal'>
-            <Form.Input
+            <FieldInput
               name="username"
               label="Username"
               placeholder="Username"
-              value={store.entity.username}
-              onChange={store.setEntityFromEvent}
+              store={store}
             />
             { !store.entity._id ?
-            <Form.Input
+            <FieldInput
               name="password"
               label="Password"
               placeholder="Password"
-              value={store.entity.password}
-              onChange={store.setEntityFromEvent}
+              store={store}
             /> : null }
           </Form.Group>
         </Form>

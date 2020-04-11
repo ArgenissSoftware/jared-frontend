@@ -86,6 +86,7 @@ export function createCrudStore(service, defaultEntity = {}) {
      * Save data
      */
     async save() {
+      this.errorObj = null;
       try {
         this.setRunning(true);
         if (this.entity._id) {
