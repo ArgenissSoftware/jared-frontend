@@ -5,7 +5,7 @@ import moment from "moment-timezone";
 import { useLocalStore, observer } from "mobx-react-lite";
 import WorkedHoursService from "../../services/workedHours.service";
 import { useAuthStore } from "../../stores/AuthStore";
-import { Segment, Header } from "semantic-ui-react";
+import { Segment, Header, Input, Button, Icon, Menu } from "semantic-ui-react";
 import WorkedHourItem from "./WorkedHourItem";
 import MonthSelector from "../Common/MonthSelector";
 import clientsService from "../../services/clients.service";
@@ -25,25 +25,46 @@ export default observer((props) => {
    * Local store
    */
   const localStore = useLocalStore(() => ({
-    clientName: props.location.state ? props.location.state.name : '',
+    clientName: props.location.state ? props.location.state.name : "",
     loading: false,
     list: {},
     year,
     month,
     get date() {
-      return moment(`${localStore.year}-${localStore.month.toString().padStart(2, '0')}-01`)
+      return moment(
+        `${localStore.year}-${localStore.month.toString().padStart(2, "0")}-01`
+      );
     },
     get totalHours() {
       return _.round(
         _.reduce(this.list, (sum, n) => sum + parseFloat(n.hours) || 0, 0),
-        2,
+        2
       );
+    },
+    next: () => {
+      const date = moment(
+        `${localStore.year}-${localStore.month.toString().padStart(2, "0")}-01`
+      );
+      date.add(1, "months");
+      localStore.year = date.year();
+      localStore.month = date.month() + 1;
+    },
+    prev: () => {
+      const date = moment(
+        `${localStore.year}-${localStore.month.toString().padStart(2, "0")}-01`
+      );
+      date.subtract(1, "months");
+      localStore.year = date.year();
+      localStore.month = date.month() + 1;
     },
     setLoaading(value) {
       this.loading = value;
     },
     setMonth(value) {
       this.month = value;
+    },
+    setYear(value) {
+      this.year = value;
     },
     setList(value) {
       this.list = value;
@@ -58,10 +79,22 @@ export default observer((props) => {
       try {
         this.setItemError(this.list[item.day], false);
         this.list[item.day].hours = item.hours;
-        await WorkedHoursService.setHour(props.match.params.userId || authStore.user._id, clientId, item.day, item.hours);
+        await WorkedHoursService.setHour(
+          props.match.params.userId || authStore.user._id,
+          clientId,
+          item.day,
+          item.hours
+        );
       } catch (error) {
-        if (error.response && error.response.data.status === 422 && error.response.data) {
-          this.setItemError(this.list[item.day], error.response.data.errors[0].message);
+        if (
+          error.response &&
+          error.response.data.status === 422 &&
+          error.response.data
+        ) {
+          this.setItemError(
+            this.list[item.day],
+            error.response.data.errors[0].message
+          );
         } else {
           this.setItemError(this.list[item.day], true);
         }
@@ -80,12 +113,20 @@ export default observer((props) => {
       this.setLoaading(true);
 
       try {
-        const response = await WorkedHoursService.getHours( props.match.params.userId || authStore.user._id, clientId, localStore.year, localStore.month);
+        const response = await WorkedHoursService.getHours(
+          props.match.params.userId || authStore.user._id,
+          clientId,
+          localStore.year,
+          localStore.month
+        );
         const result = {};
         const dayOffset = localStore.date.day();
 
         _.times(dayOffset, (i) => {
-          const day = localStore.date.clone().subtract(dayOffset - i, 'days').format();
+          const day = localStore.date
+            .clone()
+            .subtract(dayOffset - i, "days")
+            .format();
           result[day] = {
             day,
             error: false,
@@ -93,7 +134,11 @@ export default observer((props) => {
         });
 
         for (let i = 1; i <= localStore.date.daysInMonth(); i++) {
-          const day = `${localStore.year}-${localStore.month.toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}T00:00:00.000Z`;
+          const day = `${
+            localStore.year
+          }-${localStore.month
+            .toString()
+            .padStart(2, "0")}-${i.toString().padStart(2, "0")}T00:00:00.000Z`;
           if (!response.data.data[day]) {
             result[day] = {
               day,
@@ -112,7 +157,7 @@ export default observer((props) => {
       } finally {
         this.setLoaading(false);
       }
-    }
+    },
   }));
 
   /**
@@ -120,10 +165,24 @@ export default observer((props) => {
    */
   const onMonthChange = useCallback(
     (e, v) => {
-      localStore.setMonth(v.value)
+      console.log(e, v);
+      localStore.setMonth(v.value);
     },
-    [localStore],
-  )
+    [localStore]
+  );
+
+  /**
+   * On year change
+   */
+  const onYearChange = useCallback(
+    (e, v) => {
+      localStore.setYear(v.value);
+      if (v.value > 2000) {
+        localStore.getList();
+      }
+    },
+    [localStore]
+  );
 
   /**
    * Side effects
@@ -136,23 +195,52 @@ export default observer((props) => {
 
   return (
     <div className="ui container aligned">
-      <Header as='h4' floated='right'>
-        <MonthSelector
-          value={localStore.month}
-          onChange={onMonthChange}
-        />
-      </Header>
       <Header as="h3" icon="clock outline">
-        {`${localStore.clientName}: Worked Hours of ${localStore.date.format('MMMM')} ${localStore.date.year()}`}
-        <Header.Subheader>
-          Total: {localStore.totalHours} hrs
-        </Header.Subheader>
+        {`${localStore.clientName}: Worked Hours of ${localStore.date.format(
+          "MMMM"
+        )} ${localStore.date.year()}`}
+        <Header.Subheader>Total: {localStore.totalHours} hrs</Header.Subheader>
       </Header>
+      <Menu borderless>
+        <Menu.Item>
+          <Button onClick={localStore.prev} animated>
+            <Button.Content visible>Prev</Button.Content>
+            <Button.Content hidden>
+              <Icon name="arrow left" />
+            </Button.Content>
+          </Button>
+        </Menu.Item>
+        <Menu.Item fitted="vertically">
+          <MonthSelector
+            value={localStore.month}
+            onChange={onMonthChange}
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <Input
+            value={localStore.year}
+            type="number"
+            label="Year"
+            error={localStore.year < 2000}
+            onChange={onYearChange}
+          />
+        </Menu.Item>
+        <Menu.Item position="right">
+          <Button onClick={localStore.next} animated>
+            <Button.Content visible>Next</Button.Content>
+            <Button.Content hidden>
+              <Icon name="arrow right" />
+            </Button.Content>
+          </Button>
+        </Menu.Item>
+      </Menu>
       <Segment.Group>
         <Segment attached color="blue" loading={localStore.loading}>
           <div className="ui container center aligned">
             <div className="ui seven cards">
-              {_.map(list, whitem =>  <WorkedHourItem item={whitem} store={localStore} />)}
+              {_.map(list, (whitem) => (
+                <WorkedHourItem item={whitem} store={localStore} />
+              ))}
             </div>
           </div>
         </Segment>
@@ -160,4 +248,3 @@ export default observer((props) => {
     </div>
   );
 });
-

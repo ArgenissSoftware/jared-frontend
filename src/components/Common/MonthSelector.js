@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 
 const months = [
   {
@@ -66,7 +66,8 @@ const months = [
 
 export default function(props) {
   return (
-    <Select
+    <Dropdown
+			selection
       placeholder='Select month'
       options={months}
       {...props}

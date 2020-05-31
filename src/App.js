@@ -8,11 +8,7 @@ import { AuthStoreProvider } from "./stores/AuthStore";
 import { observer } from "mobx-react-lite";
 import PrivateRoute from "./utils/PrivateRoute";
 
-
-
 const App = observer((props) => {
-
-
   return (
     <Router>
       <AuthStoreProvider>
@@ -30,7 +26,6 @@ const App = observer((props) => {
       </AuthStoreProvider>
     </Router>
   );
-
 });
 
 export default App;
