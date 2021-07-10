@@ -115,7 +115,9 @@ export function createCrudStore(service, defaultEntity = {}) {
       }
       await service.addRelation(this.entity._id, secondEntity._id, endpoint);
       runInAction(() => {
-        this.entity[fieldName].push(secondEntity);
+        if (Array.isArray(this.entity[fieldName])) {
+          this.entity[fieldName].push(secondEntity);
+        }
       });
       return this.entity[fieldName];
     },

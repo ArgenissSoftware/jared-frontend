@@ -22,7 +22,6 @@ const defaultEntity = {
   "active":true,
   "relation":"",
   "alarmCode": "",
-  "clients":[],
   "roles":[],
   "name":"",
   "surname":"",

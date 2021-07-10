@@ -24,7 +24,6 @@ import ActionButton from "../Common/ActionButton";
 const RoleButton = hasRoleShow(ActionButton);
 
 const defaultEntity = {
-  employees: [],
   active: true,
   name: '',
   contactName: '',
@@ -125,14 +124,14 @@ export default observer((props) => {
               onChange={store.toggleActive}
             />
           </Form.Group>
-          <Form.Group widths='equal'>
+          {/* <Form.Group widths='equal'>
             <UsersDropdown
               placeholder="Add a new Developer"
               onChange={developerStore.handleSelectionChange}
             />
             <Button onClick={() => developerStore.add()} disabled={!developerStore.selected}>ADD</Button>
-          </Form.Group>
-          <Divider/>
+          </Form.Group> */}
+          {/* <Divider/>
           <Grid>
             <Grid.Row centered>
               <Form.Group >
@@ -156,7 +155,7 @@ export default observer((props) => {
                 }
               </Form.Group>
             </Grid.Row>
-          </Grid>
+          </Grid> */}
         </Form>
         <div className="ui container center aligned">
           <RoleButton icon color='teal' labelPosition='right' onClick={save} auth="Admin" store={store} >Save <Icon name='save' /></RoleButton>
