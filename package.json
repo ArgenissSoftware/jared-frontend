@@ -10,7 +10,7 @@
     "lodash": "^4.17.15",
     "mobx": "^5.13.0",
     "mobx-react-lite": "^1.4.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.28",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
